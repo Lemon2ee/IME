@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="37ae5b46-8eb9-4e93-be49-b9523c662ca3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/controller/IMEControllerImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/ImageProcessorView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/ImageProcessorViewImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ImageProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ImageProcessor.java" afterDir="false" />
-    </list>
+    <list default="true" id="37ae5b46-8eb9-4e93-be49-b9523c662ca3" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -53,6 +48,7 @@
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
@@ -85,7 +81,7 @@
       <updated>1634783724606</updated>
       <workItem from="1634783727162" duration="1456000" />
       <workItem from="1635117371117" duration="2611000" />
-      <workItem from="1635292502344" duration="5717000" />
+      <workItem from="1635292502344" duration="6026000" />
     </task>
     <servers />
   </component>
