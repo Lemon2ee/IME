@@ -39,6 +39,27 @@ public class PPMModel implements ImageModel {
     Color[][] output = new Color[height][width];
 
     switch (op) {
+      case R:
+        for (int r = 0; r < height; r++) {
+          for (int c = 0; c < width; c++) {
+            output[r][c] = toRed(src[r][c]);
+          }
+        }
+        break;
+      case G:
+        for (int r = 0; r < height; r++) {
+          for (int c = 0; c < width; c++) {
+            output[r][c] = toGreen(src[r][c]);
+          }
+        }
+        break;
+      case B:
+        for (int r = 0; r < height; r++) {
+          for (int c = 0; c < width; c++) {
+            output[r][c] = toBlue(src[r][c]);
+          }
+        }
+        break;
       case Value:
         for (int r = 0; r < height; r++) {
           for (int c = 0; c < width; c++) {
@@ -129,6 +150,36 @@ public class PPMModel implements ImageModel {
   }
 
   /**
+   * Perform red component grey scale on a rgb pixel.
+   *
+   * @param origin the original pixel for grey scale as Color
+   * @return the new pixel after grey scale as Color
+   */
+  private Color toRed(Color origin) {
+    return new Color(origin.getRed(), origin.getRed(), origin.getRed());
+  }
+
+  /**
+   * Perform green component grey scale on a rgb pixel.
+   *
+   * @param origin the original pixel for grey scale as Color
+   * @return the new pixel after grey scale as Color
+   */
+  private Color toGreen(Color origin) {
+    return new Color(origin.getGreen(), origin.getGreen(), origin.getGreen());
+  }
+
+  /**
+   * Perform blue component grey scale on a rgb pixel.
+   *
+   * @param origin the original pixel for grey scale as Color
+   * @return the new pixel after grey scale as Color
+   */
+  private Color toBlue(Color origin) {
+    return new Color(origin.getBlue(), origin.getBlue(), origin.getBlue());
+  }
+
+  /**
    * Perform maximum component grey scale on a rgb pixel.
    *
    * @param origin the original pixel for grey scale as Color
@@ -143,36 +194,17 @@ public class PPMModel implements ImageModel {
     return new Color(maxValue, maxValue, maxValue);
   }
 
-  /**
-   * Perform intensity value grey scale on a rgb pixel.
-   *
-   * @param origin the original pixel for grey scale as Color
-   * @return the new pixel after grey scale as Color
-   */
   private Color toIntensity(Color origin) {
     int avg = (origin.getRed() + origin.getGreen() + origin.getBlue()) / 3;
     return new Color(avg, avg, avg);
   }
 
-  /**
-   * Perform luma value grey scale on a rgb pixel.
-   *
-   * @param origin the original pixel for grey scale as Color
-   * @return the new pixel after grey scale as Color
-   */
   private Color toLuma(Color origin) {
     double luma = 0.2126 * origin.getRed() + 0.7152 * origin.getGreen() + 0.0722 * origin.getBlue();
     int intLuma = (int) luma;
     return new Color(intLuma, intLuma, intLuma);
   }
 
-  /**
-   * Change the color brightness of the given rgb pixel. (In range of 0 - 255 include)
-   *
-   * @param origin the original pixel to change brightness as Color
-   * @param value  the value of brightness to be changed as int
-   * @return the new pixel after changing brightness as Color
-   */
   private Color colorBrightness(Color origin, int value) {
     int newR = origin.getRed() + value;
     int newG = origin.getGreen() + value;
