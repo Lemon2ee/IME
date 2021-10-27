@@ -22,8 +22,10 @@ public interface ImageModel {
    * @param origin      the target image name to perform the operation as String
    * @param destination the name of image to be saved as after operation
    * @param op          the grey scale operation to be performed as a GreyScaleValue
+   * @throws IllegalArgumentException if the given origin name does not exist
    */
-  void greyScale(String origin, String destination, GreyScaleValue op);
+  void greyScale(String origin, String destination, GreyScaleValue op)
+          throws IllegalArgumentException;
 
   /**
    * Change the brightness of each pixel of the image by a given value.
@@ -31,8 +33,10 @@ public interface ImageModel {
    * @param origin      the target image name to perform the operation as String
    * @param destination the name of image to be saved as after operation
    * @param value       the value to be changed on the image as an integer
+   * @throws IllegalArgumentException if the given origin name does not exist
    */
-  void changeBrightness(String origin, String destination, int value);
+  void changeBrightness(String origin, String destination, int value)
+          throws IllegalArgumentException;
 
   /**
    * Flip the image by the given direction.
@@ -40,6 +44,16 @@ public interface ImageModel {
    * @param origin      the target image name to perform the operation as String
    * @param destination the name of image to be saved as after operation
    * @param fd          the direction of the flip operation as a FlipDirection
+   * @throws IllegalArgumentException if the given origin name does not exist
    */
-  void flip(String origin, String destination, FlipDirection fd);
+  void flip(String origin, String destination, FlipDirection fd) throws IllegalArgumentException;
+
+  /**
+   * Save the target image data to a ppm image file.
+   *
+   * @param filePath the file path to save the image as a String
+   * @param origin   the name of the image to be saved
+   * @throws IllegalArgumentException if the given origin name does not exist
+   */
+  void save(String filePath, String origin) throws IllegalArgumentException;
 }
