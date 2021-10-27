@@ -48,29 +48,33 @@ public class IMEControllerImpl implements IMEController {
         (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.Intensity));
     knownCommands.put(
         "luma-component", (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.Luma));
-    knownCommands.put(
-        "brighten", (String[] s) -> new brighten(s[2], s[3], s[1]));
+    knownCommands.put("brighten", (String[] s) -> new brighten(s[2], s[3], s[1]));
 
     try {
       while (scanner.hasNextLine()) {
         String lineCommand = scanner.nextLine();
-        if (lineCommand.equals("q")) {
+        // quite the program when detected "q"
+        if (lineCommand.equalsIgnoreCase("q")) {
           return;
         }
-        String[] commandInArray = lineCommand.split(" ");
-        String command = commandInArray[0];
-        IMECommand c;
-        // TODO: only passing arguments to model
-        try {
-          Function<String[], IMECommand> cmd = knownCommands.getOrDefault(command, null);
-          if (cmd == null) {
-            throw new IllegalArgumentException("Unsupported command " + command + "\n");
-          } else {
-            c = cmd.apply(commandInArray);
-            c.execute(this.model);
+
+        // ignore space, # and etc. //TODO: add sth.
+        if (!lineCommand.equals("") && lineCommand.charAt(0) != '#') {
+          String[] commandInArray = lineCommand.split(" ");
+          String command = commandInArray[0];
+          IMECommand c;
+          // TODO: Update with command line design pattern
+          try {
+            Function<String[], IMECommand> cmd = knownCommands.getOrDefault(command, null);
+            if (cmd == null) {
+              throw new IllegalArgumentException("Unsupported command " + command + "\n");
+            } else {
+              c = cmd.apply(commandInArray);
+              c.execute(this.model);
+            }
+          } catch (IllegalArgumentException e) {
+            this.view.renderMessage(e.getMessage());
           }
-        } catch (IllegalArgumentException e) {
-          this.view.renderMessage(e.getMessage());
         }
       }
     } catch (IOException e) {
