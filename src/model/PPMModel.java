@@ -23,7 +23,7 @@ public class PPMModel implements ImageModel {
    * model.
    */
   public PPMModel() {
-    operationQueue = new HashMap<String, Color[][]>();
+    operationQueue = new HashMap<>();
   }
 
   @Override
@@ -178,7 +178,7 @@ public class PPMModel implements ImageModel {
     header.append(array[0].length).append(" ").append(array.length).append("\n");
     header.append(maxValue).append("\n");
     header.append("# end of the header\n");
-    return header.append(image.toString()).toString();
+    return header.append(image).toString();
   }
 
   /**
@@ -268,11 +268,8 @@ public class PPMModel implements ImageModel {
   /**
    * Change the rgb brightness of a pixel with given value.
    *
-   * @param origin the original pixel to change brightness as Color
-   * @param value the value of brightness to be changed as int =======
    * @param origin the original pixel to change the brightness as Color
-   * @param value the value to be changed for the color brightness >>>>>>>
-   *     c4ed18529b84d26dc1781004104a085e968c4394
+   * @param value the value to be changed for the color brightness
    * @return the new pixel after changing brightness as Color
    */
   private Color colorBrightness(Color origin, int value) {
