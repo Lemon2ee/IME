@@ -1,6 +1,6 @@
 package model;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.FileInputStream;
