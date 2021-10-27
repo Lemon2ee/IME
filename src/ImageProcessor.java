@@ -42,6 +42,9 @@ public class ImageProcessor {
           throw new IllegalArgumentException("Invalid argument (file not found)");
         }
         break;
+      case "--interactive":
+        readable = new InputStreamReader(System.in);
+        break;
       default:
         break;
     }
