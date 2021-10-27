@@ -1,7 +1,5 @@
 package model;
 
-import com.sun.source.tree.Tree;
-
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +12,8 @@ public class ImageModelImpl implements ImageModel {
   }
 
   @Override
-  public void load(String name, Color[][] image) throws IllegalArgumentException {
+  public void load(String name, String filePath) throws IllegalArgumentException {
+    Color[][] image = new ImageUtil().readPPM(filePath);
     this.operationQueue.put(name, image);
   }
 
@@ -35,6 +34,12 @@ public class ImageModelImpl implements ImageModel {
   @Override
   public void flip(String origin, String destination, FlipDirection fd)
           throws IllegalArgumentException {
+    Color[][] src = getSourceImage(origin);
+    ...
+  }
+
+  @Override
+  public void save(String filePath, String origin) {
     Color[][] src = getSourceImage(origin);
     ...
   }

@@ -11,10 +11,10 @@ public interface ImageModel {
    * Load an image using 2d Color array into the model and mark by given name.
    *
    * @param name  the name of the image to be saved as a String
-   * @param image the data of the image as a 2d Color array
+   * @param filePath the file path to read the image from
    * @throws IllegalStateException if the file path is invalid or the image format is not P3
    */
-  void load(String name, Color[][] image) throws IllegalArgumentException;
+  void load(String name, String filePath) throws IllegalArgumentException;
 
   /**
    * Perform grey scale operation on the given image.
@@ -47,4 +47,13 @@ public interface ImageModel {
    * @throws IllegalArgumentException if the given origin name does not exist
    */
   void flip(String origin, String destination, FlipDirection fd) throws IllegalArgumentException;
+
+  /**
+   * Save the target image data to a ppm image file.
+   *
+   * @param filePath the file path to save the image as a String
+   * @param origin   the name of the image to be saved
+   * @throws IllegalArgumentException if the given origin name does not exist
+   */
+  void save(String filePath, String origin) throws IllegalArgumentException;
 }
