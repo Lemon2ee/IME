@@ -3,6 +3,11 @@
 
 # Log file
 *.log
+.idea
+out
+*.DS_Store
+ood_IME.iml
+hw4.iml
 
 # BlueJ files
 *.ctxt
