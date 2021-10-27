@@ -19,29 +19,25 @@ public class ImageModelImpl implements ImageModel {
 
   @Override
   public void greyScale(String origin, String destination, GreyScaleValue op)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     Color[][] src = getSourceImage(origin);
-    ...
   }
 
   @Override
   public void changeBrightness(String origin, String destination, int value)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     Color[][] src = getSourceImage(origin);
-    ...
   }
 
   @Override
   public void flip(String origin, String destination, FlipDirection fd)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     Color[][] src = getSourceImage(origin);
-    ...
   }
 
   @Override
   public void save(String filePath, String origin) {
     Color[][] src = getSourceImage(origin);
-    ...
   }
 
   /**

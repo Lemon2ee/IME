@@ -16,7 +16,7 @@ public class ImageUtil {
    * @param filename the path of the file.
    * @return A two-dimensional array of Color that represents the pixels
    * @throws IllegalArgumentException either when the given file cannot find or the given file is
-   *                                  not a PPM3 file.
+   *     not a PPM3 file.
    */
   public Color[][] readPPM(String filename) throws IllegalArgumentException {
     Scanner sc;
