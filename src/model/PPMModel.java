@@ -132,8 +132,8 @@ public class PPMModel implements ImageModel {
   }
 
   private Color toLuma(Color origin) {
-    Double luma = 0.2126 * origin.getRed() + 0.7152 * origin.getGreen() + 0.0722 * origin.getBlue();
-    int intLuma = luma.intValue();
+    double luma = 0.2126 * origin.getRed() + 0.7152 * origin.getGreen() + 0.0722 * origin.getBlue();
+    int intLuma = (int) luma;
     return new Color(intLuma, intLuma, intLuma);
   }
 
