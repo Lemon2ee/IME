@@ -12,15 +12,15 @@ import java.util.Map;
 
 /**
  * The class represents the model of a PPM image processing queue. Including load image into the
- * queue, perform grey scale operation, change the image brightness, flip target image and save
- * the image to given file path.
+ * queue, perform grey scale operation, change the image brightness, flip target image and save the
+ * image to given file path.
  */
 public class PPMModel implements ImageModel {
   private final Map<String, Color[][]> operationQueue;
 
   /**
-   * The constructor of the PPMModel, takes in no argument and initialize the operation queue of
-   * the model.
+   * The constructor of the PPMModel, takes in no argument and initialize the operation queue of the
+   * model.
    */
   public PPMModel() {
     operationQueue = new HashMap<String, Color[][]>();
@@ -129,14 +129,14 @@ public class PPMModel implements ImageModel {
     Color[][] src = getSourceImage(origin);
     try {
       File file = new File(filePath);
-      if (file.createNewFile()) {
-        FileWriter writer = new FileWriter(file);
-        writer.write(this.arrayOfColorToString(src));
-        writer.flush();
-        writer.close();
-      } else {
-        throw new IllegalArgumentException("Cannot create new file\n");
+      if (filePath.contains("/")) {
+        boolean createParent = file.getParentFile().mkdirs();
       }
+
+      FileWriter writer = new FileWriter(file, false);
+      writer.write(this.arrayOfColorToString(src));
+      writer.flush();
+      writer.close();
     } catch (IOException e) {
       throw new IllegalArgumentException("Save method caused an IOException\n");
     }
@@ -184,7 +184,7 @@ public class PPMModel implements ImageModel {
   private Color[][] getSourceImage(String origin) throws IllegalArgumentException {
     Color[][] result = this.operationQueue.get(origin);
     if (result == null) {
-      throw new IllegalArgumentException("The provided source image is invalid.");
+      throw new IllegalArgumentException("The provided source image is invalid.\n");
     }
 
     return result;
@@ -247,7 +247,7 @@ public class PPMModel implements ImageModel {
    * Change the color brightness of the given rgb pixel. (In range of 0 - 255 include)
    *
    * @param origin the original pixel to change brightness as Color
-   * @param value  the value of brightness to be changed as int
+   * @param value the value of brightness to be changed as int
    * @return the new pixel after changing brightness as Color
    */
   private Color colorBrightness(Color origin, int value) {

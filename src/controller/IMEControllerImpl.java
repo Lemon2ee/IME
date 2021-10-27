@@ -44,10 +44,12 @@ public class IMEControllerImpl implements IMEController {
     knownCommands.put(
         "blue-component", (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.B));
     knownCommands.put(
-        "intensity_component",
+        "intensity-component",
         (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.Intensity));
     knownCommands.put(
-        "luma_component", (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.Luma));
+        "luma-component", (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.Luma));
+    knownCommands.put(
+        "brighten", (String[] s) -> new brighten(s[2], s[3], s[1]));
 
     try {
       while (scanner.hasNextLine()) {
@@ -62,7 +64,7 @@ public class IMEControllerImpl implements IMEController {
         try {
           Function<String[], IMECommand> cmd = knownCommands.getOrDefault(command, null);
           if (cmd == null) {
-            throw new IllegalArgumentException("Unsupported command");
+            throw new IllegalArgumentException("Unsupported command " + command + "\n");
           } else {
             c = cmd.apply(commandInArray);
             c.execute(this.model);
