@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ImageModelImpl implements ImageModel {
-  private Map<String, Color[][]> operationQueue;
+  private final Map<String, Color[][]> operationQueue;
 
   public ImageModelImpl() {
     operationQueue = new HashMap<String, Color[][]>();
