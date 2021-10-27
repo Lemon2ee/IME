@@ -31,51 +31,23 @@ public class IMEControllerImpl implements IMEController {
     Scanner scanner = new Scanner(this.readable);
 
     Map<String, Function<String[], IMECommand>> knownCommands = new HashMap<>();
+    knownCommands.put("save", (String[] s) -> new save(s[1], s[2]));
+    knownCommands.put("load", (String[] s) -> new load(s[1], s[2]));
     knownCommands.put(
-        "save",
-        (String[] s) -> {
-          return new save(s[1], s[2]);
-        });
+        "horizontal-flip", (String[] s) -> new flip(s[1], s[2], FlipDirection.Horizontal));
     knownCommands.put(
-        "load",
-        (String[] s) -> {
-          return new load(s[1], s[2]);
-        });
+        "vertical-flip", (String[] s) -> new flip(s[1], s[2], FlipDirection.Vertical));
     knownCommands.put(
-        "horizontal-flip",
-        (String[] s) -> {
-          return new flip(s[1], s[2], FlipDirection.Horizontal);
-        });
+        "red-component", (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.R));
     knownCommands.put(
-        "vertical-flip",
-        (String[] s) -> {
-          return new flip(s[1], s[2], FlipDirection.Vertical);
-        });
+        "green-component", (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.G));
     knownCommands.put(
-        "red-component",
-        (String[] s) -> {
-          return new componentGreyScale(s[1], s[2], GreyScaleValue.R);
-        });
-    knownCommands.put(
-        "green-component",
-        (String[] s) -> {
-          return new componentGreyScale(s[1], s[2], GreyScaleValue.G);
-        });
-    knownCommands.put(
-        "blue-component",
-        (String[] s) -> {
-          return new componentGreyScale(s[1], s[2], GreyScaleValue.B);
-        });
+        "blue-component", (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.B));
     knownCommands.put(
         "intensity_component",
-        (String[] s) -> {
-          return new componentGreyScale(s[1], s[2], GreyScaleValue.Intensity);
-        });
+        (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.Intensity));
     knownCommands.put(
-        "luma_component",
-        (String[] s) -> {
-          return new componentGreyScale(s[1], s[2], GreyScaleValue.Luma);
-        });
+        "luma_component", (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.Luma));
 
     try {
       while (scanner.hasNextLine()) {
@@ -102,13 +74,5 @@ public class IMEControllerImpl implements IMEController {
     } catch (IOException e) {
       throw new IllegalArgumentException("View failed to transmit the message to appendable");
     }
-  }
-
-  private void componentCommands(String[] listOfArgs, GreyScaleValue greyScaleValue)
-      throws IllegalArgumentException {
-    if (listOfArgs.length != 3) {
-      throw new IllegalArgumentException("Insufficient arguments");
-    }
-    this.model.greyScale(listOfArgs[1], listOfArgs[2], greyScaleValue);
   }
 }

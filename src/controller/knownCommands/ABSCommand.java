@@ -2,6 +2,7 @@ package controller.knownCommands;
 
 import model.ImageModel;
 
+import java.io.IOException;
 import java.util.Objects;
 
 public abstract class ABSCommand implements IMECommand {
@@ -16,5 +17,5 @@ public abstract class ABSCommand implements IMECommand {
   }
 
   @Override
-  public abstract void execute(ImageModel model);
+  public abstract void execute(ImageModel model) throws IOException;
 }
