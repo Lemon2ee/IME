@@ -19,24 +19,27 @@ public interface ImageModel {
   /**
    * Perform grey scale operation on the given image.
    *
-   * @param op the grey scale operation to be performed as a GreyScaleValye
-   * @return the image after grey scale operation as an imageModel.
+   * @param origin      the target image name to perform the operation as String
+   * @param destination the name of image to be saved as after operation
+   * @param op          the grey scale operation to be performed as a GreyScaleValue
    */
-  ImageModel greyScale(GreyScaleValue op);
+  void greyScale(String origin, String destination, GreyScaleValue op);
 
   /**
    * Change the brightness of each pixel of the image by a given value.
    *
-   * @param value the value to be changed on the image as an integer
-   * @return the image after changing its brightness operation
+   * @param origin      the target image name to perform the operation as String
+   * @param destination the name of image to be saved as after operation
+   * @param value       the value to be changed on the image as an integer
    */
-  ImageModel changeBrightness(int value);
+  void changeBrightness(String origin, String destination, int value);
 
   /**
    * Flip the image by the given direction.
    *
-   * @param fd the direction of the flip operation as a FlipDirection
-   * @return the image after flip
+   * @param origin      the target image name to perform the operation as String
+   * @param destination the name of image to be saved as after operation
+   * @param fd          the direction of the flip operation as a FlipDirection
    */
-  ImageModel flip(FlipDirection fd);
+  void flip(String origin, String destination, FlipDirection fd);
 }
