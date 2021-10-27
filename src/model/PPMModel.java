@@ -194,17 +194,36 @@ public class PPMModel implements ImageModel {
     return new Color(maxValue, maxValue, maxValue);
   }
 
+  /**
+   * Perform intensity value grey scale on a rgb pixel.
+   *
+   * @param origin the original pixel for the grey scale as Color
+   * @return the new pixel after grey scale as Color
+   */
   private Color toIntensity(Color origin) {
     int avg = (origin.getRed() + origin.getGreen() + origin.getBlue()) / 3;
     return new Color(avg, avg, avg);
   }
 
+  /**
+   * Perform luma value grey scale on a rgb pixel.
+   *
+   * @param origin the original pixel for the grey scale as Color
+   * @return the new pixel after grey scale as Color
+   */
   private Color toLuma(Color origin) {
     double luma = 0.2126 * origin.getRed() + 0.7152 * origin.getGreen() + 0.0722 * origin.getBlue();
     int intLuma = (int) luma;
     return new Color(intLuma, intLuma, intLuma);
   }
 
+  /**
+   * Change the rgb brightness of a pixel with given value.
+   *
+   * @param origin the original pixel to change the brightness as Color
+   * @param value  the value to be changed for the color brightness
+   * @return the new pixel after changing brightness as Color
+   */
   private Color colorBrightness(Color origin, int value) {
     int newR = origin.getRed() + value;
     int newG = origin.getGreen() + value;
