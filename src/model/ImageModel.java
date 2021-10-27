@@ -1,6 +1,7 @@
 package model;
 
-import java.awt.Color;
+import model.enums.FlipDirection;
+import model.enums.GreyScaleValue;
 
 /**
  * The model of the Image Processor. Including operations of grey scale, brighten or darken by given

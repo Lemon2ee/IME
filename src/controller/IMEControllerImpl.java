@@ -1,7 +1,7 @@
 package controller;
 
-import model.FlipDirection;
-import model.GreyScaleValue;
+import model.enums.FlipDirection;
+import model.enums.GreyScaleValue;
 import model.ImageModel;
 import view.ImageProcessorView;
 
@@ -83,6 +83,8 @@ public class IMEControllerImpl implements IMEController {
               break;
             case "luma_component":
               this.componentCommands(commandInArray, GreyScaleValue.Luma);
+              break;
+            default:
               break;
           }
         } catch (IllegalArgumentException e) {

@@ -1,5 +1,5 @@
-import model.FlipDirection;
-import model.GreyScaleValue;
+import model.enums.FlipDirection;
+import model.enums.GreyScaleValue;
 import model.ImageModel;
 
 public class MockImageModel implements ImageModel {

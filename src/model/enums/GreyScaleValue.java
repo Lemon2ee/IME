@@ -1,4 +1,4 @@
-package model;
+package model.enums;
 
 public enum GreyScaleValue {
   R, // Grey Scale operation by its R channel value
