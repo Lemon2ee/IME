@@ -63,6 +63,13 @@ public class PPMModel implements ImageModel {
           }
         }
         break;
+      case Value:
+        for (int r = 0; r < height; r++) {
+          for (int c = 0; c < width; c++) {
+            output[r][c] = toValue(src[r][c]);
+          }
+        }
+        break;
       case Luma:
         for (int r = 0; r < height; r++) {
           for (int c = 0; c < width; c++) {
@@ -221,9 +228,24 @@ public class PPMModel implements ImageModel {
   }
 
   /**
-   * Perform intensity value grey scale on a rgb pixel.
+   * Perform maximum component grey scale on a rgb pixel.
    *
    * @param origin the original pixel for grey scale as Color
+   * @return the new pixel after grey scale as Color
+   */
+  private Color toValue(Color origin) {
+    int[] rgb = new int[]{origin.getRed(), origin.getGreen(), origin.getBlue()};
+    int maxValue = -1;
+    for (int v : rgb) {
+      maxValue = Math.max(maxValue, v);
+    }
+    return new Color(maxValue, maxValue, maxValue);
+  }
+
+  /**
+   * Perform intensity value grey scale on a rgb pixel.
+   *
+   * @param origin the original pixel for the grey scale as Color
    * @return the new pixel after grey scale as Color
    */
   private Color toIntensity(Color origin) {
@@ -234,7 +256,7 @@ public class PPMModel implements ImageModel {
   /**
    * Perform luma value grey scale on a rgb pixel.
    *
-   * @param origin the original pixel for grey scale as Color
+   * @param origin the original pixel for the grey scale as Color
    * @return the new pixel after grey scale as Color
    */
   private Color toLuma(Color origin) {
@@ -244,10 +266,10 @@ public class PPMModel implements ImageModel {
   }
 
   /**
-   * Change the color brightness of the given rgb pixel. (In range of 0 - 255 include)
+   * Change the rgb brightness of a pixel with given value.
    *
-   * @param origin the original pixel to change brightness as Color
-   * @param value  the value of brightness to be changed as int
+   * @param origin the original pixel to change the brightness as Color
+   * @param value  the value to be changed for the color brightness
    * @return the new pixel after changing brightness as Color
    */
   private Color colorBrightness(Color origin, int value) {
