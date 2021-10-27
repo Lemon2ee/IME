@@ -5,7 +5,7 @@
 *.log
 .idea
 out
-*.DS_Store
+.DS_Store
 ood_IME.iml
 hw4.iml
 
@@ -26,4 +26,5 @@ hw4.iml
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-/.idea/
+.idea/
+out/
