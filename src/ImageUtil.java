@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.FileInputStream;
@@ -13,15 +14,17 @@ public class ImageUtil {
    *
    * @param filename the path of the file.
    */
-  public static void readPPM(String filename) {
+  public Color[][] readPPM(String filename) throws IllegalArgumentException {
     Scanner sc;
 
+    // set up the scanner, exit the program if an invalid file path is given
+    // might throw
     try {
       sc = new Scanner(new FileInputStream(filename));
     } catch (FileNotFoundException e) {
-      System.out.println("File " + filename + " not found!");
-      return;
+      throw new IllegalArgumentException("File not found");
     }
+
     StringBuilder builder = new StringBuilder();
     // read the file line by line, and populate a string. This will throw away any comment lines
     while (sc.hasNextLine()) {
@@ -38,35 +41,24 @@ public class ImageUtil {
 
     token = sc.next();
     if (!token.equals("P3")) {
-      System.out.println("Invalid PPM file: plain RAW file should begin with P3");
+      throw new IllegalArgumentException("Invalid PPM file: plain RAW file should begin with P3");
     }
+
     int width = sc.nextInt();
-    System.out.println("Width of image: " + width);
     int height = sc.nextInt();
-    System.out.println("Height of image: " + height);
-    int maxValue = sc.nextInt();
-    System.out.println("Maximum value of a color in this file (usually 255): " + maxValue);
+
+    Color[][] colorArray = new Color[width][height];
 
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         int r = sc.nextInt();
         int g = sc.nextInt();
         int b = sc.nextInt();
-        System.out.println("Color of pixel (" + j + "," + i + "): " + r + "," + g + "," + b);
+        Color colorToAdd = new Color(r, g, b);
+        colorArray[i][j] = colorToAdd;
       }
     }
-  }
 
-  // demo main
-  public static void main(String[] args) {
-    String filename;
-
-    if (args.length > 0) {
-      filename = args[0];
-    } else {
-      filename = "sample.ppm";
-    }
-
-    ImageUtil.readPPM(filename);
+    return colorArray;
   }
 }
