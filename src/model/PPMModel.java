@@ -22,7 +22,7 @@ public class PPMModel implements ImageModel {
 
   @Override
   public void greyScale(String origin, String destination, GreyScaleValue op)
-      throws IllegalArgumentException {
+          throws IllegalArgumentException {
     Color[][] src = getSourceImage(origin);
     int height = src.length;
     int width = src[0].length;
@@ -72,7 +72,7 @@ public class PPMModel implements ImageModel {
 
   @Override
   public void changeBrightness(String origin, String destination, int value)
-      throws IllegalArgumentException {
+          throws IllegalArgumentException {
     Color[][] src = getSourceImage(origin);
     int height = src.length;
     int width = src[0].length;
@@ -89,7 +89,7 @@ public class PPMModel implements ImageModel {
 
   @Override
   public void flip(String origin, String destination, FlipDirection fd)
-      throws IllegalArgumentException {
+          throws IllegalArgumentException {
     Color[][] src = getSourceImage(origin);
   }
 
