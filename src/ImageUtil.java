@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 
 /**
  * This class contains utility methods to read a PPM image from file and simply print its contents.
- * Feel free to change this method as required.
  */
 public class ImageUtil {
 
@@ -13,6 +12,9 @@ public class ImageUtil {
    * Read an image file in the PPM format and print the colors.
    *
    * @param filename the path of the file.
+   * @return A two-dimensional array of Color that represents the pixels
+   * @throws IllegalArgumentException either when the given file cannot find or the given file is
+   *                                  not a PPM3 file.
    */
   public Color[][] readPPM(String filename) throws IllegalArgumentException {
     Scanner sc;
