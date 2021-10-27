@@ -11,10 +11,7 @@ public class MockImageModel implements ImageModel {
 
   @Override
   public void load(String name, String filePath) throws IllegalArgumentException {
-    this.log.append("name ")
-        .append(name)
-        .append(" filePath ")
-        .append(filePath);
+    this.log.append("name ").append(name).append(" filePath ").append(filePath);
   }
 
   @Override
@@ -55,9 +52,6 @@ public class MockImageModel implements ImageModel {
 
   @Override
   public void save(String filePath, String origin) throws IllegalArgumentException {
-    this.log.append("filePath ")
-        .append(filePath)
-        .append(" origin ")
-        .append(origin);
+    this.log.append("filePath ").append(filePath).append(" origin ").append(origin);
   }
 }
