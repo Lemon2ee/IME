@@ -39,24 +39,10 @@ public class PPMModel implements ImageModel {
     Color[][] output = new Color[height][width];
 
     switch (op) {
-      case R:
+      case Value:
         for (int r = 0; r < height; r++) {
           for (int c = 0; c < width; c++) {
-            output[r][c] = toRed(src[r][c]);
-          }
-        }
-        break;
-      case G:
-        for (int r = 0; r < height; r++) {
-          for (int c = 0; c < width; c++) {
-            output[r][c] = toGreen(src[r][c]);
-          }
-        }
-        break;
-      case B:
-        for (int r = 0; r < height; r++) {
-          for (int c = 0; c < width; c++) {
-            output[r][c] = toBlue(src[r][c]);
+            output[r][c] = toValue(src[r][c]);
           }
         }
         break;
@@ -143,33 +129,18 @@ public class PPMModel implements ImageModel {
   }
 
   /**
-   * Perform red component grey scale on a rgb pixel.
+   * Perform maximum component grey scale on a rgb pixel.
    *
    * @param origin the original pixel for grey scale as Color
    * @return the new pixel after grey scale as Color
    */
-  private Color toRed(Color origin) {
-    return new Color(origin.getRed(), origin.getRed(), origin.getRed());
-  }
-
-  /**
-   * Perform green component grey scale on a rgb pixel.
-   *
-   * @param origin the original pixel for grey scale as Color
-   * @return the new pixel after grey scale as Color
-   */
-  private Color toGreen(Color origin) {
-    return new Color(origin.getGreen(), origin.getGreen(), origin.getGreen());
-  }
-
-  /**
-   * Perform blue component grey scale on a rgb pixel.
-   *
-   * @param origin the original pixel for grey scale as Color
-   * @return the new pixel after grey scale as Color
-   */
-  private Color toBlue(Color origin) {
-    return new Color(origin.getBlue(), origin.getBlue(), origin.getBlue());
+  private Color toValue(Color origin) {
+    int[] rgb = new int[]{origin.getRed(), origin.getGreen(), origin.getBlue()};
+    int maxValue = -1;
+    for (int v : rgb) {
+      maxValue = Math.max(maxValue, v);
+    }
+    return new Color(maxValue, maxValue, maxValue);
   }
 
   /**
