@@ -11,7 +11,7 @@ public interface ImageModel {
    * Load an image using 2d Color array into the model and mark by given name.
    *
    * @param name  the name of the image to be saved as a String
-   * @param filePath the file path to read the image from
+   * @param filePath the path of the file to load as PPM3
    * @throws IllegalStateException if the file path is invalid or the image format is not P3
    */
   void load(String name, String filePath) throws IllegalArgumentException;
