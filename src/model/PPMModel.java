@@ -122,8 +122,8 @@ public class PPMModel implements ImageModel {
     for (Color[] colorRow : array) {
       for (Color color : colorRow) {
         int redValue = color.getRed();
-        int greenValue = color.getRed();
-        int blueValue = color.getRed();
+        int greenValue = color.getGreen();
+        int blueValue = color.getBlue();
         image.append(redValue).append("\n");
         image.append(greenValue).append("\n");
         image.append(blueValue).append("\n");
@@ -142,7 +142,7 @@ public class PPMModel implements ImageModel {
             + "and Lemon2ee\n");
     header.append(array[0].length).append(" ").append(array.length).append("\n");
     header.append(maxValue).append("\n");
-
+    header.append("# end of the header\n");
     return header.append(image.toString()).toString();
   }
 
