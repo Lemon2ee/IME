@@ -1,0 +1,27 @@
+load Koala.ppm koala
+
+brighten 10 koala koala-brighter
+
+vertical-flip koala koala-vertical
+
+horizontal-flip koala-vertical koala-vertical-horizontal
+
+red-component koala koala-greyscale-red
+
+green-component koala koala-greyscale-green
+
+blue-component koala koala-greyscale-blue
+
+luma-component koala koala-greyscale-luma
+
+intensity-component koala koala-greyscale-intensity
+
+# test ignore
+save images/koala-brighter.ppm koala-brighter
+save images/koala-gs-red.ppm koala-greyscale-red
+save images/koala-gs-green.ppm koala-greyscale-green
+save images/koala-gs-blue.ppm koala-greyscale-blue
+save images/koala-gs-luma.ppm koala-greyscale-luma
+save images/koala-gs-intensity.ppm koala-greyscale-intensity
+save images/koala-verti-hori-flip.ppm koala-vertical-horizontal
+save images/koala-verti.ppm koala-vertical

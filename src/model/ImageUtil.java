@@ -50,8 +50,9 @@ public class ImageUtil {
 
     int width = sc.nextInt();
     int height = sc.nextInt();
+    int maxValue = sc.nextInt();
 
-    Color[][] colorArray = new Color[width][height];
+    Color[][] colorArray = new Color[height][width];
 
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {

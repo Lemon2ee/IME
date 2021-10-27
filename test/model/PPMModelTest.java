@@ -4,6 +4,4 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class PPMModelTest {
-
-}
+public class PPMModelTest {}

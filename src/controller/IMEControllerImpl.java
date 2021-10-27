@@ -31,84 +31,54 @@ public class IMEControllerImpl implements IMEController {
     Scanner scanner = new Scanner(this.readable);
 
     Map<String, Function<String[], IMECommand>> knownCommands = new HashMap<>();
+    knownCommands.put("save", (String[] s) -> new save(s[1], s[2]));
+    knownCommands.put("load", (String[] s) -> new load(s[1], s[2]));
     knownCommands.put(
-        "save",
-        (String[] s) -> {
-          return new save(s[1], s[2]);
-        });
+        "horizontal-flip", (String[] s) -> new flip(s[1], s[2], FlipDirection.Horizontal));
     knownCommands.put(
-        "load",
-        (String[] s) -> {
-          return new load(s[1], s[2]);
-        });
+        "vertical-flip", (String[] s) -> new flip(s[1], s[2], FlipDirection.Vertical));
     knownCommands.put(
-        "horizontal-flip",
-        (String[] s) -> {
-          return new flip(s[1], s[2], FlipDirection.Horizontal);
-        });
+        "red-component", (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.R));
     knownCommands.put(
-        "vertical-flip",
-        (String[] s) -> {
-          return new flip(s[1], s[2], FlipDirection.Vertical);
-        });
+        "green-component", (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.G));
     knownCommands.put(
-        "red-component",
-        (String[] s) -> {
-          return new componentGreyScale(s[1], s[2], GreyScaleValue.R);
-        });
+        "blue-component", (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.B));
     knownCommands.put(
-        "green-component",
-        (String[] s) -> {
-          return new componentGreyScale(s[1], s[2], GreyScaleValue.G);
-        });
+        "intensity-component",
+        (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.Intensity));
     knownCommands.put(
-        "blue-component",
-        (String[] s) -> {
-          return new componentGreyScale(s[1], s[2], GreyScaleValue.B);
-        });
-    knownCommands.put(
-        "intensity_component",
-        (String[] s) -> {
-          return new componentGreyScale(s[1], s[2], GreyScaleValue.Intensity);
-        });
-    knownCommands.put(
-        "luma_component",
-        (String[] s) -> {
-          return new componentGreyScale(s[1], s[2], GreyScaleValue.Luma);
-        });
+        "luma-component", (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.Luma));
+    knownCommands.put("brighten", (String[] s) -> new brighten(s[2], s[3], s[1]));
 
     try {
       while (scanner.hasNextLine()) {
         String lineCommand = scanner.nextLine();
-        if (lineCommand.equals("q")) {
+        // quite the program when detected "q"
+        if (lineCommand.equalsIgnoreCase("q")) {
           return;
         }
-        String[] commandInArray = lineCommand.split(" ");
-        String command = commandInArray[0];
-        IMECommand c;
-        // TODO: only passing arguments to model
-        try {
-          Function<String[], IMECommand> cmd = knownCommands.getOrDefault(command, null);
-          if (cmd == null) {
-            throw new IllegalArgumentException("Unsupported command");
-          } else {
-            c = cmd.apply(commandInArray);
-            c.execute(this.model);
+
+        // ignore space, # and etc. //TODO: add sth.
+        if (!lineCommand.equals("") && lineCommand.charAt(0) != '#') {
+          String[] commandInArray = lineCommand.split(" ");
+          String command = commandInArray[0];
+          IMECommand c;
+          // TODO: Update with command line design pattern
+          try {
+            Function<String[], IMECommand> cmd = knownCommands.getOrDefault(command, null);
+            if (cmd == null) {
+              throw new IllegalArgumentException("Unsupported command " + command + "\n");
+            } else {
+              c = cmd.apply(commandInArray);
+              c.execute(this.model);
+            }
+          } catch (IllegalArgumentException e) {
+            this.view.renderMessage(e.getMessage());
           }
-        } catch (IllegalArgumentException e) {
-          this.view.renderMessage(e.getMessage());
         }
       }
     } catch (IOException e) {
       throw new IllegalArgumentException("View failed to transmit the message to appendable");
     }
-  }
-
-  private void componentCommands(String[] listOfArgs, GreyScaleValue greyScaleValue)
-      throws IllegalArgumentException {
-    if (listOfArgs.length != 3) {
-      throw new IllegalArgumentException("Insufficient arguments");
-    }
-    this.model.greyScale(listOfArgs[1], listOfArgs[2], greyScaleValue);
   }
 }

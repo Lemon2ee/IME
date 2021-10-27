@@ -3,6 +3,8 @@ package model;
 import model.enums.FlipDirection;
 import model.enums.GreyScaleValue;
 
+import java.io.IOException;
+
 /**
  * The model of the Image Processor. Including operations of grey scale, brighten or darken by given
  * value, and flip the image vertically or horizontally.
@@ -56,5 +58,5 @@ public interface ImageModel {
    * @param origin the name of the image to be saved
    * @throws IllegalArgumentException if the given origin name does not exist
    */
-  void save(String filePath, String origin) throws IllegalArgumentException;
+  void save(String filePath, String origin) throws IllegalArgumentException, IOException;
 }
