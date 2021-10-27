@@ -268,8 +268,6 @@ public class PPMModel implements ImageModel {
   /**
    * Change the rgb brightness of a pixel with given value.
    *
-   * <p><<<<<<< HEAD
-   *
    * @param origin the original pixel to change brightness as Color
    * @param value the value of brightness to be changed as int =======
    * @param origin the original pixel to change the brightness as Color
