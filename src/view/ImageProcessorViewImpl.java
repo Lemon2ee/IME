@@ -12,7 +12,6 @@ public class ImageProcessorViewImpl implements ImageProcessorView {
     this.appendable = appendable;
   }
 
-
   @Override
   public void renderMessage(String message) throws IOException {
     this.appendable.append(message);
