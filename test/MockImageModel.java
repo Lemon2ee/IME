@@ -1,3 +1,5 @@
+import java.awt.*;
+
 import model.enums.FlipDirection;
 import model.enums.GreyScaleValue;
 import model.ImageModel;
@@ -53,5 +55,11 @@ public class MockImageModel implements ImageModel {
   @Override
   public void save(String filePath, String origin) throws IllegalArgumentException {
     this.log.append("filePath ").append(filePath).append(" origin ").append(origin);
+  }
+
+  @Override
+  public Color[][] getFromKey(String name) throws IllegalArgumentException {
+    this.log.append("Get image with key: ").append(name);
+    return new Color[][]{{new Color(0, 0, 0)}};
   }
 }

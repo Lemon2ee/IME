@@ -34,7 +34,7 @@ public class PPMModel implements ImageModel {
 
   @Override
   public void greyScale(String origin, String destination, GreyScaleValue op)
-      throws IllegalArgumentException {
+          throws IllegalArgumentException {
     Color[][] src = getSourceImage(origin);
     int height = src.length;
     int width = src[0].length;
@@ -91,7 +91,7 @@ public class PPMModel implements ImageModel {
 
   @Override
   public void changeBrightness(String origin, String destination, int value)
-      throws IllegalArgumentException {
+          throws IllegalArgumentException {
     Color[][] src = getSourceImage(origin);
     int height = src.length;
     int width = src[0].length;
@@ -108,8 +108,9 @@ public class PPMModel implements ImageModel {
 
   @Override
   public void flip(String origin, String destination, FlipDirection fd)
-      throws IllegalArgumentException {
+          throws IllegalArgumentException {
     Color[][] src = getSourceImage(origin);
+    Color srcColor;
     int height = src.length;
     int width = src[0].length;
 
@@ -117,13 +118,15 @@ public class PPMModel implements ImageModel {
     if (fd == FlipDirection.Horizontal) {
       for (int r = 0; r < height; r++) {
         for (int c = 0; c < width; c++) {
-          output[r][c] = src[r][width - 1 - c];
+          srcColor = src[r][width - 1 - c];
+          output[r][c] = new Color(srcColor.getRed(), srcColor.getGreen(), srcColor.getBlue());
         }
       }
     } else {
       for (int r = 0; r < height; r++) {
         for (int c = 0; c < width; c++) {
-          output[r][c] = src[height - 1 - r][c];
+          srcColor = src[height - 1 - r][c];
+          output[r][c] = new Color(srcColor.getRed(), srcColor.getGreen(), srcColor.getBlue());
         }
       }
     }
@@ -149,10 +152,32 @@ public class PPMModel implements ImageModel {
     }
   }
 
+  @Override
+  public Color[][] getFromKey(String name) throws IllegalArgumentException {
+    Color[][] src = getSourceImage(name);
+    int height = src.length;
+    int width = src[0].length;
+
+    Color[][] output = new Color[height][width];
+    for (int r = 0; r < height; r++) {
+      for (int c = 0; c < width; c++) {
+        Color srcColor = src[r][c];
+        output[r][c] = new Color(srcColor.getRed(), srcColor.getGreen(), srcColor.getBlue());
+      }
+    }
+
+    return output;
+  }
+
+  /**
+   * Covert the 2d array of Color for image data into PPM format String.
+   *
+   * @param array the pixel rgb data of the image as 2d array of Color
+   * @return data to be written to PPM file as String
+   */
   private String arrayOfColorToString(Color[][] array) {
     StringBuilder image = new StringBuilder();
     StringBuilder header = new StringBuilder();
-    int maxValue = 0;
 
     for (Color[] colorRow : array) {
       for (Color color : colorRow) {
@@ -162,21 +187,15 @@ public class PPMModel implements ImageModel {
         image.append(redValue).append("\n");
         image.append(greenValue).append("\n");
         image.append(blueValue).append("\n");
-
-        int maxRGB = Math.max(redValue, Math.max(greenValue, blueValue));
-
-        if (maxRGB > maxValue) {
-          maxValue = maxRGB;
-        }
       }
     }
 
     header.append("P3\n");
     header.append(
-        "# Created by Image Manipulation and Enhancement (IME) written by JerryGCDing "
-            + "and Lemon2ee\n");
+            "# Created by Image Manipulation and Enhancement (IME) written by JerryGCDing "
+                    + "and Lemon2ee\n");
     header.append(array[0].length).append(" ").append(array.length).append("\n");
-    header.append(maxValue).append("\n");
+    header.append("255").append("\n");
     header.append("# end of the header\n");
     return header.append(image).toString();
   }
@@ -234,11 +253,7 @@ public class PPMModel implements ImageModel {
    * @return the new pixel after grey scale as Color
    */
   private Color toValue(Color origin) {
-    int[] rgb = new int[] {origin.getRed(), origin.getGreen(), origin.getBlue()};
-    int maxValue = -1;
-    for (int v : rgb) {
-      maxValue = Math.max(maxValue, v);
-    }
+    int maxValue = Math.max(origin.getRed(), Math.max(origin.getGreen(), origin.getBlue()));
     return new Color(maxValue, maxValue, maxValue);
   }
 
@@ -269,7 +284,7 @@ public class PPMModel implements ImageModel {
    * Change the rgb brightness of a pixel with given value.
    *
    * @param origin the original pixel to change the brightness as Color
-   * @param value the value to be changed for the color brightness
+   * @param value  the value to be changed for the color brightness
    * @return the new pixel after changing brightness as Color
    */
   private Color colorBrightness(Color origin, int value) {
