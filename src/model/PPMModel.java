@@ -208,7 +208,7 @@ public class PPMModel implements ImageModel {
    * @throws IllegalArgumentException if the provided name cannot be found
    */
   private Color[][] getSourceImage(String origin) throws IllegalArgumentException {
-    Color[][] result = this.operationQueue.get(origin);
+    Color[][] result = this.operationQueue.getOrDefault(origin, null);
     if (result == null) {
       throw new IllegalArgumentException("The provided source image is invalid.\n");
     }

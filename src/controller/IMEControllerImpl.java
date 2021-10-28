@@ -12,11 +12,22 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.function.Function;
 
+/**
+ * A class represents the controller of the image processor, which is responsible for passing
+ * received command to model and tell view what to render.
+ */
 public class IMEControllerImpl implements IMEController {
   private final ImageModel model;
   private final Readable readable;
   private final ImageProcessorView view;
 
+  /**
+   * The default constructor.
+   *
+   * @param model The provided model which will handle all manipulation of images
+   * @param readable The given readable object where all input would come from
+   * @param view The given view object where essential message will be rendered
+   */
   public IMEControllerImpl(ImageModel model, Readable readable, ImageProcessorView view) {
     if (model == null || readable == null || view == null) {
       throw new IllegalArgumentException("Require non-null arguments");
@@ -26,34 +37,41 @@ public class IMEControllerImpl implements IMEController {
     this.view = view;
   }
 
+  /**
+   * The method that would initialize the controller with all its fields, capable of parsing inputs
+   * and report error to user (without breaking the whole thing).
+   *
+   * @throws IllegalArgumentException when the view object failed to reader
+   */
   @Override
   public void initProcessor() throws IllegalArgumentException {
     Scanner scanner = new Scanner(this.readable);
-
     Map<String, Function<String[], IMECommand>> knownCommands = new HashMap<>();
-    knownCommands.put("save", (String[] s) -> new save(s[1], s[2]));
-    knownCommands.put("load", (String[] s) -> new load(s[1], s[2]));
-    knownCommands.put(
-        "horizontal-flip", (String[] s) -> new flip(s[1], s[2], FlipDirection.Horizontal));
-    knownCommands.put(
-        "vertical-flip", (String[] s) -> new flip(s[1], s[2], FlipDirection.Vertical));
-    knownCommands.put(
-        "red-component", (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.R));
-    knownCommands.put(
-        "green-component", (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.G));
-    knownCommands.put(
-        "blue-component", (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.B));
-    knownCommands.put(
-        "intensity-component",
-        (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.Intensity));
-    knownCommands.put(
-        "value-component",
-        (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.Value));
-    knownCommands.put(
-        "luma-component", (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.Luma));
-    knownCommands.put("brighten", (String[] s) -> new brighten(s[2], s[3], s[1]));
 
     try {
+      knownCommands.put("save", (String[] s) -> new save(s[1], s[2]));
+      knownCommands.put("load", (String[] s) -> new load(s[1], s[2]));
+      knownCommands.put(
+          "horizontal-flip", (String[] s) -> new flip(s[1], s[2], FlipDirection.Horizontal));
+      knownCommands.put(
+          "vertical-flip", (String[] s) -> new flip(s[1], s[2], FlipDirection.Vertical));
+      knownCommands.put(
+          "red-component", (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.R));
+      knownCommands.put(
+          "green-component", (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.G));
+      knownCommands.put(
+          "blue-component", (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.B));
+      knownCommands.put(
+          "intensity-component",
+          (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.Intensity));
+      knownCommands.put(
+          "value-component",
+          (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.Value));
+      knownCommands.put(
+          "luma-component",
+          (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.Luma));
+      knownCommands.put("brighten", (String[] s) -> new brighten(s[2], s[3], s[1]));
+
       while (scanner.hasNextLine()) {
         String lineCommand = scanner.nextLine();
         // quite the program when detected "q"
@@ -63,6 +81,7 @@ public class IMEControllerImpl implements IMEController {
 
         // ignore space, # and etc. //TODO: add sth.
         if (!lineCommand.equals("") && lineCommand.charAt(0) != '#') {
+          // parse the command input
           String[] commandInArray = lineCommand.split(" ");
           String command = commandInArray[0];
           IMECommand c;
@@ -76,7 +95,12 @@ public class IMEControllerImpl implements IMEController {
               c.execute(this.model);
             }
           } catch (IllegalArgumentException e) {
+            // print error message from the exception received from the model or because of
+            // unsupported command
             this.view.renderMessage(e.getMessage());
+          } catch (IndexOutOfBoundsException e) {
+            // print error message if the given command does not have enough command
+            this.view.renderMessage("Insufficient argument given\n");
           }
         }
       }

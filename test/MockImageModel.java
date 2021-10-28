@@ -13,7 +13,7 @@ public class MockImageModel implements ImageModel {
 
   @Override
   public void load(String name, String filePath) throws IllegalArgumentException {
-    this.log.append("name ").append(name).append(" filePath ").append(filePath);
+    this.log.append("name ").append(name).append(" filePath ").append(filePath).append("\n");
   }
 
   @Override
@@ -25,7 +25,7 @@ public class MockImageModel implements ImageModel {
         .append(" Destination ")
         .append(destination)
         .append(" op ")
-        .append(op);
+        .append(op).append("\n");
   }
 
   @Override
@@ -37,7 +37,7 @@ public class MockImageModel implements ImageModel {
         .append(" Destination ")
         .append(destination)
         .append(" value ")
-        .append(value);
+        .append(value).append("\n");
   }
 
   @Override
@@ -49,17 +49,17 @@ public class MockImageModel implements ImageModel {
         .append(" Destination ")
         .append(destination)
         .append(" fd ")
-        .append(fd);
+        .append(fd).append("\n");
   }
 
   @Override
   public void save(String filePath, String origin) throws IllegalArgumentException {
-    this.log.append("filePath ").append(filePath).append(" origin ").append(origin);
+    this.log.append("filePath ").append(filePath).append(" origin ").append(origin).append("\n");
   }
 
   @Override
   public Color[][] getFromKey(String name) throws IllegalArgumentException {
-    this.log.append("Get image with key: ").append(name);
+    this.log.append("Get image with key: ").append(name).append("\n");
     return new Color[][]{{new Color(0, 0, 0)}};
   }
 }
