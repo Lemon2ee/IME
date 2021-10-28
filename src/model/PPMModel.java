@@ -264,8 +264,9 @@ public class PPMModel implements ImageModel {
    * @return the new pixel after grey scale as Color
    */
   private Color toIntensity(Color origin) {
-    int avg = (origin.getRed() + origin.getGreen() + origin.getBlue()) / 3;
-    return new Color(avg, avg, avg);
+    double preAvg = (origin.getRed() + origin.getGreen() + origin.getBlue()) / 3.0;
+    int intAvg = (int) Math.round(preAvg);
+    return new Color(intAvg, intAvg, intAvg);
   }
 
   /**
@@ -276,7 +277,7 @@ public class PPMModel implements ImageModel {
    */
   private Color toLuma(Color origin) {
     double luma = 0.2126 * origin.getRed() + 0.7152 * origin.getGreen() + 0.0722 * origin.getBlue();
-    int intLuma = (int) luma;
+    int intLuma = (int) Math.round(luma);
     return new Color(intLuma, intLuma, intLuma);
   }
 
