@@ -178,7 +178,6 @@ public class PPMModel implements ImageModel {
   private String arrayOfColorToString(Color[][] array) {
     StringBuilder image = new StringBuilder();
     StringBuilder header = new StringBuilder();
-    int maxValue = 0;
 
     for (Color[] colorRow : array) {
       for (Color color : colorRow) {
@@ -188,12 +187,6 @@ public class PPMModel implements ImageModel {
         image.append(redValue).append("\n");
         image.append(greenValue).append("\n");
         image.append(blueValue).append("\n");
-
-        int maxRGB = Math.max(redValue, Math.max(greenValue, blueValue));
-
-        if (maxRGB > maxValue) {
-          maxValue = maxRGB;
-        }
       }
     }
 
@@ -202,7 +195,7 @@ public class PPMModel implements ImageModel {
             "# Created by Image Manipulation and Enhancement (IME) written by JerryGCDing "
                     + "and Lemon2ee\n");
     header.append(array[0].length).append(" ").append(array.length).append("\n");
-    header.append(maxValue).append("\n");
+    header.append("255").append("\n");
     header.append("# end of the header\n");
     return header.append(image).toString();
   }
@@ -260,11 +253,7 @@ public class PPMModel implements ImageModel {
    * @return the new pixel after grey scale as Color
    */
   private Color toValue(Color origin) {
-    int[] rgb = new int[]{origin.getRed(), origin.getGreen(), origin.getBlue()};
-    int maxValue = -1;
-    for (int v : rgb) {
-      maxValue = Math.max(maxValue, v);
-    }
+    int maxValue = Math.max(origin.getRed(), Math.max(origin.getGreen(), origin.getBlue()));
     return new Color(maxValue, maxValue, maxValue);
   }
 
