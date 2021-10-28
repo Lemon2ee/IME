@@ -47,6 +47,9 @@ public class IMEControllerImpl implements IMEController {
         "intensity-component",
         (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.Intensity));
     knownCommands.put(
+        "value-component",
+        (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.Value));
+    knownCommands.put(
         "luma-component", (String[] s) -> new componentGreyScale(s[1], s[2], GreyScaleValue.Luma));
     knownCommands.put("brighten", (String[] s) -> new brighten(s[2], s[3], s[1]));
 
