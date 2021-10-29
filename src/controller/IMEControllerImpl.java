@@ -49,6 +49,7 @@ public class IMEControllerImpl implements IMEController {
     Map<String, Function<String[], IMECommand>> knownCommands = new HashMap<>();
 
     try {
+      // following command block might throw index out of bound exception
       knownCommands.put("save", (String[] s) -> new save(s[1], s[2]));
       knownCommands.put("load", (String[] s) -> new load(s[1], s[2]));
       knownCommands.put(

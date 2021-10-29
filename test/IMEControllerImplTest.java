@@ -161,15 +161,18 @@ public class IMEControllerImplTest {
   }
 
   @Test
-  public void testControllerReceiveRedComponentGreenComponentBlueComponentSaveInvalid() throws IOException {
+  public void testControllerReceiveRedComponentGreenComponentBlueComponentSaveInvalid()
+      throws IOException {
     StringBuilder log = new StringBuilder();
     ImageModel model = new MockImageModel(log);
     Appendable builder = new StringBuilder();
-    Readable readable = new StringReader("load Koala.ppm koala\n" +
-        "red-component koala koala-red\n" +
-        "green-component koala koala-green\n" +
-        "blue-component koala koala-blue\n" +
-        "save ");
+    Readable readable =
+        new StringReader(
+            "load Koala.ppm koala\n"
+                + "red-component koala koala-red\n"
+                + "green-component koala koala-green\n"
+                + "blue-component koala koala-blue\n"
+                + "save ");
     ImageProcessorView view = new ImageProcessorViewImpl(builder, model);
 
     IMEController controller = new IMEControllerImpl(model, readable, view);

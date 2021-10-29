@@ -34,7 +34,7 @@ public class PPMModel implements ImageModel {
 
   @Override
   public void greyScale(String origin, String destination, GreyScaleValue op)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     Color[][] src = getSourceImage(origin);
     int height = src.length;
     int width = src[0].length;
@@ -91,7 +91,7 @@ public class PPMModel implements ImageModel {
 
   @Override
   public void changeBrightness(String origin, String destination, int value)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     Color[][] src = getSourceImage(origin);
     int height = src.length;
     int width = src[0].length;
@@ -108,7 +108,7 @@ public class PPMModel implements ImageModel {
 
   @Override
   public void flip(String origin, String destination, FlipDirection fd)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     Color[][] src = getSourceImage(origin);
     Color srcColor;
     int height = src.length;
@@ -192,8 +192,8 @@ public class PPMModel implements ImageModel {
 
     header.append("P3\n");
     header.append(
-            "# Created by Image Manipulation and Enhancement (IME) written by JerryGCDing "
-                    + "and Lemon2ee\n");
+        "# Created by Image Manipulation and Enhancement (IME) written by JerryGCDing "
+            + "and Lemon2ee\n");
     header.append(array[0].length).append(" ").append(array.length).append("\n");
     header.append("255").append("\n");
     header.append("# end of the header\n");
@@ -284,7 +284,7 @@ public class PPMModel implements ImageModel {
    * Change the rgb brightness of a pixel with given value.
    *
    * @param origin the original pixel to change the brightness as Color
-   * @param value  the value to be changed for the color brightness
+   * @param value the value to be changed for the color brightness
    * @return the new pixel after changing brightness as Color
    */
   private Color colorBrightness(Color origin, int value) {

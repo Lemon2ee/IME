@@ -48,6 +48,8 @@ public class ImageProcessor {
       default:
         break;
     }
+
+    // this should be
     model = new PPMModel();
     ImageProcessorView view = new ImageProcessorViewImpl(System.out, model);
     IMEController controller = new IMEControllerImpl(model, readable, view);
