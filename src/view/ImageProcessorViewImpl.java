@@ -17,7 +17,11 @@ public class ImageProcessorViewImpl implements ImageProcessorView {
   }
 
   @Override
-  public void renderMessage(String message) throws IOException {
-    this.appendable.append(message);
+  public void renderMessage(String message) throws IllegalArgumentException {
+    try {
+      this.appendable.append(message);
+    } catch (IOException e) {
+      throw new IllegalArgumentException("Failed to render");
+    }
   }
 }
