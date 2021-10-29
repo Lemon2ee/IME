@@ -11,6 +11,7 @@ import model.enums.GreyScaleValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+public class PPMModelTest {}
 /**
  * The JUnit test class for PPMModel class. Including tests for load and save an image and all
  * necessary image processing operations.
