@@ -140,7 +140,6 @@ public class PPMModel implements ImageModel {
     try {
       File file = new File(filePath);
       if (filePath.contains("/")) {
-        // this boolean is never used because
         boolean createParent = file.getParentFile().mkdirs();
       }
 
@@ -160,7 +159,6 @@ public class PPMModel implements ImageModel {
     int width = src[0].length;
 
     Color[][] output = new Color[height][width];
-
     for (int r = 0; r < height; r++) {
       for (int c = 0; c < width; c++) {
         Color srcColor = src[r][c];

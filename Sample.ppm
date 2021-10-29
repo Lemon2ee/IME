@@ -3,21 +3,21 @@ P3
 255
 # The part above is the header
 # The part below is the image data: RGB triplets
-200 
+255   
 0   
 0
 0
-200
+255
 0
 0
 0
-200
-200
-200
+255
+255
+255
 0
-200
-200
-200
+255
+255
+255
 0
 0
 0

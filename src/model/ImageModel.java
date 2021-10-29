@@ -59,7 +59,7 @@ public interface ImageModel {
    * @param origin the name of the image to be saved
    * @throws IllegalArgumentException if the given origin name does not exist
    */
-  void save(String filePath, String origin) throws IllegalArgumentException;
+  void save(String filePath, String origin) throws IllegalArgumentException, IOException;
 
   /**
    * To get the target image data with given key, ONLY USED FOR TESTING. Use deep copying data from

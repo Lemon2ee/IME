@@ -2,9 +2,6 @@ package controller.knownCommands;
 
 import model.ImageModel;
 
-/**
- * A class represents the operation of brighten an image
- */
 public class brighten extends ABSCommand {
   String value;
 
