@@ -11,34 +11,53 @@ import model.enums.GreyScaleValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class PPMModelTest {}
 /**
  * The JUnit test class for PPMModel class. Including tests for load and save an image and all
  * necessary image processing operations.
  */
 public class PPMModelTest {
-  Color[][] sampleImage = new Color[][]{{Color.RED, Color.GREEN, Color.BLUE},
-          {Color.YELLOW, Color.WHITE, Color.BLACK}};
-  Color[][] verticalFlippedSample = new Color[][]{{Color.YELLOW, Color.WHITE, Color.BLACK},
-          {Color.RED, Color.GREEN, Color.BLUE}};
-  Color[][] horizontalFlippedSample = new Color[][]{{Color.BLUE, Color.GREEN, Color.RED},
-          {Color.BLACK, Color.WHITE, Color.YELLOW}};
-  Color[][] diagonalFlippedSample = new Color[][]{{Color.BLACK, Color.WHITE, Color.YELLOW},
-          {Color.BLUE, Color.GREEN, Color.RED}};
-  Color[][] greyScaleRImage = new Color[][]{{Color.WHITE, Color.BLACK, Color.BLACK},
-          {Color.WHITE, Color.WHITE, Color.BLACK}};
-  Color[][] greyScaleGImage = new Color[][]{{Color.BLACK, Color.WHITE, Color.BLACK},
-          {Color.WHITE, Color.WHITE, Color.BLACK}};
-  Color[][] greyScaleBImage = new Color[][]{{Color.BLACK, Color.BLACK, Color.WHITE},
-          {Color.BLACK, Color.WHITE, Color.BLACK}};
-  Color[][] greyScaleVImage = new Color[][]{{Color.WHITE, Color.WHITE, Color.WHITE},
-          {Color.WHITE, Color.WHITE, Color.BLACK}};
-  Color[][] greyScaleLImage = new Color[][]{{new Color(54, 54, 54), new Color(182, 182, 182),
-          new Color(18, 18, 18)},
-          {new Color(237, 237, 237), new Color(255, 255, 255), Color.BLACK}};
-  Color[][] greyScaleIImage = new Color[][]{{new Color(85, 85, 85), new Color(85, 85, 85),
-          new Color(85, 85, 85)},
-          {new Color(170, 170, 170), new Color(255, 255, 255), Color.BLACK}};
+  Color[][] sampleImage =
+      new Color[][] {
+        {Color.RED, Color.GREEN, Color.BLUE}, {Color.YELLOW, Color.WHITE, Color.BLACK}
+      };
+  Color[][] verticalFlippedSample =
+      new Color[][] {
+        {Color.YELLOW, Color.WHITE, Color.BLACK}, {Color.RED, Color.GREEN, Color.BLUE}
+      };
+  Color[][] horizontalFlippedSample =
+      new Color[][] {
+        {Color.BLUE, Color.GREEN, Color.RED}, {Color.BLACK, Color.WHITE, Color.YELLOW}
+      };
+  Color[][] diagonalFlippedSample =
+      new Color[][] {
+        {Color.BLACK, Color.WHITE, Color.YELLOW}, {Color.BLUE, Color.GREEN, Color.RED}
+      };
+  Color[][] greyScaleRImage =
+      new Color[][] {
+        {Color.WHITE, Color.BLACK, Color.BLACK}, {Color.WHITE, Color.WHITE, Color.BLACK}
+      };
+  Color[][] greyScaleGImage =
+      new Color[][] {
+        {Color.BLACK, Color.WHITE, Color.BLACK}, {Color.WHITE, Color.WHITE, Color.BLACK}
+      };
+  Color[][] greyScaleBImage =
+      new Color[][] {
+        {Color.BLACK, Color.BLACK, Color.WHITE}, {Color.BLACK, Color.WHITE, Color.BLACK}
+      };
+  Color[][] greyScaleVImage =
+      new Color[][] {
+        {Color.WHITE, Color.WHITE, Color.WHITE}, {Color.WHITE, Color.WHITE, Color.BLACK}
+      };
+  Color[][] greyScaleLImage =
+      new Color[][] {
+        {new Color(54, 54, 54), new Color(182, 182, 182), new Color(18, 18, 18)},
+        {new Color(237, 237, 237), new Color(255, 255, 255), Color.BLACK}
+      };
+  Color[][] greyScaleIImage =
+      new Color[][] {
+        {new Color(85, 85, 85), new Color(85, 85, 85), new Color(85, 85, 85)},
+        {new Color(170, 170, 170), new Color(255, 255, 255), Color.BLACK}
+      };
 
   ImageModel model = new PPMModel();
 
