@@ -1,9 +1,11 @@
 package controller;
 
 import controller.knownCommands.*;
+import model.Image.ImageUtil;
+import model.Image.PPMImage;
+import model.ImageLibrary.ImageLibModel;
 import model.enums.FlipDirection;
 import model.enums.GreyScaleValue;
-import model.ImageModel;
 import view.ImageProcessorView;
 
 import java.io.IOException;
@@ -17,22 +19,22 @@ import java.util.function.Function;
  * received command to model and tell view what to render.
  */
 public class IMEControllerImpl implements IMEController {
-  private final ImageModel model;
+  private final ImageLibModel libModel;
   private final Readable readable;
   private final ImageProcessorView view;
 
   /**
    * The default constructor.
    *
-   * @param model The provided model which will handle all manipulation of images
+   * @param libModel The provided model which will handle all manipulation of images
    * @param readable The given readable object where all input would come from
    * @param view The given view object where essential message will be rendered
    */
-  public IMEControllerImpl(ImageModel model, Readable readable, ImageProcessorView view) {
-    if (model == null || readable == null || view == null) {
+  public IMEControllerImpl(ImageLibModel libModel, Readable readable, ImageProcessorView view) {
+    if (libModel == null || readable == null || view == null) {
       throw new IllegalArgumentException("Require non-null arguments");
     }
-    this.model = model;
+    this.libModel = libModel;
     this.readable = readable;
     this.view = view;
   }
@@ -50,8 +52,8 @@ public class IMEControllerImpl implements IMEController {
 
     try {
       // following command block might throw index out of bound exception
-      knownCommands.put("save", (String[] s) -> new save(s[1], s[2]));
-      knownCommands.put("load", (String[] s) -> new load(s[1], s[2]));
+      // knownCommands.put("save", (String[] s) -> new save(s[1], s[2]));
+      // knownCommands.put("load", (String[] s) -> new load(s[1], s[2]));
       knownCommands.put(
           "horizontal-flip", (String[] s) -> new flip(s[1], s[2], FlipDirection.Horizontal));
       knownCommands.put(
@@ -88,12 +90,23 @@ public class IMEControllerImpl implements IMEController {
           IMECommand c;
           // TODO: Update with command line design pattern
           try {
-            Function<String[], IMECommand> cmd = knownCommands.getOrDefault(command, null);
-            if (cmd == null) {
-              throw new IllegalArgumentException("Unsupported command " + command + "\n");
-            } else {
-              c = cmd.apply(commandInArray);
-              c.execute(this.model);
+            switch (command) {
+              case "load":
+                this.libModel.addToLib(
+                    commandInArray[2], new PPMImage(new ImageUtil().readPPM(commandInArray[1])));
+                break;
+              case "save":
+                this.view.save(commandInArray[2], commandInArray[1]);
+                break;
+              default:
+                Function<String[], IMECommand> cmd = knownCommands.getOrDefault(command, null);
+                if (cmd == null) {
+                  throw new IllegalArgumentException("Unsupported command " + command + "\n");
+                } else {
+                  c = cmd.apply(commandInArray);
+                  c.execute(this.libModel);
+                }
+                break;
             }
           } catch (IllegalArgumentException e) {
             // print error message from the exception received from the model or because of

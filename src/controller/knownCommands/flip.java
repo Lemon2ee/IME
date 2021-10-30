@@ -1,6 +1,7 @@
 package controller.knownCommands;
 
-import model.ImageModel;
+import model.Image.ImageModel;
+import model.ImageLibrary.ImageLibModel;
 import model.enums.FlipDirection;
 
 import java.util.Objects;
@@ -15,7 +16,8 @@ public class flip extends ABSCommand {
   }
 
   @Override
-  public void execute(ImageModel model) {
-    model.flip(origin, destination, direction);
+  public void execute(ImageLibModel model) {
+    ImageModel image = model.read(this.origin);
+    model.addToLib(destination, image.flip(direction));
   }
 }

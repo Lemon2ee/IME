@@ -1,6 +1,7 @@
 package controller.knownCommands;
 
-import model.ImageModel;
+import model.Image.ImageModel;
+import model.ImageLibrary.ImageLibModel;
 import model.enums.GreyScaleValue;
 
 import java.util.Objects;
@@ -15,7 +16,8 @@ public class componentGreyScale extends ABSCommand {
   }
 
   @Override
-  public void execute(ImageModel model) {
-    model.greyScale(origin, destination, value);
+  public void execute(ImageLibModel model) {
+    ImageModel image = model.read(this.origin);
+    model.addToLib(destination, image.greyScale(value));
   }
 }

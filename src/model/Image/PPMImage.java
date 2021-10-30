@@ -1,41 +1,39 @@
-package model;
+package model.Image;
 
 import model.enums.FlipDirection;
 import model.enums.GreyScaleValue;
 
 import java.awt.Color;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 
 /**
  * The class represents the model of a PPM image processing queue. Including load image into the
  * queue, perform grey scale operation, change the image brightness, flip target image and save the
  * image to given file path.
  */
-public class PPMModel implements ImageModel {
-  private final Map<String, Color[][]> operationQueue;
+public class PPMImage implements ImageModel {
+  private final Color[][] image;
+  private final int height;
+  private final int width;
 
   /**
    * The constructor of the PPMModel, takes in no argument and initialize the operation queue of the
    * model.
+   *
+   * <p>TODO: edit this
    */
-  public PPMModel() {
-    operationQueue = new HashMap<>();
+  public PPMImage(Color[][] image) {
+    if (image == null) {
+      throw new IllegalArgumentException("Require non null arguments");
+    }
+    this.image = image;
+    this.height = this.image.length;
+    this.width = this.image[0].length;
   }
 
   @Override
-  public void load(String name, String filePath) throws IllegalArgumentException {
-    Color[][] image = new ImageUtil().readPPM(filePath);
-    this.operationQueue.put(name, image);
-  }
-
-  @Override
-  public void greyScale(String origin, String destination, GreyScaleValue op)
-      throws IllegalArgumentException {
-    Color[][] src = getSourceImage(origin);
+  public ImageModel greyScale(GreyScaleValue op) throws IllegalArgumentException {
+    Color[][] src = this.image;
     int height = src.length;
     int width = src[0].length;
 
@@ -86,13 +84,13 @@ public class PPMModel implements ImageModel {
         break;
     }
 
-    this.operationQueue.put(destination, output);
+    return new PPMImage(output);
   }
 
   @Override
-  public void changeBrightness(String origin, String destination, int value)
-      throws IllegalArgumentException {
-    Color[][] src = getSourceImage(origin);
+  public ImageModel changeBrightness(int value) throws IllegalArgumentException {
+
+    Color[][] src = this.image;
     int height = src.length;
     int width = src[0].length;
 
@@ -103,13 +101,12 @@ public class PPMModel implements ImageModel {
       }
     }
 
-    this.operationQueue.put(destination, output);
+    return new PPMImage(output);
   }
 
   @Override
-  public void flip(String origin, String destination, FlipDirection fd)
-      throws IllegalArgumentException {
-    Color[][] src = getSourceImage(origin);
+  public ImageModel flip(FlipDirection fd) throws IllegalArgumentException {
+    Color[][] src = this.image;
     Color srcColor;
     int height = src.length;
     int width = src[0].length;
@@ -131,89 +128,12 @@ public class PPMModel implements ImageModel {
       }
     }
 
-    this.operationQueue.put(destination, output);
+    return new PPMImage(output);
   }
 
   @Override
-  public void save(String filePath, String origin) throws IllegalArgumentException {
-    Color[][] src = getSourceImage(origin);
-    try {
-      File file = new File(filePath);
-      if (filePath.contains("/")) {
-        boolean createParent = file.getParentFile().mkdirs();
-      }
-
-      FileWriter writer = new FileWriter(file, false);
-      writer.write(this.arrayOfColorToString(src));
-      writer.flush();
-      writer.close();
-    } catch (IOException e) {
-      throw new IllegalArgumentException("Save method caused an IOException\n");
-    }
-  }
-
-  @Override
-  public Color[][] getFromKey(String name) throws IllegalArgumentException {
-    Color[][] src = getSourceImage(name);
-    int height = src.length;
-    int width = src[0].length;
-
-    Color[][] output = new Color[height][width];
-    for (int r = 0; r < height; r++) {
-      for (int c = 0; c < width; c++) {
-        Color srcColor = src[r][c];
-        output[r][c] = new Color(srcColor.getRed(), srcColor.getGreen(), srcColor.getBlue());
-      }
-    }
-
-    return output;
-  }
-
-  /**
-   * Covert the 2d array of Color for image data into PPM format String.
-   *
-   * @param array the pixel rgb data of the image as 2d array of Color
-   * @return data to be written to PPM file as String
-   */
-  private String arrayOfColorToString(Color[][] array) {
-    StringBuilder image = new StringBuilder();
-    StringBuilder header = new StringBuilder();
-
-    for (Color[] colorRow : array) {
-      for (Color color : colorRow) {
-        int redValue = color.getRed();
-        int greenValue = color.getGreen();
-        int blueValue = color.getBlue();
-        image.append(redValue).append("\n");
-        image.append(greenValue).append("\n");
-        image.append(blueValue).append("\n");
-      }
-    }
-
-    header.append("P3\n");
-    header.append(
-        "# Created by Image Manipulation and Enhancement (IME) written by JerryGCDing "
-            + "and Lemon2ee\n");
-    header.append(array[0].length).append(" ").append(array.length).append("\n");
-    header.append("255").append("\n");
-    header.append("# end of the header\n");
-    return header.append(image).toString();
-  }
-
-  /**
-   * Get the source image from the queue with given name.
-   *
-   * @param origin the name of the source image as a String
-   * @return the 2d Color array of the source image
-   * @throws IllegalArgumentException if the provided name cannot be found
-   */
-  private Color[][] getSourceImage(String origin) throws IllegalArgumentException {
-    Color[][] result = this.operationQueue.getOrDefault(origin, null);
-    if (result == null) {
-      throw new IllegalArgumentException("The provided source image is invalid.\n");
-    }
-
-    return result;
+  public ImageModel copy() {
+    return new PPMImage(this.image);
   }
 
   /**
@@ -304,5 +224,31 @@ public class PPMModel implements ImageModel {
     }
 
     return new Color(newR, newG, newB);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder image = new StringBuilder();
+    StringBuilder header = new StringBuilder();
+
+    for (Color[] colorRow : this.image) {
+      for (Color color : colorRow) {
+        int redValue = color.getRed();
+        int greenValue = color.getGreen();
+        int blueValue = color.getBlue();
+        image.append(redValue).append("\n");
+        image.append(greenValue).append("\n");
+        image.append(blueValue).append("\n");
+      }
+    }
+
+    header.append("P3\n");
+    header.append(
+        "# Created by Image Manipulation and Enhancement (IME) written by JerryGCDing "
+            + "and Lemon2ee\n");
+    header.append(this.width).append(" ").append(this.height).append("\n");
+    header.append("255").append("\n");
+    header.append("# end of the header\n");
+    return header.append(image).toString();
   }
 }

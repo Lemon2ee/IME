@@ -1,7 +1,7 @@
 import controller.IMEController;
 import controller.IMEControllerImpl;
-import model.ImageModel;
-import model.PPMModel;
+import model.ImageLibrary.ImageLib;
+import model.ImageLibrary.ImageLibModel;
 import view.ImageProcessorView;
 import view.ImageProcessorViewImpl;
 
@@ -13,7 +13,7 @@ import java.io.InputStreamReader;
 /** The class which */
 public class ImageProcessor {
   public static void main(String[] args) throws IOException {
-    ImageModel model = null;
+    ImageLibModel model = null;
     Readable readable = null;
     if (args.length == 0) {
       throw new IllegalArgumentException(
@@ -50,7 +50,7 @@ public class ImageProcessor {
     }
 
     // this should be
-    model = new PPMModel();
+    model = new ImageLib();
     ImageProcessorView view = new ImageProcessorViewImpl(System.out, model);
     IMEController controller = new IMEControllerImpl(model, readable, view);
     controller.initProcessor();

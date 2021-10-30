@@ -1,6 +1,7 @@
 package controller.knownCommands;
 
-import model.ImageModel;
+import model.Image.ImageModel;
+import model.ImageLibrary.ImageLibModel;
 
 public class brighten extends ABSCommand {
   String value;
@@ -11,14 +12,16 @@ public class brighten extends ABSCommand {
   }
 
   @Override
-  public void execute(ImageModel model) {
+  public void execute(ImageLibModel model) {
     int brightness;
     try {
       brightness = Integer.parseInt(this.value);
     } catch (Exception e) {
-      // TODO: bad practice
+      // TODO: bad practice?
       throw new IllegalArgumentException("Given value is not an integer");
     }
-    model.changeBrightness(origin, destination, brightness);
+
+    ImageModel image = model.read(this.origin);
+    model.addToLib(destination, image.changeBrightness(brightness));
   }
 }

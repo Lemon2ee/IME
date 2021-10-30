@@ -1,9 +1,9 @@
 package controller.knownCommands;
 
-import model.ImageModel;
+import model.ImageLibrary.ImageLibModel;
 
 import java.io.IOException;
 
 public interface IMECommand {
-  void execute(ImageModel model) throws IOException;
+  void execute(ImageLibModel model) throws IOException;
 }

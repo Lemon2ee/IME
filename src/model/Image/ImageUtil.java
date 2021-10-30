@@ -1,4 +1,4 @@
-package model;
+package model.Image;
 
 import java.awt.Color;
 import java.util.Scanner;
