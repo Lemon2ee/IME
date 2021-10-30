@@ -32,5 +32,15 @@ public interface ImageModel {
    */
   ImageModel flip(FlipDirection fd) throws IllegalArgumentException;
 
+  /**
+   *
+   * @return
+   */
   ImageModel copy();
+
+  /**
+   *
+   * @return
+   */
+  String imageString();
 }
