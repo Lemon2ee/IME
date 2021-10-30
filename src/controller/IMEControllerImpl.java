@@ -90,6 +90,7 @@ public class IMEControllerImpl implements IMEController {
           IMECommand c;
           // TODO: Update with command line design pattern
           try {
+            // TODO: better implementation
             switch (command) {
               case "load":
                 this.libModel.addToLib(
