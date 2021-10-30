@@ -92,7 +92,8 @@ public class IMEControllerImpl implements IMEController {
           String[] commandInArray = lineCommand.split(" ");
           String command = commandInArray[0];
           IMECommand c;
-          // TODO: Update with command line design pattern
+
+          // execute given commands
           try {
             // TODO: better implementation
             switch (command) {

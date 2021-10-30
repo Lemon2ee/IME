@@ -53,7 +53,7 @@ public class ImageProcessorViewImpl implements ImageProcessorView {
     }
 
     FileWriter writer = new FileWriter(file, false);
-    writer.write(image.imageToString());
+    writer.write(image.copyReadOnly().imageToString());
     writer.flush();
     writer.close();
   }

@@ -4,6 +4,9 @@ import model.enums.FlipDirection;
 import model.enums.GreyScaleValue;
 
 import java.awt.Color;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 
 /**
  * The class represents the model of a PPM image processing queue. Including load image into the
@@ -39,55 +42,28 @@ public class PPMImage implements ImageModel {
    */
   @Override
   public ImageModel greyScale(GreyScaleValue op) {
-    Color[][] src = this.image;
-    int height = src.length;
-    int width = src[0].length;
+    Map<GreyScaleValue, Function<Color, Color>> greyScaleValueFunctionMap = new HashMap<>();
+    greyScaleValueFunctionMap.put(GreyScaleValue.R, this.util::toRed);
+    greyScaleValueFunctionMap.put(GreyScaleValue.G, this.util::toGreen);
+    greyScaleValueFunctionMap.put(GreyScaleValue.B, this.util::toBlue);
+    greyScaleValueFunctionMap.put(GreyScaleValue.Intensity, this.util::toIntensity);
+    greyScaleValueFunctionMap.put(GreyScaleValue.Luma, this.util::toLuma);
+    greyScaleValueFunctionMap.put(GreyScaleValue.Value, this.util::toValue);
 
-    Color[][] output = new Color[height][width];
+    Function<Color, Color> colorFunction;
 
-    switch (op) {
-      case R:
-        for (int r = 0; r < height; r++) {
-          for (int c = 0; c < width; c++) {
-            output[r][c] = util.toRed(src[r][c]);
-          }
-        }
-        break;
-      case G:
-        for (int r = 0; r < height; r++) {
-          for (int c = 0; c < width; c++) {
-            output[r][c] = util.toGreen(src[r][c]);
-          }
-        }
-        break;
-      case B:
-        for (int r = 0; r < height; r++) {
-          for (int c = 0; c < width; c++) {
-            output[r][c] = util.toBlue(src[r][c]);
-          }
-        }
-        break;
-      case Value:
-        for (int r = 0; r < height; r++) {
-          for (int c = 0; c < width; c++) {
-            output[r][c] = util.toValue(src[r][c]);
-          }
-        }
-        break;
-      case Luma:
-        for (int r = 0; r < height; r++) {
-          for (int c = 0; c < width; c++) {
-            output[r][c] = util.toLuma(src[r][c]);
-          }
-        }
-        break;
-      default:
-        for (int r = 0; r < height; r++) {
-          for (int c = 0; c < width; c++) {
-            output[r][c] = util.toIntensity(src[r][c]);
-          }
-        }
-        break;
+    colorFunction = greyScaleValueFunctionMap.getOrDefault(op, null);
+
+    if (colorFunction == null) {
+      throw new IllegalArgumentException("Haven't support this grey scale value operation");
+    }
+
+    Color[][] output = new Color[this.height][this.width];
+
+    for (int r = 0; r < this.height; r++) {
+      for (int c = 0; c < this.width; c++) {
+        output[r][c] = colorFunction.apply(this.image[r][c]);
+      }
     }
 
     return new PPMImage(output);
@@ -157,6 +133,16 @@ public class PPMImage implements ImageModel {
   @Override
   public ImageModel copy() {
     return new PPMImage(this.image);
+  }
+
+  /**
+   * Return a copy of ReadOnlyImageModel version of this class.
+   *
+   * @return an ReadOnlyImageModel that has the same content but different memory address
+   */
+  @Override
+  public ReadOnlyImageModel copyReadOnly() {
+    return this.copy();
   }
 
   /**

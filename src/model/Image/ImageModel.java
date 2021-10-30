@@ -31,4 +31,11 @@ public interface ImageModel extends ReadOnlyImageModel {
    * @throws IllegalArgumentException if the given origin name does not exist
    */
   ImageModel flip(FlipDirection fd);
+
+  /**
+   * Return a deep copy of the current class.
+   *
+   * @return An ImageModel object with same content but different memory address
+   */
+  ImageModel copy();
 }
