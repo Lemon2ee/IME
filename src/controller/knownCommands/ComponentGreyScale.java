@@ -6,10 +6,10 @@ import model.enums.GreyScaleValue;
 
 import java.util.Objects;
 
-public class componentGreyScale extends ABSCommand {
+public class ComponentGreyScale extends ABSCommand {
   GreyScaleValue value;
 
-  public componentGreyScale(String origin, String destination, GreyScaleValue value) {
+  public ComponentGreyScale(String origin, String destination, GreyScaleValue value) {
     super(origin, destination);
     Objects.requireNonNull(value);
     this.value = value;

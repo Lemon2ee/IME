@@ -4,7 +4,6 @@ import model.enums.FlipDirection;
 import model.enums.GreyScaleValue;
 
 import java.awt.Color;
-import java.util.Arrays;
 
 /**
  * The class represents the model of a PPM image processing queue. Including load image into the
@@ -15,12 +14,12 @@ public class PPMImage implements ImageModel {
   private final Color[][] image;
   private final int height;
   private final int width;
+  private final ImageUtil util;
 
   /**
-   * The constructor of the PPMModel, takes in no argument and initialize the operation queue of the
-   * model.
+   * The default constructor
    *
-   * <p>TODO: edit this
+   * @param image a 2d array which represents a PPM image.
    */
   public PPMImage(Color[][] image) {
     if (image == null) {
@@ -29,10 +28,17 @@ public class PPMImage implements ImageModel {
     this.image = image;
     this.height = this.image.length;
     this.width = this.image[0].length;
+    this.util = new ImageUtil();
   }
 
+  /**
+   * Apply different grey scale configuration to the image.
+   *
+   * @param op the grey scale operation to be performed as a GreyScaleValue
+   * @return A PPMImage with the image after the modification
+   */
   @Override
-  public ImageModel greyScale(GreyScaleValue op) throws IllegalArgumentException {
+  public ImageModel greyScale(GreyScaleValue op) {
     Color[][] src = this.image;
     int height = src.length;
     int width = src[0].length;
@@ -43,42 +49,42 @@ public class PPMImage implements ImageModel {
       case R:
         for (int r = 0; r < height; r++) {
           for (int c = 0; c < width; c++) {
-            output[r][c] = toRed(src[r][c]);
+            output[r][c] = util.toRed(src[r][c]);
           }
         }
         break;
       case G:
         for (int r = 0; r < height; r++) {
           for (int c = 0; c < width; c++) {
-            output[r][c] = toGreen(src[r][c]);
+            output[r][c] = util.toGreen(src[r][c]);
           }
         }
         break;
       case B:
         for (int r = 0; r < height; r++) {
           for (int c = 0; c < width; c++) {
-            output[r][c] = toBlue(src[r][c]);
+            output[r][c] = util.toBlue(src[r][c]);
           }
         }
         break;
       case Value:
         for (int r = 0; r < height; r++) {
           for (int c = 0; c < width; c++) {
-            output[r][c] = toValue(src[r][c]);
+            output[r][c] = util.toValue(src[r][c]);
           }
         }
         break;
       case Luma:
         for (int r = 0; r < height; r++) {
           for (int c = 0; c < width; c++) {
-            output[r][c] = toLuma(src[r][c]);
+            output[r][c] = util.toLuma(src[r][c]);
           }
         }
         break;
       default:
         for (int r = 0; r < height; r++) {
           for (int c = 0; c < width; c++) {
-            output[r][c] = toIntensity(src[r][c]);
+            output[r][c] = util.toIntensity(src[r][c]);
           }
         }
         break;
@@ -87,8 +93,14 @@ public class PPMImage implements ImageModel {
     return new PPMImage(output);
   }
 
+  /**
+   * Change the brightness of the image with given value.
+   *
+   * @param value the value to be changed on the image as an integer
+   * @return A PPMImage with after processed image 2d array
+   */
   @Override
-  public ImageModel changeBrightness(int value) throws IllegalArgumentException {
+  public ImageModel changeBrightness(int value) {
 
     Color[][] src = this.image;
     int height = src.length;
@@ -97,15 +109,21 @@ public class PPMImage implements ImageModel {
     Color[][] output = new Color[height][width];
     for (int r = 0; r < height; r++) {
       for (int c = 0; c < width; c++) {
-        output[r][c] = colorBrightness(src[r][c], value);
+        output[r][c] = util.colorBrightness(src[r][c], value);
       }
     }
 
     return new PPMImage(output);
   }
 
+  /**
+   * Flip the image according to the given direction.
+   *
+   * @param fd the direction of the flip operation as a FlipDirection
+   * @return A PPMImage with after processed image 2d array
+   */
   @Override
-  public ImageModel flip(FlipDirection fd) throws IllegalArgumentException {
+  public ImageModel flip(FlipDirection fd) {
     Color[][] src = this.image;
     Color srcColor;
     int height = src.length;
@@ -131,103 +149,23 @@ public class PPMImage implements ImageModel {
     return new PPMImage(output);
   }
 
+  /**
+   * Deep copy the PPMImage.
+   *
+   * @return A deep copy of this class
+   */
   @Override
   public ImageModel copy() {
     return new PPMImage(this.image);
   }
 
   /**
-   * Perform red component grey scale on a rgb pixel.
+   * Convert the 2d color array to a single string.
    *
-   * @param origin the original pixel for grey scale as Color
-   * @return the new pixel after grey scale as Color
+   * @return A string represent the content of a PPM file
    */
-  private Color toRed(Color origin) {
-    return new Color(origin.getRed(), origin.getRed(), origin.getRed());
-  }
-
-  /**
-   * Perform green component grey scale on a rgb pixel.
-   *
-   * @param origin the original pixel for grey scale as Color
-   * @return the new pixel after grey scale as Color
-   */
-  private Color toGreen(Color origin) {
-    return new Color(origin.getGreen(), origin.getGreen(), origin.getGreen());
-  }
-
-  /**
-   * Perform blue component grey scale on a rgb pixel.
-   *
-   * @param origin the original pixel for grey scale as Color
-   * @return the new pixel after grey scale as Color
-   */
-  private Color toBlue(Color origin) {
-    return new Color(origin.getBlue(), origin.getBlue(), origin.getBlue());
-  }
-
-  /**
-   * Perform maximum component grey scale on a rgb pixel.
-   *
-   * @param origin the original pixel for grey scale as Color
-   * @return the new pixel after grey scale as Color
-   */
-  private Color toValue(Color origin) {
-    int maxValue = Math.max(origin.getRed(), Math.max(origin.getGreen(), origin.getBlue()));
-    return new Color(maxValue, maxValue, maxValue);
-  }
-
-  /**
-   * Perform intensity value grey scale on a rgb pixel.
-   *
-   * @param origin the original pixel for the grey scale as Color
-   * @return the new pixel after grey scale as Color
-   */
-  private Color toIntensity(Color origin) {
-    double preAvg = (origin.getRed() + origin.getGreen() + origin.getBlue()) / 3.0;
-    int intAvg = (int) Math.round(preAvg);
-    return new Color(intAvg, intAvg, intAvg);
-  }
-
-  /**
-   * Perform luma value grey scale on a rgb pixel.
-   *
-   * @param origin the original pixel for the grey scale as Color
-   * @return the new pixel after grey scale as Color
-   */
-  private Color toLuma(Color origin) {
-    double luma = 0.2126 * origin.getRed() + 0.7152 * origin.getGreen() + 0.0722 * origin.getBlue();
-    int intLuma = (int) Math.round(luma);
-    return new Color(intLuma, intLuma, intLuma);
-  }
-
-  /**
-   * Change the rgb brightness of a pixel with given value.
-   *
-   * @param origin the original pixel to change the brightness as Color
-   * @param value the value to be changed for the color brightness
-   * @return the new pixel after changing brightness as Color
-   */
-  private Color colorBrightness(Color origin, int value) {
-    int newR = origin.getRed() + value;
-    int newG = origin.getGreen() + value;
-    int newB = origin.getBlue() + value;
-
-    if (value > 0) {
-      newR = Math.min(newR, 255);
-      newG = Math.min(newG, 255);
-      newB = Math.min(newB, 255);
-    } else {
-      newR = Math.max(newR, 0);
-      newG = Math.max(newG, 0);
-      newB = Math.max(newB, 0);
-    }
-
-    return new Color(newR, newG, newB);
-  }
-
   @Override
-  public String toString() {
+  public String imageToString() {
     StringBuilder image = new StringBuilder();
     StringBuilder header = new StringBuilder();
 

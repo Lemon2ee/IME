@@ -5,9 +5,7 @@ import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.FileInputStream;
 
-/**
- * This class contains utility methods to read a PPM image from file and simply print its contents.
- */
+/** This class contains utility methods to read an image from file and manipulate a color */
 public class ImageUtil {
 
   /**
@@ -65,5 +63,95 @@ public class ImageUtil {
     }
 
     return colorArray;
+  }
+
+  /**
+   * Perform red component grey scale on a rgb pixel.
+   *
+   * @param origin the original pixel for grey scale as Color
+   * @return the new pixel after grey scale as Color
+   */
+  public Color toRed(Color origin) {
+    return new Color(origin.getRed(), origin.getRed(), origin.getRed());
+  }
+
+  /**
+   * Perform green component grey scale on a rgb pixel.
+   *
+   * @param origin the original pixel for grey scale as Color
+   * @return the new pixel after grey scale as Color
+   */
+  public Color toGreen(Color origin) {
+    return new Color(origin.getGreen(), origin.getGreen(), origin.getGreen());
+  }
+
+  /**
+   * Perform blue component grey scale on a rgb pixel.
+   *
+   * @param origin the original pixel for grey scale as Color
+   * @return the new pixel after grey scale as Color
+   */
+  public Color toBlue(Color origin) {
+    return new Color(origin.getBlue(), origin.getBlue(), origin.getBlue());
+  }
+
+  /**
+   * Perform maximum component grey scale on a rgb pixel.
+   *
+   * @param origin the original pixel for grey scale as Color
+   * @return the new pixel after grey scale as Color
+   */
+  public Color toValue(Color origin) {
+    int maxValue = Math.max(origin.getRed(), Math.max(origin.getGreen(), origin.getBlue()));
+    return new Color(maxValue, maxValue, maxValue);
+  }
+
+  /**
+   * Perform intensity value grey scale on a rgb pixel.
+   *
+   * @param origin the original pixel for the grey scale as Color
+   * @return the new pixel after grey scale as Color
+   */
+  public Color toIntensity(Color origin) {
+    double preAvg = (origin.getRed() + origin.getGreen() + origin.getBlue()) / 3.0;
+    int intAvg = (int) Math.round(preAvg);
+    return new Color(intAvg, intAvg, intAvg);
+  }
+
+  /**
+   * Perform luma value grey scale on a rgb pixel.
+   *
+   * @param origin the original pixel for the grey scale as Color
+   * @return the new pixel after grey scale as Color
+   */
+  public Color toLuma(Color origin) {
+    double luma = 0.2126 * origin.getRed() + 0.7152 * origin.getGreen() + 0.0722 * origin.getBlue();
+    int intLuma = (int) Math.round(luma);
+    return new Color(intLuma, intLuma, intLuma);
+  }
+
+  /**
+   * Change the rgb brightness of a pixel with given value.
+   *
+   * @param origin the original pixel to change the brightness as Color
+   * @param value the value to be changed for the color brightness
+   * @return the new pixel after changing brightness as Color
+   */
+  public Color colorBrightness(Color origin, int value) {
+    int newR = origin.getRed() + value;
+    int newG = origin.getGreen() + value;
+    int newB = origin.getBlue() + value;
+
+    if (value > 0) {
+      newR = Math.min(newR, 255);
+      newG = Math.min(newG, 255);
+      newB = Math.min(newB, 255);
+    } else {
+      newR = Math.max(newR, 0);
+      newG = Math.max(newG, 0);
+      newB = Math.max(newB, 0);
+    }
+
+    return new Color(newR, newG, newB);
   }
 }

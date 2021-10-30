@@ -3,10 +3,10 @@ package controller.knownCommands;
 import model.Image.ImageModel;
 import model.ImageLibrary.ImageLibModel;
 
-public class brighten extends ABSCommand {
+public class Brighten extends ABSCommand {
   String value;
 
-  public brighten(String origin, String destination, String value) {
+  public Brighten(String origin, String destination, String value) {
     super(origin, destination);
     this.value = value;
   }
