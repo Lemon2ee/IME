@@ -1,6 +1,6 @@
-package model.ImageLibrary;
+package model.imageLibrary;
 
-import model.Image.ImageModel;
+import model.image.ImageModel;
 
 import java.util.HashMap;
 import java.util.Map;

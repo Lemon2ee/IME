@@ -1,4 +1,4 @@
-package controller.Utils;
+package controller.utils;
 
 import java.io.File;
 

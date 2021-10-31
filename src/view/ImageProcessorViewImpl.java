@@ -1,6 +1,6 @@
 package view;
 
-import model.ImageLibrary.ReadOnlyImageLibModel;
+import model.imageLibrary.ReadOnlyImageLibModel;
 
 import java.io.IOException;
 

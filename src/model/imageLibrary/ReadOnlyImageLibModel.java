@@ -1,6 +1,6 @@
-package model.ImageLibrary;
+package model.imageLibrary;
 
-import model.Image.ImageModel;
+import model.image.ImageModel;
 
 /**
  * An interface represents the read only ImageLibModel which provides limited access to the model.

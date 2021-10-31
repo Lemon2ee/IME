@@ -1,4 +1,4 @@
-package model.Image;
+package model.image;
 
 import model.enums.FlipDirection;
 import model.enums.GreyScaleValue;

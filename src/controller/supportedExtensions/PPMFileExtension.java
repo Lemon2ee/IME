@@ -1,8 +1,8 @@
 package controller.supportedExtensions;
 
-import model.Image.ImageFile;
-import model.Image.ImageModel;
-import model.Image.ImageUtil;
+import model.image.ImageFile;
+import model.image.ImageModel;
+import model.image.ImageUtil;
 
 public class PPMFileExtension implements FileFormatSupport {
   @Override

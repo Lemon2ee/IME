@@ -1,6 +1,6 @@
-package model.Image;
+package model.image;
 
-import controller.Utils.ControllerUtils;
+import controller.utils.ControllerUtils;
 
 import java.awt.*;
 import java.io.*;

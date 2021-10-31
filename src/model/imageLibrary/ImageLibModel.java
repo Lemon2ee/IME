@@ -1,6 +1,6 @@
-package model.ImageLibrary;
+package model.imageLibrary;
 
-import model.Image.ImageModel;
+import model.image.ImageModel;
 
 /** A class represents the ImageLibModel with all privileges to a ImageLibModel. */
 public interface ImageLibModel extends ReadOnlyImageLibModel {
