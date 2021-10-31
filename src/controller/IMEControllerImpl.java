@@ -1,7 +1,7 @@
 package controller;
 
 import controller.knownCommands.*;
-import model.ImageLibrary.ImageLibModel;
+import model.imageLibrary.ImageLibModel;
 import model.enums.FlipDirection;
 import model.enums.GreyScaleValue;
 import view.ImageProcessorView;

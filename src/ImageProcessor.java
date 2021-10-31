@@ -1,6 +1,6 @@
 import controller.IMEController;
 import controller.IMEControllerImpl;
-import model.ImageLibrary.ImageLib;
+import model.imageLibrary.ImageLib;
 import view.ImageProcessorView;
 import view.ImageProcessorViewImpl;
 

@@ -1,5 +1,5 @@
-import model.Image.ImageFile;
-import model.Image.ImageModel;
+import model.image.ImageFile;
+import model.image.ImageModel;
 import model.enums.FlipDirection;
 import model.enums.GreyScaleValue;
 import org.junit.Before;

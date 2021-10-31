@@ -1,7 +1,7 @@
 package controller.knownCommands;
 
-import model.Image.ImageModel;
-import model.ImageLibrary.ImageLibModel;
+import model.image.ImageModel;
+import model.imageLibrary.ImageLibModel;
 
 public class Brighten extends ABSCommand {
   String value;
