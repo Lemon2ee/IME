@@ -1,5 +1,7 @@
 package model.Image;
 
+import java.awt.*;
+
 /** An interface represents a read only Image model which provides limited access. */
 public interface ReadOnlyImageModel {
   /**
@@ -9,10 +11,9 @@ public interface ReadOnlyImageModel {
    */
   ReadOnlyImageModel copyReadOnly();
 
-  /**
-   * Convert an image to string.
-   *
-   * @return A single string that represents the content of a specific image
-   */
-  String imageToString();
+  int getHeight();
+
+  int getWidth();
+
+  Color[][] imageArrayCopy();
 }

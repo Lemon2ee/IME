@@ -1,14 +1,11 @@
 package controller;
 
 import controller.knownCommands.*;
-import controller.supportedExtensions.FileFormatSupport;
-import controller.supportedExtensions.PPMFileExtension;
 import model.ImageLibrary.ImageLibModel;
 import model.enums.FlipDirection;
 import model.enums.GreyScaleValue;
 import view.ImageProcessorView;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +47,6 @@ public class IMEControllerImpl implements IMEController {
   public void initProcessor() throws IllegalStateException {
     Scanner scanner = new Scanner(this.readable);
     Map<String, Function<String[], IMECommand>> knownCommands = new HashMap<>();
-    Map<String, FileFormatSupport> knownExtension = new HashMap<>();
 
     try {
       // following command block might throw index out of bound exception
@@ -75,9 +71,8 @@ public class IMEControllerImpl implements IMEController {
           "luma-component",
           (String[] s) -> new ComponentGreyScale(s[1], s[2], GreyScaleValue.Luma));
       knownCommands.put("brighten", (String[] s) -> new Brighten(s[2], s[3], s[1]));
-
-      // put supported file extension
-      knownExtension.put(".ppm", new PPMFileExtension());
+      knownCommands.put("load", (String[] s) -> new Load(s[1], s[2]));
+      knownCommands.put("save", (String[] s) -> new Save(s[2], s[1]));
 
       while (scanner.hasNextLine()) {
         String lineCommand = scanner.nextLine();
@@ -96,41 +91,12 @@ public class IMEControllerImpl implements IMEController {
           // execute given commands
           try {
             // TODO: better implementation
-            switch (command) {
-                // load file with different extension as different ImageModel to the library
-              case "load":
-                // utilize file object to parse the given path
-                File theFile = new File(commandInArray[1]);
-                String fileName = theFile.getName();
-                // get the extension, should be the last .xxx in the file path
-                String extension = fileName.substring(fileName.lastIndexOf("."));
-                // find the correct ImageModel constructor in the knownFileExtension map
-                FileFormatSupport fileFormatSupportFunction =
-                    knownExtension.getOrDefault(extension.toLowerCase(), null);
-
-                // throw exception if it is an unsupported file format
-                if (fileFormatSupportFunction == null) {
-                  throw new IllegalArgumentException("Unsupported extension " + extension + "\n");
-                }
-
-                // if everything worked out fine, add the ImageModel to the library
-                this.libModel.addToLib(
-                    commandInArray[2], fileFormatSupportFunction.constructModel(commandInArray[1]));
-                break;
-                // save the designated image to the designated filepath
-              case "save":
-                this.view.save(commandInArray[2], commandInArray[1]);
-                break;
-                // if it isn't load or save, then lookup the supported command map
-              default:
-                Function<String[], IMECommand> cmd = knownCommands.getOrDefault(command, null);
-                if (cmd == null) {
-                  throw new IllegalArgumentException("Unsupported command " + command + "\n");
-                } else {
-                  c = cmd.apply(commandInArray);
-                  c.execute(this.libModel);
-                }
-                break;
+            Function<String[], IMECommand> cmd = knownCommands.getOrDefault(command, null);
+            if (cmd == null) {
+              throw new IllegalArgumentException("Unsupported command " + command + "\n");
+            } else {
+              c = cmd.apply(commandInArray);
+              c.execute(this.libModel);
             }
           } catch (IllegalArgumentException e) {
             // print error message from the exception received from the model or because of

@@ -1,9 +1,14 @@
 package model.Image;
 
-import java.awt.Color;
+import controller.Utils.ControllerUtils;
+
+import java.awt.*;
+import java.io.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
-import java.io.FileNotFoundException;
-import java.io.FileInputStream;
+import java.util.function.Function;
 
 /** This class contains utility methods to read an image from file and manipulate a color */
 public class ImageUtil {
@@ -107,6 +112,16 @@ public class ImageUtil {
   }
 
   /**
+   * Perform maximum component grey scale on a rgb pixel.
+   *
+   * @param origin the original pixel for grey scale as Color
+   * @return the new pixel after grey scale as Color
+   */
+  public Color toAlpha(Color origin) {
+    return new Color(origin.getAlpha(), origin.getAlpha(), origin.getAlpha());
+  }
+
+  /**
    * Perform intensity value grey scale on a rgb pixel.
    *
    * @param origin the original pixel for the grey scale as Color
@@ -153,5 +168,71 @@ public class ImageUtil {
     }
 
     return new Color(newR, newG, newB);
+  }
+
+  public void writeImage(String filepath, ReadOnlyImageModel model) {
+    Map<String, Function<Color[][], String>> map = new HashMap<>();
+    map.put(".ppm", this::ppmToString);
+
+    String extension = new ControllerUtils().getExtension(filepath);
+
+    Color[][] image = model.imageArrayCopy();
+
+    if (image == null) {
+      throw new IllegalArgumentException("Somehow get an null array");
+    }
+
+    Function<Color[][], String> toStringFunction = map.getOrDefault(extension.toLowerCase(), null);
+
+    // throw exception if it is an unsupported file format
+    if (toStringFunction == null) {
+      throw new IllegalArgumentException("Unsupported output format " + extension + "\n");
+    }
+
+    // writing to local file
+    File file = new File(filepath);
+
+    if (filepath.contains("/")) {
+      boolean createParent = file.getParentFile().mkdirs();
+    }
+
+    try {
+      FileWriter writer = new FileWriter(file, false);
+      writer.write(this.ppmToString(image));
+      writer.flush();
+      writer.close();
+    } catch (IOException e) {
+      throw new IllegalArgumentException(e.getMessage());
+    }
+  }
+
+  private String ppmToString(Color[][] array) {
+    StringBuilder image = new StringBuilder();
+    StringBuilder header = new StringBuilder();
+
+    int height = array.length;
+    int width = array[0].length;
+
+    System.out.print(Arrays.deepToString(array));
+
+    for (Color[] colorRow : array) {
+      for (Color color : colorRow) {
+        int redValue = color.getRed();
+        int greenValue = color.getGreen();
+        int blueValue = color.getBlue();
+        image.append(redValue).append("\n");
+        image.append(greenValue).append("\n");
+        image.append(blueValue).append("\n");
+      }
+    }
+
+    header.append("P3\n");
+    header.append(
+        "# Created by Image Manipulation and Enhancement (IME) written by JerryGCDing "
+            + "and Lemon2ee\n");
+    header.append(width).append(" ").append(height).append("\n");
+    header.append("255").append("\n");
+    header.append("# end of the header\n");
+    return header.append(image).toString();
   }
 }

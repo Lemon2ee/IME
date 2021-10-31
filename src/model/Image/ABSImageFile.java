@@ -3,28 +3,24 @@ package model.Image;
 import model.enums.FlipDirection;
 import model.enums.GreyScaleValue;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-/**
- * The class represents the model of a PPM image processing queue. Including load image into the
- * queue, perform grey scale operation, change the image brightness, flip target image and save the
- * image to given file path.
- */
-public class PPMImage implements ImageModel {
-  private final Color[][] image;
-  private final int height;
-  private final int width;
-  private final ImageUtil util;
+public abstract class ABSImageFile implements ImageModel {
+  protected final Color[][] image;
+  protected final int height;
+  protected final int width;
+  protected final ImageUtil util;
+  protected final Map<GreyScaleValue, Function<Color, Color>> greyScaleValueFunctionMap;
 
   /**
    * The default constructor
    *
    * @param image a 2d array which represents a PPM image.
    */
-  public PPMImage(Color[][] image) {
+  public ABSImageFile(Color[][] image) {
     if (image == null) {
       throw new IllegalArgumentException("Require non null arguments");
     }
@@ -32,6 +28,13 @@ public class PPMImage implements ImageModel {
     this.height = this.image.length;
     this.width = this.image[0].length;
     this.util = new ImageUtil();
+    this.greyScaleValueFunctionMap = new HashMap<>();
+    greyScaleValueFunctionMap.put(GreyScaleValue.R, this.util::toRed);
+    greyScaleValueFunctionMap.put(GreyScaleValue.G, this.util::toGreen);
+    greyScaleValueFunctionMap.put(GreyScaleValue.B, this.util::toBlue);
+    greyScaleValueFunctionMap.put(GreyScaleValue.Intensity, this.util::toIntensity);
+    greyScaleValueFunctionMap.put(GreyScaleValue.Luma, this.util::toLuma);
+    greyScaleValueFunctionMap.put(GreyScaleValue.Value, this.util::toValue);
   }
 
   /**
@@ -42,17 +45,9 @@ public class PPMImage implements ImageModel {
    */
   @Override
   public ImageModel greyScale(GreyScaleValue op) {
-    Map<GreyScaleValue, Function<Color, Color>> greyScaleValueFunctionMap = new HashMap<>();
-    greyScaleValueFunctionMap.put(GreyScaleValue.R, this.util::toRed);
-    greyScaleValueFunctionMap.put(GreyScaleValue.G, this.util::toGreen);
-    greyScaleValueFunctionMap.put(GreyScaleValue.B, this.util::toBlue);
-    greyScaleValueFunctionMap.put(GreyScaleValue.Intensity, this.util::toIntensity);
-    greyScaleValueFunctionMap.put(GreyScaleValue.Luma, this.util::toLuma);
-    greyScaleValueFunctionMap.put(GreyScaleValue.Value, this.util::toValue);
-
     Function<Color, Color> colorFunction;
 
-    colorFunction = greyScaleValueFunctionMap.getOrDefault(op, null);
+    colorFunction = this.greyScaleValueFunctionMap.getOrDefault(op, null);
 
     if (colorFunction == null) {
       throw new IllegalArgumentException("Haven't support this grey scale value operation");
@@ -66,7 +61,7 @@ public class PPMImage implements ImageModel {
       }
     }
 
-    return new PPMImage(output);
+    return new ImageFile(output);
   }
 
   /**
@@ -89,7 +84,7 @@ public class PPMImage implements ImageModel {
       }
     }
 
-    return new PPMImage(output);
+    return new ImageFile(output);
   }
 
   /**
@@ -122,7 +117,7 @@ public class PPMImage implements ImageModel {
       }
     }
 
-    return new PPMImage(output);
+    return new ImageFile(output);
   }
 
   /**
@@ -132,7 +127,7 @@ public class PPMImage implements ImageModel {
    */
   @Override
   public ImageModel copy() {
-    return new PPMImage(this.image);
+    return new ImageFile(this.image);
   }
 
   /**
@@ -141,38 +136,33 @@ public class PPMImage implements ImageModel {
    * @return an ReadOnlyImageModel that has the same content but different memory address
    */
   @Override
-  public ReadOnlyImageModel copyReadOnly() {
-    return this.copy();
+  public abstract ReadOnlyImageModel copyReadOnly();
+
+  @Override
+  public int getHeight() {
+    return this.height;
   }
 
-  /**
-   * Convert the 2d color array to a single string.
-   *
-   * @return A string represent the content of a PPM file
-   */
   @Override
-  public String imageToString() {
-    StringBuilder image = new StringBuilder();
-    StringBuilder header = new StringBuilder();
+  public int getWidth() {
+    return this.width;
+  }
 
-    for (Color[] colorRow : this.image) {
-      for (Color color : colorRow) {
-        int redValue = color.getRed();
-        int greenValue = color.getGreen();
-        int blueValue = color.getBlue();
-        image.append(redValue).append("\n");
-        image.append(greenValue).append("\n");
-        image.append(blueValue).append("\n");
+  @Override
+  public Color[][] imageArrayCopy() {
+    Color[][] output = new Color[this.height][this.width];
+
+    for (int row = 0; row < this.height; row++) {
+      for (int col = 0; col < this.width; col++) {
+        Color old = this.image[row][col];
+        int red = old.getRed();
+        int green = old.getGreen();
+        int blue = old.getBlue();
+        Color newColor = new Color(red, green, blue);
+
+        output[row][col] = newColor;
       }
     }
-
-    header.append("P3\n");
-    header.append(
-        "# Created by Image Manipulation and Enhancement (IME) written by JerryGCDing "
-            + "and Lemon2ee\n");
-    header.append(this.width).append(" ").append(this.height).append("\n");
-    header.append("255").append("\n");
-    header.append("# end of the header\n");
-    return header.append(image).toString();
+    return output;
   }
 }

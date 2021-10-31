@@ -12,13 +12,4 @@ public interface ImageProcessorView {
    *     fails
    */
   void renderMessage(String message) throws IOException;
-
-  /**
-   * Save an image to the given file path.
-   *
-   * @param imageName The given image name (also the key) to identify which image to export
-   * @param filePath The given file path where the image will be stored.
-   * @throws IllegalArgumentException when the method failed to write the file
-   */
-  void save(String imageName, String filePath) throws IOException;
 }
