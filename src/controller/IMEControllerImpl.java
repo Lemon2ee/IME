@@ -1,9 +1,9 @@
 package controller;
 
 import controller.knownCommands.*;
-import model.imageLibrary.ImageLibModel;
 import model.enums.FlipDirection;
 import model.enums.GreyScaleValue;
+import model.imageLibrary.ImageLibModel;
 import view.ImageProcessorView;
 
 import java.io.IOException;

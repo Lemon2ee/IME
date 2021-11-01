@@ -1,8 +1,8 @@
 package controller.knownCommands;
 
-import controller.utils.ControllerUtils;
+import utils.ControllerUtils;
 import model.image.ImageFile;
-import model.image.ImageUtil;
+import utils.ImageUtil;
 import model.imageLibrary.ImageLibModel;
 
 import java.awt.*;

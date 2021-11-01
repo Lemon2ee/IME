@@ -2,6 +2,7 @@ package model.image;
 
 import model.enums.FlipDirection;
 import model.enums.GreyScaleValue;
+import utils.ImageUtil;
 
 import java.awt.*;
 import java.util.HashMap;

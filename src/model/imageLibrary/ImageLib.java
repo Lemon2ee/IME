@@ -41,6 +41,10 @@ public class ImageLib implements ImageLibModel {
    */
   @Override
   public ImageModel read(String key) throws IllegalArgumentException {
+    if (key == null) {
+      throw new IllegalArgumentException("Does not accept null arguments");
+    }
+
     ImageModel imageModel = this.dictionary.getOrDefault(key, null);
 
     if (imageModel == null) {

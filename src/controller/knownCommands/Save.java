@@ -1,6 +1,6 @@
 package controller.knownCommands;
 
-import model.image.ImageUtil;
+import utils.ImageUtil;
 import model.imageLibrary.ImageLibModel;
 
 import java.io.IOException;
