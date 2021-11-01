@@ -1,17 +1,14 @@
-import model.image.ImageFile;
-import model.image.ImageModel;
 import model.enums.FlipDirection;
 import model.enums.GreyScaleValue;
+import model.image.ImageFile;
+import model.image.ImageModel;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.awt.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 /**
- * The JUnit test class for PPMModel class. Including tests for load and save an image and all
+ * The JUnit test class for ImageFile class. Including tests for load and save an image and all
  * necessary image processing operations.
  */
 public class PPMImageTest {
@@ -79,6 +76,8 @@ public class PPMImageTest {
 
   ImageModel model;
 
+  TestUtils testUtils = new TestUtils();
+
   @Before
   public void setup() {
     model = new ImageFile(sampleImage);
@@ -91,102 +90,92 @@ public class PPMImageTest {
 
   @Test
   public void testimageArrayCopy() {
-    assertTrue(compareTwoColorArrays(sampleImage, model.imageArrayCopy()));
+    this.testUtils.compareTwoColorArrays(sampleImage, model.imageArrayCopy());
   }
 
   @Test
   public void testFlippedVertical() {
     ImageModel result = model.flip(FlipDirection.Vertical);
-    assertTrue(compareTwoColorArrays(verticalFlippedSample, result.imageArrayCopy()));
+    this.testUtils.compareTwoColorArrays(verticalFlippedSample, result.imageArrayCopy());
   }
 
   @Test
   public void testFlippedHorizontal() {
     ImageModel result = model.flip(FlipDirection.Horizontal);
-    assertTrue(compareTwoColorArrays(horizontalFlippedSample, result.imageArrayCopy()));
+    this.testUtils.compareTwoColorArrays(horizontalFlippedSample, result.imageArrayCopy());
   }
 
   @Test
   public void testFlipVerticalThenHorizontal() {
     ImageModel vertical = model.flip(FlipDirection.Vertical);
     ImageModel result = vertical.flip(FlipDirection.Horizontal);
-    assertTrue(compareTwoColorArrays(diagonalFlippedSample, result.imageArrayCopy()));
+    this.testUtils.compareTwoColorArrays(diagonalFlippedSample, result.imageArrayCopy());
   }
 
   @Test
   public void testFlipHorizontalThenVertical() {
     ImageModel horizontal = model.flip(FlipDirection.Horizontal);
     ImageModel result = horizontal.flip(FlipDirection.Vertical);
-    assertTrue(compareTwoColorArrays(diagonalFlippedSample, result.imageArrayCopy()));
+    this.testUtils.compareTwoColorArrays(diagonalFlippedSample, result.imageArrayCopy());
   }
 
   @Test
   public void testGreyScaleR() {
     ImageModel result = model.greyScale(GreyScaleValue.R);
-    assertTrue(compareTwoColorArrays(greyScaleRImage, result.imageArrayCopy()));
+    this.testUtils.compareTwoColorArrays(greyScaleRImage, result.imageArrayCopy());
   }
 
   @Test
   public void testGreyScaleG() {
     ImageModel result = model.greyScale(GreyScaleValue.G);
-    assertTrue(compareTwoColorArrays(greyScaleGImage, result.imageArrayCopy()));
+    this.testUtils.compareTwoColorArrays(greyScaleGImage, result.imageArrayCopy());
   }
 
   @Test
   public void testGreyScaleB() {
     ImageModel result = model.greyScale(GreyScaleValue.B);
-    assertTrue(compareTwoColorArrays(greyScaleBImage, result.imageArrayCopy()));
+    this.testUtils.compareTwoColorArrays(greyScaleBImage, result.imageArrayCopy());
   }
 
   @Test
   public void testGreyScaleValue() {
     ImageModel result = model.greyScale(GreyScaleValue.Value);
-    assertTrue(compareTwoColorArrays(greyScaleVImage, result.imageArrayCopy()));
+    this.testUtils.compareTwoColorArrays(greyScaleVImage, result.imageArrayCopy());
   }
 
   @Test
   public void testGreyScaleLuma() {
     ImageModel result = model.greyScale(GreyScaleValue.Luma);
-    assertTrue(compareTwoColorArrays(greyScaleLImage, result.imageArrayCopy()));
+    this.testUtils.compareTwoColorArrays(greyScaleLImage, result.imageArrayCopy());
   }
 
   @Test
   public void testGreyScaleIntensity() {
     ImageModel result = model.greyScale(GreyScaleValue.Intensity);
-    assertTrue(compareTwoColorArrays(greyScaleIImage, result.imageArrayCopy()));
+    this.testUtils.compareTwoColorArrays(greyScaleIImage, result.imageArrayCopy());
   }
 
   @Test
   public void testBrighten50() {
     ImageModel result = model.changeBrightness(50);
-    assertTrue(compareTwoColorArrays(brightenImage, result.imageArrayCopy()));
+    this.testUtils.compareTwoColorArrays(brightenImage, result.imageArrayCopy());
   }
 
   @Test
   public void testDarken50() {
     ImageModel result = model.changeBrightness(-50);
-    assertTrue(compareTwoColorArrays(darkenImage, result.imageArrayCopy()));
+    this.testUtils.compareTwoColorArrays(darkenImage, result.imageArrayCopy());
   }
 
   @Test
   public void testOverBrighten() {
     ImageModel result = model.changeBrightness(256);
-    assertTrue(compareTwoColorArrays(overBrightenImage, result.imageArrayCopy()));
+    this.testUtils.compareTwoColorArrays(overBrightenImage, result.imageArrayCopy());
   }
 
   @Test
   public void testOverDarkenImage() {
     ImageModel result = model.changeBrightness(-256);
-    assertTrue(compareTwoColorArrays(overDarkenImage, result.imageArrayCopy()));
-  }
-
-  private boolean compareTwoColorArrays(Color[][] actual, Color[][] expected) {
-    for (int r = 0; r < 2; r++) {
-      for (int c = 0; c < 3; c++) {
-        assertEquals(actual[r][c], expected[r][c]);
-      }
-    }
-
-    return true;
+    this.testUtils.compareTwoColorArrays(overDarkenImage, result.imageArrayCopy());
   }
 }

@@ -1,8 +1,8 @@
 package controller.knownCommands;
 
+import model.enums.FlipDirection;
 import model.image.ImageModel;
 import model.imageLibrary.ImageLibModel;
-import model.enums.FlipDirection;
 
 import java.util.Objects;
 

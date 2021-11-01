@@ -1,8 +1,8 @@
 package controller.knownCommands;
 
+import model.enums.GreyScaleValue;
 import model.image.ImageModel;
 import model.imageLibrary.ImageLibModel;
-import model.enums.GreyScaleValue;
 
 import java.util.Objects;
 
