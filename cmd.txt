@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 load Koala.ppm koala
 
 brighten 10 koala koala-brighter
@@ -25,3 +26,38 @@ save images/koala-gs-luma.ppm koala-greyscale-luma
 save images/koala-gs-intensity.ppm koala-greyscale-intensity
 save images/koala-verti-hori-flip.ppm koala-vertical-horizontal
 save images/koala-verti.ppm koala-vertical
+=======
+load doge.ppm doge
+
+brighten 100 doge doge-brighter
+
+brighten -100 doge doge-darker
+
+vertical-flip doge doge-vertical
+
+horizontal-flip doge-vertical doge-vertical-horizontal
+
+red-component doge doge-greyscale-red
+
+green-component doge doge-greyscale-green
+
+blue-component doge doge-greyscale-blue
+
+luma-component doge doge-greyscale-luma
+
+intensity-component doge doge-greyscale-intensity
+
+value-component doge doge-value
+
+# doge ignore
+save images/doge-brighter.ppm doge-brighter
+save images/doge-darker.ppm doge-darker
+save images/doge-gs-red.ppm doge-greyscale-red
+save images/doge-gs-green.ppm doge-greyscale-green
+save images/doge-gs-blue.ppm doge-greyscale-blue
+save images/doge-gs-luma.ppm doge-greyscale-luma
+save images/doge-gs-intensity.ppm doge-greyscale-intensity
+save images/doge-verti-hori-flip.ppm doge-vertical-horizontal
+save images/doge-verti.ppm doge-vertical
+save images/doge-value.ppm doge-value
+>>>>>>> Stashed changes
