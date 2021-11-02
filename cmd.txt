@@ -1,27 +1,33 @@
-load Koala.ppm koala
+load test.ppm test
 
-brighten 10 koala koala-brighter
+brighten 100 test test-brighter
 
-vertical-flip koala koala-vertical
+brighten -100 test test-darker
 
-horizontal-flip koala-vertical koala-vertical-horizontal
+vertical-flip test test-vertical
 
-red-component koala koala-greyscale-red
+horizontal-flip test-vertical test-vertical-horizontal
 
-green-component koala koala-greyscale-green
+red-component test test-greyscale-red
 
-blue-component koala koala-greyscale-blue
+green-component test test-greyscale-green
 
-luma-component koala koala-greyscale-luma
+blue-component test test-greyscale-blue
 
-intensity-component koala koala-greyscale-intensity
+luma-component test test-greyscale-luma
+
+intensity-component test test-greyscale-intensity
+
+value-component test test-value
 
 # test ignore
-save images/koala-brighter.ppm koala-brighter
-save images/koala-gs-red.ppm koala-greyscale-red
-save images/koala-gs-green.ppm koala-greyscale-green
-save images/koala-gs-blue.ppm koala-greyscale-blue
-save images/koala-gs-luma.ppm koala-greyscale-luma
-save images/koala-gs-intensity.ppm koala-greyscale-intensity
-save images/koala-verti-hori-flip.ppm koala-vertical-horizontal
-save images/koala-verti.ppm koala-vertical
+save images/test-brighter.ppm test-brighter
+save images/test-darker.ppm test-darker
+save images/test-gs-red.ppm test-greyscale-red
+save images/test-gs-green.ppm test-greyscale-green
+save images/test-gs-blue.ppm test-greyscale-blue
+save images/test-gs-luma.ppm test-greyscale-luma
+save images/test-gs-intensity.ppm test-greyscale-intensity
+save images/test-verti-hori-flip.ppm test-vertical-horizontal
+save images/test-verti.ppm test-vertical
+save images/test-value.ppm test-value

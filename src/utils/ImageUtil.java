@@ -2,9 +2,8 @@ package utils;
 
 import model.image.ReadOnlyImageModel;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.*;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -29,7 +28,7 @@ public class ImageUtil {
     try {
       sc = new Scanner(new FileInputStream(filename));
     } catch (FileNotFoundException e) {
-      throw new IllegalArgumentException("File not found");
+      throw new IllegalArgumentException("File not found\n");
     }
 
     StringBuilder builder = new StringBuilder();
@@ -48,7 +47,7 @@ public class ImageUtil {
 
     token = sc.next();
     if (!token.equals("P3")) {
-      throw new IllegalArgumentException("Invalid PPM file: plain RAW file should begin with P3");
+      throw new IllegalArgumentException("Invalid PPM file: plain RAW file should begin with P3\n");
     }
 
     int width = sc.nextInt();
@@ -178,10 +177,6 @@ public class ImageUtil {
 
     Color[][] image = model.imageArrayCopy();
 
-    if (image == null) {
-      throw new IllegalArgumentException("Somehow get an null array");
-    }
-
     Function<Color[][], String> toStringFunction = map.getOrDefault(extension.toLowerCase(), null);
 
     // throw exception if it is an unsupported file format
@@ -212,7 +207,6 @@ public class ImageUtil {
 
     int height = array.length;
     int width = array[0].length;
-
 
     for (Color[] colorRow : array) {
       for (Color color : colorRow) {
