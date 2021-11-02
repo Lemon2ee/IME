@@ -5,6 +5,7 @@ import model.enums.GreyScaleValue;
 import utils.ImageUtil;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -23,19 +24,24 @@ public abstract class ABSImageFile implements ImageModel {
    */
   public ABSImageFile(Color[][] image) {
     if (image == null) {
-      throw new IllegalArgumentException("Require non null arguments");
+      throw new IllegalArgumentException("Require non null arguments\n");
     }
+
+    for (Color[] row : image) {
+      if (row == null) {
+        throw new IllegalArgumentException("Does not accept array with null value in it\n");
+      }
+
+      if (Arrays.asList(row).contains(null)) {
+        throw new IllegalArgumentException("Does not accept array with null value in it\n");
+      }
+    }
+
     this.image = image;
     this.height = this.image.length;
     this.width = this.image[0].length;
     this.util = new ImageUtil();
     this.greyScaleValueFunctionMap = new HashMap<>();
-    greyScaleValueFunctionMap.put(GreyScaleValue.R, this.util::toRed);
-    greyScaleValueFunctionMap.put(GreyScaleValue.G, this.util::toGreen);
-    greyScaleValueFunctionMap.put(GreyScaleValue.B, this.util::toBlue);
-    greyScaleValueFunctionMap.put(GreyScaleValue.Intensity, this.util::toIntensity);
-    greyScaleValueFunctionMap.put(GreyScaleValue.Luma, this.util::toLuma);
-    greyScaleValueFunctionMap.put(GreyScaleValue.Value, this.util::toValue);
   }
 
   /**
@@ -46,12 +52,19 @@ public abstract class ABSImageFile implements ImageModel {
    */
   @Override
   public ImageModel greyScale(GreyScaleValue op) {
+    greyScaleValueFunctionMap.put(GreyScaleValue.R, this.util::toRed);
+    greyScaleValueFunctionMap.put(GreyScaleValue.G, this.util::toGreen);
+    greyScaleValueFunctionMap.put(GreyScaleValue.B, this.util::toBlue);
+    greyScaleValueFunctionMap.put(GreyScaleValue.Intensity, this.util::toIntensity);
+    greyScaleValueFunctionMap.put(GreyScaleValue.Luma, this.util::toLuma);
+    greyScaleValueFunctionMap.put(GreyScaleValue.Value, this.util::toValue);
+
     Function<Color, Color> colorFunction;
 
     colorFunction = this.greyScaleValueFunctionMap.getOrDefault(op, null);
 
     if (colorFunction == null) {
-      throw new IllegalArgumentException("Haven't support this grey scale value operation");
+      throw new IllegalArgumentException("Haven't support this grey scale value operation\n");
     }
 
     Color[][] output = new Color[this.height][this.width];

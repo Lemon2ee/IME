@@ -11,7 +11,7 @@ import java.awt.*;
  * The JUnit test class for ImageFile class. Including tests for load and save an image and all
  * necessary image processing operations.
  */
-public class PPMImageTest {
+public class ImageFileTest {
   Color[][] invalidSample;
   Color[][] sampleImage =
       new Color[][] {

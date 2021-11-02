@@ -51,28 +51,24 @@ public class IMEControllerImpl implements IMEController {
     try {
       // following command block might throw index out of bound exception
       // put supported commands
+      knownCommands.put("horizontal-flip", (String[] s) -> new Flip(s, FlipDirection.Horizontal));
+      knownCommands.put("vertical-flip", (String[] s) -> new Flip(s, FlipDirection.Vertical));
       knownCommands.put(
-          "horizontal-flip", (String[] s) -> new Flip(s[1], s[2], FlipDirection.Horizontal));
+          "red-component", (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.R));
       knownCommands.put(
-          "vertical-flip", (String[] s) -> new Flip(s[1], s[2], FlipDirection.Vertical));
+          "green-component", (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.G));
       knownCommands.put(
-          "red-component", (String[] s) -> new ComponentGreyScale(s[1], s[2], GreyScaleValue.R));
-      knownCommands.put(
-          "green-component", (String[] s) -> new ComponentGreyScale(s[1], s[2], GreyScaleValue.G));
-      knownCommands.put(
-          "blue-component", (String[] s) -> new ComponentGreyScale(s[1], s[2], GreyScaleValue.B));
+          "blue-component", (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.B));
       knownCommands.put(
           "intensity-component",
-          (String[] s) -> new ComponentGreyScale(s[1], s[2], GreyScaleValue.Intensity));
+          (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.Intensity));
       knownCommands.put(
-          "value-component",
-          (String[] s) -> new ComponentGreyScale(s[1], s[2], GreyScaleValue.Value));
+          "value-component", (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.Value));
       knownCommands.put(
-          "luma-component",
-          (String[] s) -> new ComponentGreyScale(s[1], s[2], GreyScaleValue.Luma));
-      knownCommands.put("brighten", (String[] s) -> new Brighten(s[2], s[3], s[1]));
-      knownCommands.put("load", (String[] s) -> new Load(s[1], s[2]));
-      knownCommands.put("save", (String[] s) -> new Save(s[2], s[1]));
+          "luma-component", (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.Luma));
+      knownCommands.put("brighten", Brighten::new);
+      knownCommands.put("load", Load::new);
+      knownCommands.put("save", Save::new);
 
       while (scanner.hasNextLine()) {
         String lineCommand = scanner.nextLine();
@@ -84,7 +80,7 @@ public class IMEControllerImpl implements IMEController {
         // ignore space, # and etc.
         if (!lineCommand.equals("") && lineCommand.charAt(0) != '#') {
           // parse the command input
-          String[] commandInArray = lineCommand.split(" ");
+          String[] commandInArray = lineCommand.split("\\s+");
           String command = commandInArray[0];
           IMECommand c;
 

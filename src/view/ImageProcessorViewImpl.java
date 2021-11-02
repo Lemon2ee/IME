@@ -1,25 +1,20 @@
 package view;
 
-import model.imageLibrary.ReadOnlyImageLibModel;
-
 import java.io.IOException;
 
 /** The implementation of ImageProcessorView which handles all IO related output method. */
 public class ImageProcessorViewImpl implements ImageProcessorView {
   private final Appendable appendable;
-  private final ReadOnlyImageLibModel libModel;
 
   /**
    * The default constructor.
    *
    * @param appendable The appendable object which all output will be flushed to
-   * @param libModel The ImageLibrary which acts like a data source
    */
-  public ImageProcessorViewImpl(Appendable appendable, ReadOnlyImageLibModel libModel) {
-    if (appendable == null || libModel == null) {
+  public ImageProcessorViewImpl(Appendable appendable) {
+    if (appendable == null) {
       throw new IllegalArgumentException("Requires non null arguments");
     }
-    this.libModel = libModel;
     this.appendable = appendable;
   }
 
@@ -31,6 +26,9 @@ public class ImageProcessorViewImpl implements ImageProcessorView {
    */
   @Override
   public void renderMessage(String message) throws IOException {
+    if (message == null) {
+      throw new IllegalArgumentException("No able to render a null object");
+    }
     this.appendable.append(message);
   }
 }
