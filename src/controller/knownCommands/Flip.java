@@ -7,12 +7,15 @@ import model.imageLibrary.ImageLibModel;
 import java.util.Objects;
 
 public class Flip extends ABSCommand {
-  FlipDirection direction;
+  private final FlipDirection direction;
 
-  public Flip(String origin, String destination, FlipDirection direction) {
-    super(origin, destination);
+  public Flip(String[] commands, FlipDirection direction) {
+    super(commands[1], commands[2]);
     Objects.requireNonNull(direction);
     this.direction = direction;
+    if (commands.length > 3) {
+      throw new IllegalArgumentException("Invalid arguments length\n");
+    }
   }
 
   @Override

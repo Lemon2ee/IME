@@ -26,7 +26,7 @@ public class ImageLib implements ImageLibModel {
   @Override
   public void addToLib(String key, ImageModel value) {
     if (key == null || value == null) {
-      throw new IllegalArgumentException("Does not accept null arguments");
+      throw new IllegalArgumentException("Does not accept null arguments\n");
     }
     dictionary.put(key, value);
   }
@@ -42,13 +42,13 @@ public class ImageLib implements ImageLibModel {
   @Override
   public ImageModel read(String key) throws IllegalArgumentException {
     if (key == null) {
-      throw new IllegalArgumentException("Does not accept null arguments");
+      throw new IllegalArgumentException("Does not accept null arguments\n");
     }
 
     ImageModel imageModel = this.dictionary.getOrDefault(key, null);
 
     if (imageModel == null) {
-      throw new IllegalArgumentException("Image not found");
+      throw new IllegalArgumentException("Image Not Found\n");
     }
 
     return imageModel.copy();

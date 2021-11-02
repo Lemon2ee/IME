@@ -61,9 +61,7 @@ public class ImageProcessor {
 
     // at the time, the model should only be ImageLib
     ImageLib model = new ImageLib();
-
-    // might support more output places, but system.out is 
-    ImageProcessorView view = new ImageProcessorViewImpl(System.out, model);
+    ImageProcessorView view = new ImageProcessorViewImpl(System.out);
     IMEController controller = new IMEControllerImpl(model, readable, view);
     // run the program
     controller.initProcessor();

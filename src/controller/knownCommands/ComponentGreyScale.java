@@ -7,12 +7,15 @@ import model.imageLibrary.ImageLibModel;
 import java.util.Objects;
 
 public class ComponentGreyScale extends ABSCommand {
-  GreyScaleValue value;
+  private final GreyScaleValue value;
 
-  public ComponentGreyScale(String origin, String destination, GreyScaleValue value) {
-    super(origin, destination);
+  public ComponentGreyScale(String[] commands, GreyScaleValue value) {
+    super(commands[1], commands[2]);
     Objects.requireNonNull(value);
     this.value = value;
+    if (commands.length > 3) {
+      throw new IllegalArgumentException("Invalid arguments length\n");
+    }
   }
 
   @Override
