@@ -89,7 +89,7 @@ public class ImageFileTest {
   }
 
   @Test
-  public void testimageArrayCopy() {
+  public void testImageArrayCopy() {
     this.testUtils.compareTwoColorArrays(sampleImage, model.imageArrayCopy());
   }
 
