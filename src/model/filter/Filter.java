@@ -34,11 +34,6 @@ public class Filter implements IFilter {
 
   @Override
   public ImageModel execute(ImageModel origin) {
-    int leftKernelInd;
-    int rightKernelInd;
-    int topKernelInd;
-    int bottomKernelInd;
-
     Color[][] src = origin.imageArrayCopy();
     int srcHeight = origin.getHeight();
     int srcWidth = origin.getWidth();
@@ -47,13 +42,44 @@ public class Filter implements IFilter {
 
     for (int r = 0; r < srcHeight; r++) {
       for (int c = 0; c < srcWidth; c++) {
-        leftKernelInd = -Math.max(c - this.halfW, 0);
-        rightKernelInd = 2 * halfW - Math.max(c + this.halfW - srcWidth, 0);
-        topKernelInd = -Math.max(r - this.halfW, 0);
-        bottomKernelInd = 2 * halfW - Math.max(r + this.halfW - srcHeight, 0);
+
+        Color[][] srcKernel = new Color[2 * halfW + 1][2 * halfW + 1];
+        for (int kr = 0; kr <= 2 * halfW; kr++) {
+          for (int kc = 0; kc <= 2 * halfW; kc++) {
+            try {
+              srcKernel[kr][kc] = src[r - halfW + kr][c - halfW + kc];
+            } catch (IndexOutOfBoundsException ibe) {
+              srcKernel[kr][kc] = Color.BLACK;
+            }
+            outputArray[r][c] = applyFilter(srcKernel);
+          }
+        }
       }
     }
 
     return new ImageFile(outputArray);
+  }
+
+  /**
+   * Apply the provided filter to the original image data within the filter kernel.
+   *
+   * @param origin the original image data within the filter kernel as 2d array of Color
+   * @return the value of the kernel center after filtering as Color
+   */
+  private Color applyFilter(Color[][] origin) {
+    int newR = 0;
+    int newG = 0;
+    int newB = 0;
+    for (int r = 0; r <= 2 * halfW; r++) {
+      for (int c = 0; c <= 2 * halfW; c++) {
+        Color src = origin[r][c];
+        double weight = this.kernel[r][c];
+        newR += src.getRed() * weight;
+        newG += src.getGreen() * weight;
+        newB += src.getBlue() * weight;
+      }
+    }
+
+    return new Color(newR, newG, newB);
   }
 }
