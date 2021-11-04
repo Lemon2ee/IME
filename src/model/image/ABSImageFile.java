@@ -1,7 +1,10 @@
 package model.image;
 
+import model.enums.FilterType;
 import model.enums.FlipDirection;
 import model.enums.GreyScaleValue;
+import model.filter.Filter;
+import model.filter.IFilter;
 import utils.ImageUtil;
 
 import java.awt.*;
@@ -44,12 +47,6 @@ public abstract class ABSImageFile implements ImageModel {
     this.greyScaleValueFunctionMap = new HashMap<>();
   }
 
-  /**
-   * Apply different grey scale configuration to the image.
-   *
-   * @param op the grey scale operation to be performed as a GreyScaleValue
-   * @return A PPMImage with the image after the modification
-   */
   @Override
   public ImageModel greyScale(GreyScaleValue op) {
     greyScaleValueFunctionMap.put(GreyScaleValue.R, this.util::toRed);
@@ -78,43 +75,24 @@ public abstract class ABSImageFile implements ImageModel {
     return new ImageFile(output);
   }
 
-  /**
-   * Change the brightness of the image with given value.
-   *
-   * @param value the value to be changed on the image as an integer
-   * @return A PPMImage with after processed image 2d array
-   */
   @Override
   public ImageModel changeBrightness(int value) {
-
-    Color[][] src = this.image;
-    int height = src.length;
-    int width = src[0].length;
-
     Color[][] output = new Color[height][width];
     for (int r = 0; r < height; r++) {
       for (int c = 0; c < width; c++) {
-        output[r][c] = util.colorBrightness(src[r][c], value);
+        output[r][c] = util.colorBrightness(this.image[r][c], value);
       }
     }
 
     return new ImageFile(output);
   }
 
-  /**
-   * Flip the image according to the given direction.
-   *
-   * @param fd the direction of the flip operation as a FlipDirection
-   * @return A PPMImage with after processed image 2d array
-   */
   @Override
   public ImageModel flip(FlipDirection fd) {
     Color[][] src = this.image;
-    Color srcColor;
-    int height = src.length;
-    int width = src[0].length;
 
     Color[][] output = new Color[height][width];
+    Color srcColor;
     if (fd == FlipDirection.Horizontal) {
       for (int r = 0; r < height; r++) {
         for (int c = 0; c < width; c++) {
@@ -132,6 +110,28 @@ public abstract class ABSImageFile implements ImageModel {
     }
 
     return new ImageFile(output);
+  }
+
+  @Override
+  public ImageModel filter(FilterType ft) {
+    IFilter filter;
+    switch (ft) {
+      case Blur:
+        filter = new Filter(new double[][]{{1.0 / 16, 1.0 / 8, 1.0 / 16},
+                {1.0 / 8, 1.0 / 4, 1.0 / 8}, {1.0 / 16, 1.0 / 8, 1.0 / 16}});
+        break;
+      case Sharpen:
+        filter = new Filter(new double[][]{{-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8},
+                {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
+                {-1.0 / 8, 1.0 / 4, 1.0, 1.0 / 4, -1.0 / 8},
+                {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
+                {-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8}});
+        break;
+      default:
+        return new ImageFile(this.imageArrayCopy());
+    }
+
+    return filter.execute(this);
   }
 
   /**

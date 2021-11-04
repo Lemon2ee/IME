@@ -17,8 +17,8 @@ public class Filter implements IFilter {
    * Create a filter kernel with given matrix of filter operation.
    *
    * @param kernel the kernel of the filter as a 2d array of double
-   * @throws IllegalArgumentException if the provided filter kernel is null or not having a
-   *                                  positive odd dimension.
+   * @throws IllegalArgumentException if the provided filter kernel is null or not having an odd
+   *                                  dimension.
    */
   public Filter(double[][] kernel) throws IllegalArgumentException {
     if (kernel == null) {
@@ -51,9 +51,9 @@ public class Filter implements IFilter {
             } catch (IndexOutOfBoundsException ibe) {
               srcKernel[kr][kc] = Color.BLACK;
             }
-            outputArray[r][c] = applyFilter(srcKernel);
           }
         }
+        outputArray[r][c] = applyFilter(srcKernel);
       }
     }
 
@@ -67,9 +67,9 @@ public class Filter implements IFilter {
    * @return the value of the kernel center after filtering as Color
    */
   private Color applyFilter(Color[][] origin) {
-    int newR = 0;
-    int newG = 0;
-    int newB = 0;
+    double newR = 0;
+    double newG = 0;
+    double newB = 0;
     for (int r = 0; r <= 2 * halfW; r++) {
       for (int c = 0; c <= 2 * halfW; c++) {
         Color src = origin[r][c];
@@ -79,7 +79,24 @@ public class Filter implements IFilter {
         newB += src.getBlue() * weight;
       }
     }
+    int intR = clampRange((int) Math.round(newR));
+    int intG = clampRange((int) Math.round(newG));
+    int intB = clampRange((int) Math.round(newB));
 
-    return new Color(newR, newG, newB);
+    return new Color(intR, intG, intB);
+  }
+
+  /**
+   * Clamp the range of the color value into the valid range of 0-255.
+   *
+   * @param value the calculated new channel value
+   * @return the clamped value within the valid range of 0-255
+   */
+  private int clampRange(int value) {
+    if (value < 0) {
+      return 0;
+    } else {
+      return Math.min(value, 255);
+    }
   }
 }
