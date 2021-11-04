@@ -67,9 +67,9 @@ public class Filter implements IFilter {
    * @return the value of the kernel center after filtering as Color
    */
   private Color applyFilter(Color[][] origin) {
-    int newR = 0;
-    int newG = 0;
-    int newB = 0;
+    double newR = 0;
+    double newG = 0;
+    double newB = 0;
     for (int r = 0; r <= 2 * halfW; r++) {
       for (int c = 0; c <= 2 * halfW; c++) {
         Color src = origin[r][c];
@@ -80,6 +80,6 @@ public class Filter implements IFilter {
       }
     }
 
-    return new Color(newR, newG, newB);
+    return new Color((int) Math.round(newR), (int) Math.round(newG), (int) Math.round(newB));
   }
 }
