@@ -144,10 +144,9 @@ public class ImageUtil {
             {0.2126, 0.7152, 0.0722}, {0.2126, 0.7152, 0.0722}});
   }
 
-  /////// NOT YET TESTED ///////////////////
   public Color toSepia(Color origin) {
     return colorTransform(origin, new double[][]{{0.393, 0.769, 0.189}, {0.349, 0.686, 0.168},
-            {0.272, 0534, 0.131}});
+            {0.272, 0.534, 0.131}});
   }
 
   /**
@@ -165,7 +164,6 @@ public class ImageUtil {
     return new Color(clampRange(newR), clampRange(newG), clampRange(newB));
   }
 
-  /////// NOT YET TESTED ///////////////////
   /**
    * Perform a linear color transformation by using the transform value matrix.
    *
@@ -174,7 +172,7 @@ public class ImageUtil {
    * @return the new color after transformation as Color
    * @throws IllegalArgumentException if the transformMatrix null or dimension is invalid
    */
-  public Color colorTransform(Color origin, double[][] transformMatrix)
+  private Color colorTransform(Color origin, double[][] transformMatrix)
           throws IllegalArgumentException {
     if (transformMatrix == null) {
       throw new IllegalArgumentException("The transformation matrix cannot be null.");
@@ -197,7 +195,6 @@ public class ImageUtil {
             clampRange((int) Math.round(newB)));
   }
 
-  /////// NOT YET TESTED ///////////////////
   /**
    * Clamp the range of the color value into the valid range of 0-255.
    *
