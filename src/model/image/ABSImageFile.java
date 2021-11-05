@@ -47,6 +47,7 @@ public abstract class ABSImageFile implements ImageModel {
     this.greyScaleValueFunctionMap = new HashMap<>();
   }
 
+  ///////// NOT YET TESTED ////////////////////////////
   @Override
   public ImageModel greyScale(GreyScaleValue op) {
     greyScaleValueFunctionMap.put(GreyScaleValue.R, this.util::toRed);
@@ -55,6 +56,7 @@ public abstract class ABSImageFile implements ImageModel {
     greyScaleValueFunctionMap.put(GreyScaleValue.Intensity, this.util::toIntensity);
     greyScaleValueFunctionMap.put(GreyScaleValue.Luma, this.util::toLuma);
     greyScaleValueFunctionMap.put(GreyScaleValue.Value, this.util::toValue);
+    greyScaleValueFunctionMap.put(GreyScaleValue.Sepia, this.util::toSepia);
 
     Function<Color, Color> colorFunction;
 

@@ -7,5 +7,6 @@ public enum GreyScaleValue {
   Value, // Grey Scale operation by its maximum channel value
   Intensity, // Grey Scale operation by its calculated intensity
   Luma, // Grey Scale operation by its calculated Luma
-  Alpha
+  Alpha, // Grey Scale operation by its Alpha channel value
+  Sepia // Sepia tone operation NOT actually grey scale
 }

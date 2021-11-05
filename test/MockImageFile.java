@@ -1,9 +1,10 @@
+import model.enums.FilterType;
 import model.enums.FlipDirection;
 import model.enums.GreyScaleValue;
 import model.image.ImageModel;
 import model.image.ReadOnlyImageModel;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Objects;
 
 public class MockImageFile implements ImageModel {
@@ -29,6 +30,12 @@ public class MockImageFile implements ImageModel {
   @Override
   public ImageModel flip(FlipDirection fd) {
     log.append("Received FlipDirection = ").append(fd).append("\n");
+    return new MockImageFile(this.log);
+  }
+
+  @Override
+  public ImageModel filter(FilterType ft) {
+    log.append("Received FilterType = ").append(ft).append("\n");
     return new MockImageFile(this.log);
   }
 

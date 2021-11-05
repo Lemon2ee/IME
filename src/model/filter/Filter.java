@@ -1,9 +1,10 @@
 package model.filter;
 
-import java.awt.*;
+import java.awt.Color;
 
 import model.image.ImageFile;
 import model.image.ImageModel;
+import utils.ImageUtil;
 
 /**
  * The class to represent a common image filter. It takes in a 2d array as filter kernel and
@@ -11,6 +12,7 @@ import model.image.ImageModel;
  */
 public class Filter implements IFilter {
   private final double[][] kernel;
+  private final ImageUtil utils;
   private final int halfW;
 
   /**
@@ -30,6 +32,7 @@ public class Filter implements IFilter {
     }
     this.halfW = width / 2;
     this.kernel = kernel;
+    this.utils = new ImageUtil();
   }
 
   @Override
@@ -79,24 +82,10 @@ public class Filter implements IFilter {
         newB += src.getBlue() * weight;
       }
     }
-    int intR = clampRange((int) Math.round(newR));
-    int intG = clampRange((int) Math.round(newG));
-    int intB = clampRange((int) Math.round(newB));
+    int intR = utils.clampRange((int) Math.round(newR));
+    int intG = utils.clampRange((int) Math.round(newG));
+    int intB = utils.clampRange((int) Math.round(newB));
 
     return new Color(intR, intG, intB);
-  }
-
-  /**
-   * Clamp the range of the color value into the valid range of 0-255.
-   *
-   * @param value the calculated new channel value
-   * @return the clamped value within the valid range of 0-255
-   */
-  private int clampRange(int value) {
-    if (value < 0) {
-      return 0;
-    } else {
-      return Math.min(value, 255);
-    }
   }
 }
