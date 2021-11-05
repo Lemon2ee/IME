@@ -1,65 +1,65 @@
 import model.image.ImageFile;
-import model.image.ImageModel;
 import model.image.ReadOnlyImageModel;
-import model.imageLibrary.ReadOnlyImageLibModel;
+
 import org.junit.Test;
+
 import utils.ImageUtil;
 
-import java.awt.*;
+import java.awt.Color;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class ImageUtilTest {
   ImageUtil util = new ImageUtil();
 
   @Test
-  public void readPPM() {
+  public void testReadPPM() {
     Color[][] colorArray =
-        new Color[][] {
-          {new Color(255, 0, 0), new Color(0, 255, 0), new Color(0, 0, 255)},
-          {new Color(255, 255, 0), new Color(255, 255, 255), new Color(0, 0, 0)}
-        };
+            new Color[][]{
+                    {new Color(255, 0, 0), new Color(0, 255, 0), new Color(0, 0, 255)},
+                    {new Color(255, 255, 0), new Color(255, 255, 255), new Color(0, 0, 0)}
+            };
 
     new TestUtils().compareTwoColorArrays(colorArray, this.util.readPPM("test.ppm"));
   }
 
   @Test
-  public void toRed() {
+  public void testToRed() {
     Color color = new Color(0, 255, 255);
     Color color1 = this.util.toRed(color);
     assertEquals(new Color(0, 0, 0), color1);
   }
 
   @Test
-  public void toGreen() {
+  public void testToGreen() {
     Color color = new Color(0, 255, 0);
     Color color1 = this.util.toGreen(color);
     assertEquals(new Color(255, 255, 255), color1);
   }
 
   @Test
-  public void toBlue() {
+  public void testToBlue() {
     Color color = new Color(0, 0, 100);
     Color color1 = this.util.toBlue(color);
     assertEquals(new Color(100, 100, 100), color1);
   }
 
   @Test
-  public void toValue() {
+  public void testToValue() {
     Color color = new Color(3, 8, 12);
     Color color1 = this.util.toBlue(color);
     assertEquals(new Color(12, 12, 12), color1);
   }
 
   @Test
-  public void toAlpha() {
+  public void testToAlpha() {
     Color color = new Color(3, 8, 12);
     Color color1 = this.util.toAlpha(color);
     assertEquals(new Color(255, 255, 255), color1);
   }
 
   @Test
-  public void toIntensity() {
+  public void testToIntensity() {
     Color color = new Color(3, 8, 12);
     Color color1 = this.util.toIntensity(color);
     // rounded up
@@ -67,7 +67,7 @@ public class ImageUtilTest {
   }
 
   @Test
-  public void toLuma() {
+  public void testToLuma() {
     Color color = new Color(3, 8, 12);
     Color color1 = this.util.toLuma(color);
     // rounded up
@@ -75,7 +75,14 @@ public class ImageUtilTest {
   }
 
   @Test
-  public void colorBrightness() {
+  public void testToSepia() {
+    Color color = new Color(100, 100, 100);
+    Color color1 = this.util.toSepia(color);
+    assertEquals(new Color(135, 120, 94), color1);
+  }
+
+  @Test
+  public void testColorBrightness() {
     Color color = new Color(3, 8, 12);
     Color color1 = this.util.colorBrightness(color, 255);
     // rounded up
@@ -95,12 +102,30 @@ public class ImageUtilTest {
   }
 
   @Test
-  public void writeImage() {
+  public void testClampRangeNegative() {
+    int result = this.util.clampRange(-255);
+    assertEquals(0, result);
+  }
+
+  @Test
+  public void testClampRangeOver255() {
+    int result = this.util.clampRange(256);
+    assertEquals(255, result);
+  }
+
+  @Test
+  public void testClampRangeValid() {
+    int result = this.util.clampRange(100);
+    assertEquals(100, result);
+  }
+
+  @Test
+  public void testWriteImage() {
     Color[][] colorArray =
-        new Color[][] {
-          {new Color(255, 0, 0), new Color(0, 255, 0), new Color(0, 0, 255)},
-          {new Color(255, 255, 0), new Color(255, 255, 255), new Color(0, 0, 0)}
-        };
+            new Color[][]{
+                    {new Color(255, 0, 0), new Color(0, 255, 0), new Color(0, 0, 255)},
+                    {new Color(255, 255, 0), new Color(255, 255, 255), new Color(0, 0, 0)}
+            };
     ReadOnlyImageModel model = new ImageFile(colorArray);
     this.util.writeImage("testWriteImage.ppm", model);
 
