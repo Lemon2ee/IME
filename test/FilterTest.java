@@ -32,27 +32,40 @@ public class FilterTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void testEvenKernel() {
-    double[][] evenKernel = new double[2][2];
+  public void testEvenKernelWidth() {
+    double[][] evenKernel = new double[3][2];
+    new Filter(evenKernel);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testEvenKernelHeight() {
+    double[][] evenKernel = new double[2][3];
     new Filter(evenKernel);
   }
 
   @Test
-  public void testUnchangedKernel1() {
+  public void testUnchangedKernel11() {
     filter = new Filter(new double[][]{{1.0}});
     ImageModel result = filter.execute(sampleModel);
     testUtils.compareTwoColorArrays(sampleImage, result.imageArrayCopy());
   }
 
   @Test
-  public void testAllWhiteKernel3() {
+  public void testUnchangedKernel13() {
+    filter = new Filter(new double[][]{{0, 1.0, 0}});
+    ImageModel result = filter.execute(sampleModel);
+    testUtils.compareTwoColorArrays(sampleImage, result.imageArrayCopy());
+  }
+
+  @Test
+  public void testAllWhiteKernel33() {
     filter = new Filter(new double[][]{{1.0, 1.0, 1.0}, {1.0, 1.0, 1.0}, {1.0, 1.0, 1.0}});
     ImageModel result = filter.execute(sampleModel);
     testUtils.compareTwoColorArrays(whiteImage, result.imageArrayCopy());
   }
 
   @Test
-  public void testAllBlackKernel5() {
+  public void testAllBlackKernel55() {
     filter = new Filter(new double[][]{{-1.0, -1.0, -1.0, -1.0, -1.0},
             {-1.0, -1.0, -1.0, -1.0, -1.0}, {-1.0, -1.0, -1.0, -1.0, -1.0},
             {-1.0, -1.0, -1.0, -1.0, -1.0}, {-1.0, -1.0, -1.0, -1.0, -1.0}});
