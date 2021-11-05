@@ -114,6 +114,7 @@ public abstract class ABSImageFile implements ImageModel {
     return new ImageFile(output);
   }
 
+  //////////// NOT YET TESTED /////////////////
   @Override
   public ImageModel filter(FilterType ft) {
     IFilter filter;
