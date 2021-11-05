@@ -7,7 +7,6 @@ import model.filter.IFilter;
 import model.image.ImageFile;
 import model.image.ImageModel;
 
-/////////////// NEED TO FIX //////////////////////
 public class FilterTest {
   Color[][] sampleImage =
           new Color[][]{
@@ -45,21 +44,28 @@ public class FilterTest {
   }
 
   @Test
-  public void testUnchangedKernel1() {
+  public void testUnchangedKernel11() {
     filter = new Filter(new double[][]{{1.0}});
     ImageModel result = filter.execute(sampleModel);
     testUtils.compareTwoColorArrays(sampleImage, result.imageArrayCopy());
   }
 
   @Test
-  public void testAllWhiteKernel3() {
+  public void testUnchangedKernel13() {
+    filter = new Filter(new double[][]{{0, 1.0, 0}});
+    ImageModel result = filter.execute(sampleModel);
+    testUtils.compareTwoColorArrays(sampleImage, result.imageArrayCopy());
+  }
+
+  @Test
+  public void testAllWhiteKernel33() {
     filter = new Filter(new double[][]{{1.0, 1.0, 1.0}, {1.0, 1.0, 1.0}, {1.0, 1.0, 1.0}});
     ImageModel result = filter.execute(sampleModel);
     testUtils.compareTwoColorArrays(whiteImage, result.imageArrayCopy());
   }
 
   @Test
-  public void testAllBlackKernel5() {
+  public void testAllBlackKernel55() {
     filter = new Filter(new double[][]{{-1.0, -1.0, -1.0, -1.0, -1.0},
             {-1.0, -1.0, -1.0, -1.0, -1.0}, {-1.0, -1.0, -1.0, -1.0, -1.0},
             {-1.0, -1.0, -1.0, -1.0, -1.0}, {-1.0, -1.0, -1.0, -1.0, -1.0}});

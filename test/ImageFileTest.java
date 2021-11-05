@@ -1,3 +1,4 @@
+import model.enums.FilterType;
 import model.enums.FlipDirection;
 import model.enums.GreyScaleValue;
 import model.image.ImageFile;
@@ -77,6 +78,16 @@ public class ImageFileTest {
   Color[][] overDarkenImage =
           new Color[][]{
                   {Color.BLACK, Color.BLACK, Color.BLACK}, {Color.BLACK, Color.BLACK, Color.BLACK}
+          };
+  Color[][] blurImage =
+          new Color[][]{
+                  {new Color(112, 80, 16), new Color(80, 112, 64), new Color(16, 48, 80)},
+                  {new Color(128, 112, 32), new Color(112, 128, 80), new Color(32, 48, 64)}
+          };
+  Color[][] sharpenImage =
+          new Color[][]{
+                  {new Color(255, 191, 32), new Color(191, 255, 128), new Color(0, 96, 255)},
+                  {new Color(255, 255, 32), new Color(255, 255, 255), new Color(0, 96, 128)}
           };
 
   ImageModel model;
@@ -188,5 +199,17 @@ public class ImageFileTest {
   public void testOverDarkenImage() {
     ImageModel result = model.changeBrightness(-256);
     this.testUtils.compareTwoColorArrays(overDarkenImage, result.imageArrayCopy());
+  }
+
+  @Test
+  public void testFilterBlur() {
+    ImageModel result = model.filter(FilterType.Blur);
+    this.testUtils.compareTwoColorArrays(blurImage, result.imageArrayCopy());
+  }
+
+  @Test
+  public void testFilterSharpen() {
+    ImageModel result = model.filter(FilterType.Sharpen);
+    this.testUtils.compareTwoColorArrays(sharpenImage, result.imageArrayCopy());
   }
 }
