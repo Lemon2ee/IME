@@ -7,6 +7,7 @@ import model.filter.IFilter;
 import model.image.ImageFile;
 import model.image.ImageModel;
 
+/////////////// NEED TO FIX //////////////////////
 public class FilterTest {
   Color[][] sampleImage =
           new Color[][]{
@@ -32,8 +33,14 @@ public class FilterTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void testEvenKernel() {
-    double[][] evenKernel = new double[2][2];
+  public void testEvenKernelWidth() {
+    double[][] evenKernel = new double[3][2];
+    new Filter(evenKernel);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testEvenKernelHeight() {
+    double[][] evenKernel = new double[2][3];
     new Filter(evenKernel);
   }
 

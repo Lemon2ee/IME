@@ -13,6 +13,7 @@ import utils.ImageUtil;
 public class Filter implements IFilter {
   private final double[][] kernel;
   private final ImageUtil utils;
+  private final int halfH;
   private final int halfW;
 
   /**
@@ -26,10 +27,12 @@ public class Filter implements IFilter {
     if (kernel == null) {
       throw new IllegalArgumentException("Provided filter kernel cannot be null.");
     }
-    int width = kernel.length;
-    if (width % 2 == 0) {
+    int height = kernel.length;
+    int width = kernel[0].length;
+    if (height % 2 == 0 || width % 2 == 0) {
       throw new IllegalArgumentException("Provided filter kernel dimension cannot be even.");
     }
+    this.halfH = height / 2;
     this.halfW = width / 2;
     this.kernel = kernel;
     this.utils = new ImageUtil();
@@ -46,11 +49,11 @@ public class Filter implements IFilter {
     for (int r = 0; r < srcHeight; r++) {
       for (int c = 0; c < srcWidth; c++) {
 
-        Color[][] srcKernel = new Color[2 * halfW + 1][2 * halfW + 1];
-        for (int kr = 0; kr <= 2 * halfW; kr++) {
+        Color[][] srcKernel = new Color[2 * halfH + 1][2 * halfW + 1];
+        for (int kr = 0; kr <= 2 * halfH; kr++) {
           for (int kc = 0; kc <= 2 * halfW; kc++) {
             try {
-              srcKernel[kr][kc] = src[r - halfW + kr][c - halfW + kc];
+              srcKernel[kr][kc] = src[r - halfH + kr][c - halfW + kc];
             } catch (IndexOutOfBoundsException ibe) {
               srcKernel[kr][kc] = Color.BLACK;
             }
@@ -73,7 +76,7 @@ public class Filter implements IFilter {
     double newR = 0;
     double newG = 0;
     double newB = 0;
-    for (int r = 0; r <= 2 * halfW; r++) {
+    for (int r = 0; r <= 2 * halfH; r++) {
       for (int c = 0; c <= 2 * halfW; c++) {
         Color src = origin[r][c];
         double weight = this.kernel[r][c];
