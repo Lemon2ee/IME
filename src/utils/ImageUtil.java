@@ -9,7 +9,9 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.function.Function;
 
-/** This class contains utility methods to read an image from file and manipulate a color */
+/**
+ * This class contains utility methods to read an image from file and manipulate a color
+ */
 public class ImageUtil {
 
   /**
@@ -18,7 +20,7 @@ public class ImageUtil {
    * @param filename the path of the file.
    * @return A two-dimensional array of Color that represents the pixels
    * @throws IllegalArgumentException either when the given file cannot find or the given file is
-   *     not a PPM3 file.
+   *                                  not a PPM3 file.
    */
   public Color[][] readPPM(String filename) throws IllegalArgumentException {
     Scanner sc;
@@ -127,9 +129,8 @@ public class ImageUtil {
    * @return the new pixel after grey scale as Color
    */
   public Color toIntensity(Color origin) {
-    double preAvg = (origin.getRed() + origin.getGreen() + origin.getBlue()) / 3.0;
-    int intAvg = (int) Math.round(preAvg);
-    return new Color(intAvg, intAvg, intAvg);
+    return colorTransform(origin, new double[][]{{1.0 / 3, 1.0 / 3, 1.0 / 3},
+            {1.0 / 3, 1.0 / 3, 1.0 / 3}, {1.0 / 3, 1.0 / 3, 1.0 / 3}});
   }
 
   /**
@@ -139,16 +140,21 @@ public class ImageUtil {
    * @return the new pixel after grey scale as Color
    */
   public Color toLuma(Color origin) {
-    double luma = 0.2126 * origin.getRed() + 0.7152 * origin.getGreen() + 0.0722 * origin.getBlue();
-    int intLuma = (int) Math.round(luma);
-    return new Color(intLuma, intLuma, intLuma);
+    return colorTransform(origin, new double[][]{{0.2126, 0.7152, 0.0722},
+            {0.2126, 0.7152, 0.0722}, {0.2126, 0.7152, 0.0722}});
+  }
+
+  /////// NOT YET TESTED ///////////////////
+  public Color toSepia(Color origin) {
+    return colorTransform(origin, new double[][]{{0.393, 0.769, 0.189}, {0.349, 0.686, 0.168},
+            {0.272, 0534, 0.131}});
   }
 
   /**
    * Change the rgb brightness of a pixel with given value.
    *
    * @param origin the original pixel to change the brightness as Color
-   * @param value the value to be changed for the color brightness
+   * @param value  the value to be changed for the color brightness
    * @return the new pixel after changing brightness as Color
    */
   public Color colorBrightness(Color origin, int value) {
@@ -156,17 +162,54 @@ public class ImageUtil {
     int newG = origin.getGreen() + value;
     int newB = origin.getBlue() + value;
 
-    if (value > 0) {
-      newR = Math.min(newR, 255);
-      newG = Math.min(newG, 255);
-      newB = Math.min(newB, 255);
-    } else {
-      newR = Math.max(newR, 0);
-      newG = Math.max(newG, 0);
-      newB = Math.max(newB, 0);
+    return new Color(clampRange(newR), clampRange(newG), clampRange(newB));
+  }
+
+  /////// NOT YET TESTED ///////////////////
+  /**
+   * Perform a linear color transformation by using the transform value matrix.
+   *
+   * @param origin          the original color to be transformed
+   * @param transformMatrix the 3 * 3 matrix of the transformation as 2d array of double
+   * @return the new color after transformation as Color
+   * @throws IllegalArgumentException if the transformMatrix null or dimension is invalid
+   */
+  public Color colorTransform(Color origin, double[][] transformMatrix)
+          throws IllegalArgumentException {
+    if (transformMatrix == null) {
+      throw new IllegalArgumentException("The transformation matrix cannot be null.");
+    }
+    if (transformMatrix.length != 3 || transformMatrix[0].length != 3) {
+      throw new IllegalArgumentException("The transformation matrix needs to be 3 * 3.");
     }
 
-    return new Color(newR, newG, newB);
+    int srcR = origin.getRed();
+    int srcG = origin.getGreen();
+    int srcB = origin.getBlue();
+    double newR = srcR * transformMatrix[0][0] + srcG * transformMatrix[0][1]
+            + srcB * transformMatrix[0][2];
+    double newG = srcR * transformMatrix[1][0] + srcG * transformMatrix[1][1]
+            + srcB * transformMatrix[1][2];
+    double newB = srcR * transformMatrix[2][0] + srcG * transformMatrix[2][1]
+            + srcB * transformMatrix[2][2];
+
+    return new Color(clampRange((int) Math.round(newR)), clampRange((int) Math.round(newG)),
+            clampRange((int) Math.round(newB)));
+  }
+
+  /////// NOT YET TESTED ///////////////////
+  /**
+   * Clamp the range of the color value into the valid range of 0-255.
+   *
+   * @param value the calculated new channel value
+   * @return the clamped value within the valid range of 0-255
+   */
+  public int clampRange(int value) {
+    if (value < 0) {
+      return 0;
+    } else {
+      return Math.min(value, 255);
+    }
   }
 
   public void writeImage(String filepath, ReadOnlyImageModel model) {
@@ -221,8 +264,8 @@ public class ImageUtil {
 
     header.append("P3\n");
     header.append(
-        "# Created by Image Manipulation and Enhancement (IME) written by JerryGCDing "
-            + "and Lemon2ee\n");
+            "# Created by Image Manipulation and Enhancement (IME) written by JerryGCDing "
+                    + "and Lemon2ee\n");
     header.append(width).append(" ").append(height).append("\n");
     header.append("255").append("\n");
     header.append("# end of the header\n");
