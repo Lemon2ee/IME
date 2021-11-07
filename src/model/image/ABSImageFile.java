@@ -47,7 +47,6 @@ public abstract class ABSImageFile implements ImageModel {
     this.greyScaleValueFunctionMap = new HashMap<>();
   }
 
-  ///////// NOT YET TESTED ////////////////////////////
   @Override
   public ImageModel greyScale(GreyScaleValue op) {
     greyScaleValueFunctionMap.put(GreyScaleValue.R, this.util::toRed);
