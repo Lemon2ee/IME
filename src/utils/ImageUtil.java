@@ -84,11 +84,11 @@ public class ImageUtil {
       int height = bufferedImage.getHeight();
       int width = bufferedImage.getWidth();
 
-      Color[][] imageArray = new Color[width][height];
+      Color[][] imageArray = new Color[height][width];
 
-      for (int x = 0; x < width; x++) {
-        for (int y = 0; y < height; y++) {
-          imageArray[x][y] = new Color(bufferedImage.getRGB(x, y));
+      for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+          imageArray[y][x] = new Color(bufferedImage.getRGB(x, y));
         }
       }
       return imageArray;

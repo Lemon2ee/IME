@@ -56,6 +56,7 @@ public abstract class ABSImageFile implements ImageModel {
     greyScaleValueFunctionMap.put(GreyScaleValue.Intensity, this.util::toIntensity);
     greyScaleValueFunctionMap.put(GreyScaleValue.Luma, this.util::toLuma);
     greyScaleValueFunctionMap.put(GreyScaleValue.Value, this.util::toValue);
+    greyScaleValueFunctionMap.put(GreyScaleValue.Alpha, this.util::toAlpha);
     greyScaleValueFunctionMap.put(GreyScaleValue.Sepia, this.util::toSepia);
 
     Function<Color, Color> colorFunction;
