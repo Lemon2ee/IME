@@ -68,6 +68,8 @@ public class IMEControllerImpl implements IMEController {
           "luma-component", (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.Luma));
       knownCommands.put(
           "alpha-component", (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.Alpha));
+      knownCommands.put(
+          "sepia-component", (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.Sepia));
       knownCommands.put("blur", Blur::new);
       knownCommands.put("sharper", Sharpen::new);
       knownCommands.put("brighten", Brighten::new);
