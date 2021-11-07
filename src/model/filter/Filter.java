@@ -7,8 +7,8 @@ import model.image.ImageModel;
 import utils.ImageUtil;
 
 /**
- * The class to represent a common image filter. It takes in a 2d array as filter kernel and
- * apply the filter operation to the given image.
+ * The class to represent a common image filter. It takes in a 2d array as filter kernel and apply
+ * the filter operation to the given image.
  */
 public class Filter implements IFilter {
   private final double[][] kernel;
@@ -21,7 +21,7 @@ public class Filter implements IFilter {
    *
    * @param kernel the kernel of the filter as a 2d array of double
    * @throws IllegalArgumentException if the provided filter kernel is null or not having an odd
-   *                                  dimension.
+   *     dimension.
    */
   public Filter(double[][] kernel) throws IllegalArgumentException {
     if (kernel == null) {

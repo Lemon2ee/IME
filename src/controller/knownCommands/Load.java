@@ -23,6 +23,9 @@ public class Load extends ABSCommand {
   public void execute(ImageLibModel model) {
     Map<String, Function<String, Color[][]>> knownExtension = new HashMap<>();
     knownExtension.put(".ppm", (String s) -> new ImageUtil().readPPM(s));
+    knownExtension.put(".png", (String s) -> new ImageUtil().imageIORead(s));
+    knownExtension.put(".bmp", (String s) -> new ImageUtil().imageIORead(s));
+    knownExtension.put(".jpg", (String s) -> new ImageUtil().imageIORead(s));
 
     // get the extension
     String extension = new ControllerUtils().getExtension(this.origin);

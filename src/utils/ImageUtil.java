@@ -2,16 +2,16 @@ package utils;
 
 import model.image.ReadOnlyImageModel;
 
+import javax.imageio.ImageIO;
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.function.Function;
 
-/**
- * This class contains utility methods to read an image from file and manipulate a color
- */
+/** This class contains utility methods to read an image from file and manipulate a color */
 public class ImageUtil {
 
   /**
@@ -20,7 +20,7 @@ public class ImageUtil {
    * @param filename the path of the file.
    * @return A two-dimensional array of Color that represents the pixels
    * @throws IllegalArgumentException either when the given file cannot find or the given file is
-   *                                  not a PPM3 file.
+   *     not a PPM3 file.
    */
   public Color[][] readPPM(String filename) throws IllegalArgumentException {
     Scanner sc;
@@ -69,6 +69,32 @@ public class ImageUtil {
     }
 
     return colorArray;
+  }
+
+  public Color[][] imageIORead(String filename) {
+    File image = new File(filename);
+
+    if (!image.exists()) {
+      throw new IllegalArgumentException("File not found");
+    }
+
+    try {
+      BufferedImage bufferedImage = ImageIO.read(image);
+
+      int height = bufferedImage.getHeight();
+      int width = bufferedImage.getWidth();
+
+      Color[][] imageArray = new Color[width][height];
+
+      for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+          imageArray[x][y] = new Color(bufferedImage.getRGB(x, y));
+        }
+      }
+      return imageArray;
+    } catch (IOException e) {
+      throw new IllegalArgumentException("An IOException occurred when reading image");
+    }
   }
 
   /**
@@ -129,8 +155,11 @@ public class ImageUtil {
    * @return the new pixel after grey scale as Color
    */
   public Color toIntensity(Color origin) {
-    return colorTransform(origin, new double[][]{{1.0 / 3, 1.0 / 3, 1.0 / 3},
-            {1.0 / 3, 1.0 / 3, 1.0 / 3}, {1.0 / 3, 1.0 / 3, 1.0 / 3}});
+    return colorTransform(
+        origin,
+        new double[][] {
+          {1.0 / 3, 1.0 / 3, 1.0 / 3}, {1.0 / 3, 1.0 / 3, 1.0 / 3}, {1.0 / 3, 1.0 / 3, 1.0 / 3}
+        });
   }
 
   /**
@@ -140,20 +169,24 @@ public class ImageUtil {
    * @return the new pixel after grey scale as Color
    */
   public Color toLuma(Color origin) {
-    return colorTransform(origin, new double[][]{{0.2126, 0.7152, 0.0722},
-            {0.2126, 0.7152, 0.0722}, {0.2126, 0.7152, 0.0722}});
+    return colorTransform(
+        origin,
+        new double[][] {
+          {0.2126, 0.7152, 0.0722}, {0.2126, 0.7152, 0.0722}, {0.2126, 0.7152, 0.0722}
+        });
   }
 
   public Color toSepia(Color origin) {
-    return colorTransform(origin, new double[][]{{0.393, 0.769, 0.189}, {0.349, 0.686, 0.168},
-            {0.272, 0.534, 0.131}});
+    return colorTransform(
+        origin,
+        new double[][] {{0.393, 0.769, 0.189}, {0.349, 0.686, 0.168}, {0.272, 0.534, 0.131}});
   }
 
   /**
    * Change the rgb brightness of a pixel with given value.
    *
    * @param origin the original pixel to change the brightness as Color
-   * @param value  the value to be changed for the color brightness
+   * @param value the value to be changed for the color brightness
    * @return the new pixel after changing brightness as Color
    */
   public Color colorBrightness(Color origin, int value) {
@@ -167,13 +200,13 @@ public class ImageUtil {
   /**
    * Perform a linear color transformation by using the transform value matrix.
    *
-   * @param origin          the original color to be transformed
+   * @param origin the original color to be transformed
    * @param transformMatrix the 3 * 3 matrix of the transformation as 2d array of double
    * @return the new color after transformation as Color
    * @throws IllegalArgumentException if the transformMatrix null or dimension is invalid
    */
   private Color colorTransform(Color origin, double[][] transformMatrix)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     if (transformMatrix == null) {
       throw new IllegalArgumentException("The transformation matrix cannot be null.");
     }
@@ -184,15 +217,17 @@ public class ImageUtil {
     int srcR = origin.getRed();
     int srcG = origin.getGreen();
     int srcB = origin.getBlue();
-    double newR = srcR * transformMatrix[0][0] + srcG * transformMatrix[0][1]
-            + srcB * transformMatrix[0][2];
-    double newG = srcR * transformMatrix[1][0] + srcG * transformMatrix[1][1]
-            + srcB * transformMatrix[1][2];
-    double newB = srcR * transformMatrix[2][0] + srcG * transformMatrix[2][1]
-            + srcB * transformMatrix[2][2];
+    double newR =
+        srcR * transformMatrix[0][0] + srcG * transformMatrix[0][1] + srcB * transformMatrix[0][2];
+    double newG =
+        srcR * transformMatrix[1][0] + srcG * transformMatrix[1][1] + srcB * transformMatrix[1][2];
+    double newB =
+        srcR * transformMatrix[2][0] + srcG * transformMatrix[2][1] + srcB * transformMatrix[2][2];
 
-    return new Color(clampRange((int) Math.round(newR)), clampRange((int) Math.round(newG)),
-            clampRange((int) Math.round(newB)));
+    return new Color(
+        clampRange((int) Math.round(newR)),
+        clampRange((int) Math.round(newG)),
+        clampRange((int) Math.round(newB)));
   }
 
   /**
@@ -210,40 +245,32 @@ public class ImageUtil {
   }
 
   public void writeImage(String filepath, ReadOnlyImageModel model) {
-    Map<String, Function<Color[][], String>> map = new HashMap<>();
-    map.put(".ppm", this::ppmToString);
 
     String extension = new ControllerUtils().getExtension(filepath);
 
-    Color[][] image = model.imageArrayCopy();
-
-    Function<Color[][], String> toStringFunction = map.getOrDefault(extension.toLowerCase(), null);
-
-    // throw exception if it is an unsupported file format
-    if (toStringFunction == null) {
-      throw new IllegalArgumentException("Unsupported output format " + extension + "\n");
-    }
-
-    // writing to local file
-    File file = new File(filepath);
-
-    if (filepath.contains("/")) {
-      boolean createParent = file.getParentFile().mkdirs();
-    }
-
-    try {
-      FileWriter writer = new FileWriter(file, false);
-      writer.write(this.ppmToString(image));
-      writer.flush();
-      writer.close();
-    } catch (IOException e) {
-      throw new IllegalArgumentException(e.getMessage());
+    switch (extension) {
+      case ".ppm":
+        this.writePPM(model, filepath);
+        break;
+      case ".png":
+        this.imageIOWrite(model, filepath, "png");
+        break;
+      case ".bpm":
+        this.imageIOWrite(model, filepath, "bpm");
+        break;
+      case ".jpg":
+        this.imageIOWrite(model, filepath, "jpg");
+        break;
+      default:
+        break;
     }
   }
 
-  private String ppmToString(Color[][] array) {
+  private void writePPM(ReadOnlyImageModel model, String filepath) {
     StringBuilder image = new StringBuilder();
     StringBuilder header = new StringBuilder();
+
+    Color[][] array = model.imageArrayCopy();
 
     int height = array.length;
     int width = array[0].length;
@@ -261,11 +288,47 @@ public class ImageUtil {
 
     header.append("P3\n");
     header.append(
-            "# Created by Image Manipulation and Enhancement (IME) written by JerryGCDing "
-                    + "and Lemon2ee\n");
+        "# Created by Image Manipulation and Enhancement (IME) written by JerryGCDing "
+            + "and Lemon2ee\n");
     header.append(width).append(" ").append(height).append("\n");
     header.append("255").append("\n");
     header.append("# end of the header\n");
-    return header.append(image).toString();
+
+    // writing to local file
+    File file = new File(filepath);
+
+    if (filepath.contains("/")) {
+      boolean createParent = file.getParentFile().mkdirs();
+    }
+
+    try {
+      FileWriter writer = new FileWriter(file, false);
+      writer.write(header.append(image).toString());
+      writer.flush();
+      writer.close();
+    } catch (IOException e) {
+      throw new IllegalArgumentException(e.getMessage());
+    }
+  }
+
+  private void imageIOWrite(ReadOnlyImageModel model, String filepath, String extension) {
+    // Initialize BufferedImage, assuming Color[][] is already properly populated.
+    BufferedImage bufferedImage =
+        new BufferedImage(model.getWidth(), model.getHeight(), BufferedImage.TYPE_INT_RGB);
+
+    Color[][] array = model.imageArrayCopy();
+
+    // Set each pixel of the BufferedImage to the color from the Color[][].
+    for (int y = 0; y < model.getHeight(); y++) {
+      for (int x = 0; x < model.getWidth(); x++) {
+        bufferedImage.setRGB(x, y, array[y][x].getRGB());
+      }
+    }
+
+    try {
+      ImageIO.write(bufferedImage, extension, new File(filepath));
+    } catch (IOException e) {
+      throw new IllegalArgumentException("Encountered IO exception when trying to write image");
+    }
   }
 }
