@@ -47,7 +47,6 @@ public abstract class ABSImageFile implements ImageModel {
     this.greyScaleValueFunctionMap = new HashMap<>();
   }
 
-  ///////// NOT YET TESTED ////////////////////////////
   @Override
   public ImageModel greyScale(GreyScaleValue op) {
     greyScaleValueFunctionMap.put(GreyScaleValue.R, this.util::toRed);
@@ -56,6 +55,7 @@ public abstract class ABSImageFile implements ImageModel {
     greyScaleValueFunctionMap.put(GreyScaleValue.Intensity, this.util::toIntensity);
     greyScaleValueFunctionMap.put(GreyScaleValue.Luma, this.util::toLuma);
     greyScaleValueFunctionMap.put(GreyScaleValue.Value, this.util::toValue);
+    greyScaleValueFunctionMap.put(GreyScaleValue.Alpha, this.util::toAlpha);
     greyScaleValueFunctionMap.put(GreyScaleValue.Sepia, this.util::toSepia);
 
     Function<Color, Color> colorFunction;
@@ -119,15 +119,24 @@ public abstract class ABSImageFile implements ImageModel {
     IFilter filter;
     switch (ft) {
       case Blur:
-        filter = new Filter(new double[][]{{1.0 / 16, 1.0 / 8, 1.0 / 16},
-                {1.0 / 8, 1.0 / 4, 1.0 / 8}, {1.0 / 16, 1.0 / 8, 1.0 / 16}});
+        filter =
+            new Filter(
+                new double[][] {
+                  {1.0 / 16, 1.0 / 8, 1.0 / 16},
+                  {1.0 / 8, 1.0 / 4, 1.0 / 8},
+                  {1.0 / 16, 1.0 / 8, 1.0 / 16}
+                });
         break;
       case Sharpen:
-        filter = new Filter(new double[][]{{-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8},
-                {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
-                {-1.0 / 8, 1.0 / 4, 1.0, 1.0 / 4, -1.0 / 8},
-                {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
-                {-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8}});
+        filter =
+            new Filter(
+                new double[][] {
+                  {-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8},
+                  {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
+                  {-1.0 / 8, 1.0 / 4, 1.0, 1.0 / 4, -1.0 / 8},
+                  {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
+                  {-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8}
+                });
         break;
       default:
         return new ImageFile(this.imageArrayCopy());

@@ -16,79 +16,80 @@ import java.awt.Color;
 public class ImageFileTest {
   Color[][] invalidSample;
   Color[][] sampleImage =
-          new Color[][]{
-                  {Color.RED, Color.GREEN, Color.BLUE}, {Color.YELLOW, Color.WHITE, Color.BLACK}
-          };
+      new Color[][] {
+        {Color.RED, Color.GREEN, Color.BLUE}, {Color.YELLOW, Color.WHITE, Color.BLACK}
+      };
   Color[][] verticalFlippedSample =
-          new Color[][]{
-                  {Color.YELLOW, Color.WHITE, Color.BLACK}, {Color.RED, Color.GREEN, Color.BLUE}
-          };
+      new Color[][] {
+        {Color.YELLOW, Color.WHITE, Color.BLACK}, {Color.RED, Color.GREEN, Color.BLUE}
+      };
   Color[][] horizontalFlippedSample =
-          new Color[][]{
-                  {Color.BLUE, Color.GREEN, Color.RED}, {Color.BLACK, Color.WHITE, Color.YELLOW}
-          };
+      new Color[][] {
+        {Color.BLUE, Color.GREEN, Color.RED}, {Color.BLACK, Color.WHITE, Color.YELLOW}
+      };
   Color[][] diagonalFlippedSample =
-          new Color[][]{
-                  {Color.BLACK, Color.WHITE, Color.YELLOW}, {Color.BLUE, Color.GREEN, Color.RED}
-          };
+      new Color[][] {
+        {Color.BLACK, Color.WHITE, Color.YELLOW}, {Color.BLUE, Color.GREEN, Color.RED}
+      };
   Color[][] greyScaleRImage =
-          new Color[][]{
-                  {Color.WHITE, Color.BLACK, Color.BLACK}, {Color.WHITE, Color.WHITE, Color.BLACK}
-          };
+      new Color[][] {
+        {Color.WHITE, Color.BLACK, Color.BLACK}, {Color.WHITE, Color.WHITE, Color.BLACK}
+      };
   Color[][] greyScaleGImage =
-          new Color[][]{
-                  {Color.BLACK, Color.WHITE, Color.BLACK}, {Color.WHITE, Color.WHITE, Color.BLACK}
-          };
+      new Color[][] {
+        {Color.BLACK, Color.WHITE, Color.BLACK}, {Color.WHITE, Color.WHITE, Color.BLACK}
+      };
   Color[][] greyScaleBImage =
-          new Color[][]{
-                  {Color.BLACK, Color.BLACK, Color.WHITE}, {Color.BLACK, Color.WHITE, Color.BLACK}
-          };
+      new Color[][] {
+        {Color.BLACK, Color.BLACK, Color.WHITE}, {Color.BLACK, Color.WHITE, Color.BLACK}
+      };
   Color[][] greyScaleVImage =
-          new Color[][]{
-                  {Color.WHITE, Color.WHITE, Color.WHITE}, {Color.WHITE, Color.WHITE, Color.BLACK}
-          };
+      new Color[][] {
+        {Color.WHITE, Color.WHITE, Color.WHITE}, {Color.WHITE, Color.WHITE, Color.BLACK}
+      };
   Color[][] greyScaleLImage =
-          new Color[][]{
-                  {new Color(54, 54, 54), new Color(182, 182, 182), new Color(18, 18, 18)},
-                  {new Color(237, 237, 237), new Color(255, 255, 255), Color.BLACK}
-          };
+      new Color[][] {
+        {new Color(54, 54, 54), new Color(182, 182, 182), new Color(18, 18, 18)},
+        {new Color(237, 237, 237), new Color(255, 255, 255), Color.BLACK}
+      };
   Color[][] greyScaleIImage =
-          new Color[][]{
-                  {new Color(85, 85, 85), new Color(85, 85, 85), new Color(85, 85, 85)},
-                  {new Color(170, 170, 170), new Color(255, 255, 255), Color.BLACK}
-          };
+      new Color[][] {
+        {new Color(85, 85, 85), new Color(85, 85, 85), new Color(85, 85, 85)},
+        {new Color(170, 170, 170), new Color(255, 255, 255), Color.BLACK}
+      };
   Color[][] greyScaleSImage =
-          new Color[][]{{new Color(100, 89, 69), new Color(196, 175, 136),
-                  new Color(48, 43, 33)},
-                  {new Color(255, 255, 206), new Color(255, 255, 239), Color.BLACK}};
+      new Color[][] {
+        {new Color(100, 89, 69), new Color(196, 175, 136), new Color(48, 43, 33)},
+        {new Color(255, 255, 206), new Color(255, 255, 239), Color.BLACK}
+      };
   Color[][] brightenImage =
-          new Color[][]{
-                  {new Color(255, 50, 50), new Color(50, 255, 50), new Color(50, 50, 255)},
-                  {new Color(255, 255, 50), Color.WHITE, new Color(50, 50, 50)}
-          };
+      new Color[][] {
+        {new Color(255, 50, 50), new Color(50, 255, 50), new Color(50, 50, 255)},
+        {new Color(255, 255, 50), Color.WHITE, new Color(50, 50, 50)}
+      };
   Color[][] darkenImage =
-          new Color[][]{
-                  {new Color(205, 0, 0), new Color(0, 205, 0), new Color(0, 0, 205)},
-                  {new Color(205, 205, 0), new Color(205, 205, 205), Color.BLACK}
-          };
+      new Color[][] {
+        {new Color(205, 0, 0), new Color(0, 205, 0), new Color(0, 0, 205)},
+        {new Color(205, 205, 0), new Color(205, 205, 205), Color.BLACK}
+      };
   Color[][] overBrightenImage =
-          new Color[][]{
-                  {Color.WHITE, Color.WHITE, Color.WHITE}, {Color.WHITE, Color.WHITE, Color.WHITE}
-          };
+      new Color[][] {
+        {Color.WHITE, Color.WHITE, Color.WHITE}, {Color.WHITE, Color.WHITE, Color.WHITE}
+      };
   Color[][] overDarkenImage =
-          new Color[][]{
-                  {Color.BLACK, Color.BLACK, Color.BLACK}, {Color.BLACK, Color.BLACK, Color.BLACK}
-          };
+      new Color[][] {
+        {Color.BLACK, Color.BLACK, Color.BLACK}, {Color.BLACK, Color.BLACK, Color.BLACK}
+      };
   Color[][] blurImage =
-          new Color[][]{
-                  {new Color(112, 80, 16), new Color(80, 112, 64), new Color(16, 48, 80)},
-                  {new Color(128, 112, 32), new Color(112, 128, 80), new Color(32, 48, 64)}
-          };
+      new Color[][] {
+        {new Color(112, 80, 16), new Color(80, 112, 64), new Color(16, 48, 80)},
+        {new Color(128, 112, 32), new Color(112, 128, 80), new Color(32, 48, 64)}
+      };
   Color[][] sharpenImage =
-          new Color[][]{
-                  {new Color(255, 191, 32), new Color(191, 255, 128), new Color(0, 96, 255)},
-                  {new Color(255, 255, 32), new Color(255, 255, 255), new Color(0, 96, 128)}
-          };
+      new Color[][] {
+        {new Color(255, 191, 32), new Color(191, 255, 128), new Color(0, 96, 255)},
+        {new Color(255, 255, 32), new Color(255, 255, 255), new Color(0, 96, 128)}
+      };
 
   ImageModel model;
 

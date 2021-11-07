@@ -5,8 +5,8 @@ import java.awt.Color;
 import model.image.ImageModel;
 
 /**
- * The interface represents a filer.The filter has only one method to execute on the given
- * 2d array of Color.
+ * The interface represents a filer.The filter has only one method to execute on the given 2d array
+ * of Color.
  */
 public interface IFilter {
   /**

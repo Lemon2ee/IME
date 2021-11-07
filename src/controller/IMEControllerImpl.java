@@ -66,6 +66,12 @@ public class IMEControllerImpl implements IMEController {
           "value-component", (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.Value));
       knownCommands.put(
           "luma-component", (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.Luma));
+      knownCommands.put(
+          "alpha-component", (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.Alpha));
+      knownCommands.put(
+          "sepia-component", (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.Sepia));
+      knownCommands.put("blur", Blur::new);
+      knownCommands.put("sharper", Sharpen::new);
       knownCommands.put("brighten", Brighten::new);
       knownCommands.put("load", Load::new);
       knownCommands.put("save", Save::new);
@@ -98,9 +104,6 @@ public class IMEControllerImpl implements IMEController {
             // print error message from the exception received from the model or because of
             // unsupported command
             this.view.renderMessage(e.getMessage());
-          } catch (IndexOutOfBoundsException e) {
-            // print error message if the given command does not have enough command
-            this.view.renderMessage("Insufficient argument given\n");
           }
         }
       }

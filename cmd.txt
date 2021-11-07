@@ -1,4 +1,4 @@
-load doge.ppm doge
+load doge.png doge
 
 brighten 100 doge doge-brighter
 
@@ -20,14 +20,32 @@ intensity-component doge doge-greyscale-intensity
 
 value-component doge doge-value
 
+alpha-component doge doge-alpha
+
+sepia-component doge doge-sepia
+
+sharper doge doge-sharper
+sharper doge-sharper doge-sharper
+sharper doge-sharper doge-sharper
+
+blur doge doge-blur
+blur doge-blur doge-blur
+blur doge-blur doge-blur
+
+
+
 # doge ignore
-save images/doge-brighter.ppm doge-brighter
-save images/doge-darker.ppm doge-darker
+save images/doge-brighter.png doge-brighter
+save images/doge-darker.png doge-darker
 save images/doge-gs-red.ppm doge-greyscale-red
-save images/doge-gs-green.ppm doge-greyscale-green
-save images/doge-gs-blue.ppm doge-greyscale-blue
-save images/doge-gs-luma.ppm doge-greyscale-luma
-save images/doge-gs-intensity.ppm doge-greyscale-intensity
-save images/doge-verti-hori-flip.ppm doge-vertical-horizontal
-save images/doge-verti.ppm doge-vertical
-save images/doge-value.ppm doge-value
+save images/doge-gs-green.png doge-greyscale-green
+save images/doge-gs-blue.jpg doge-greyscale-blue
+save images/doge-gs-luma.png doge-greyscale-luma
+save images/doge-gs-intensity.png doge-greyscale-intensity
+save images/doge-verti-hori-flip.png doge-vertical-horizontal
+save images/doge-verti.jpg doge-vertical
+save images/doge-value.png doge-value
+save images/doge-blur.png doge-blur
+save images/doge-alpha.png doge-alpha
+save images/doge-sharper.jpg doge-sharper
+save images/doge-sepia.png doge-sepia

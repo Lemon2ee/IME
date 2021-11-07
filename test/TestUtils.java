@@ -11,7 +11,7 @@ public class TestUtils {
    * The method used to compare if two image data are the same.
    *
    * @param expected expected array of the method output as 2d array of Color
-   * @param actual   actual array of the method output as 2d array of Color
+   * @param actual actual array of the method output as 2d array of Color
    */
   public void compareTwoColorArrays(Color[][] expected, Color[][] actual) {
     int height = actual.length;

@@ -15,10 +15,10 @@ public class ImageUtilTest {
   @Test
   public void testReadPPM() {
     Color[][] colorArray =
-            new Color[][]{
-                    {new Color(255, 0, 0), new Color(0, 255, 0), new Color(0, 0, 255)},
-                    {new Color(255, 255, 0), new Color(255, 255, 255), new Color(0, 0, 0)}
-            };
+        new Color[][] {
+          {new Color(255, 0, 0), new Color(0, 255, 0), new Color(0, 0, 255)},
+          {new Color(255, 255, 0), new Color(255, 255, 255), new Color(0, 0, 0)}
+        };
 
     new TestUtils().compareTwoColorArrays(colorArray, this.util.readPPM("test.ppm"));
   }
@@ -122,10 +122,10 @@ public class ImageUtilTest {
   @Test
   public void testWriteImage() {
     Color[][] colorArray =
-            new Color[][]{
-                    {new Color(255, 0, 0), new Color(0, 255, 0), new Color(0, 0, 255)},
-                    {new Color(255, 255, 0), new Color(255, 255, 255), new Color(0, 0, 0)}
-            };
+        new Color[][] {
+          {new Color(255, 0, 0), new Color(0, 255, 0), new Color(0, 0, 255)},
+          {new Color(255, 255, 0), new Color(255, 255, 255), new Color(0, 0, 0)}
+        };
     ReadOnlyImageModel model = new ImageFile(colorArray);
     this.util.writeImage("testWriteImage.ppm", model);
 
