@@ -21,7 +21,7 @@ public class Filter implements IFilter {
    *
    * @param kernel the kernel of the filter as a 2d array of double
    * @throws IllegalArgumentException if the provided filter kernel is null or not having an odd
-   *     dimension.
+   *                                  dimension.
    */
   public Filter(double[][] kernel) throws IllegalArgumentException {
     if (kernel == null) {
@@ -48,47 +48,29 @@ public class Filter implements IFilter {
 
     for (int r = 0; r < srcHeight; r++) {
       for (int c = 0; c < srcWidth; c++) {
+        double newR = 0;
+        double newG = 0;
+        double newB = 0;
 
-        Color[][] srcKernel = new Color[2 * halfH + 1][2 * halfW + 1];
         for (int kr = 0; kr <= 2 * halfH; kr++) {
           for (int kc = 0; kc <= 2 * halfW; kc++) {
             try {
-              srcKernel[kr][kc] = src[r - halfH + kr][c - halfW + kc];
+              Color srcColor = src[r - halfH + kr][c - halfW + kc];
+              double weight = this.kernel[kr][kc];
+
+              newR += srcColor.getRed() * weight;
+              newG += srcColor.getGreen() * weight;
+              newB += srcColor.getBlue() * weight;
             } catch (IndexOutOfBoundsException ibe) {
-              srcKernel[kr][kc] = Color.BLACK;
+              // Do nothing
             }
           }
         }
-        outputArray[r][c] = applyFilter(srcKernel);
+        outputArray[r][c] = new Color(utils.clampRange((int) Math.round(newR)),
+                utils.clampRange((int) Math.round(newG)), utils.clampRange((int) Math.round(newB)));
       }
     }
 
     return new ImageFile(outputArray);
-  }
-
-  /**
-   * Apply the provided filter to the original image data within the filter kernel.
-   *
-   * @param origin the original image data within the filter kernel as 2d array of Color
-   * @return the value of the kernel center after filtering as Color
-   */
-  private Color applyFilter(Color[][] origin) {
-    double newR = 0;
-    double newG = 0;
-    double newB = 0;
-    for (int r = 0; r <= 2 * halfH; r++) {
-      for (int c = 0; c <= 2 * halfW; c++) {
-        Color src = origin[r][c];
-        double weight = this.kernel[r][c];
-        newR += src.getRed() * weight;
-        newG += src.getGreen() * weight;
-        newB += src.getBlue() * weight;
-      }
-    }
-    int intR = utils.clampRange((int) Math.round(newR));
-    int intG = utils.clampRange((int) Math.round(newG));
-    int intB = utils.clampRange((int) Math.round(newB));
-
-    return new Color(intR, intG, intB);
   }
 }
