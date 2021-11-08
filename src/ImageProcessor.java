@@ -22,41 +22,41 @@ public class ImageProcessor {
   public static void main(String[] args) throws IllegalStateException {
     Readable readable = null;
     if (args.length == 0) {
-      throw new IllegalArgumentException(
-          "Requires at least one argument, use --help to learn the commands");
-    }
+      readable = new InputStreamReader(System.in);
+    } else {
 
-    // the first argument
-    String instruction = args[0];
+      // the first argument
+      String instruction = args[0];
 
-    switch (instruction) {
-        // print the help message to System.out
-      case "--help":
-        StringBuilder help;
-        help = new StringBuilder();
-        help.append("A simple image processing program\n");
-        help.append(
-            "--file [filepath] to start the program with a script file where all command "
-                + "are stored\n");
-        help.append("--interactive to start the program with interaction");
-        System.out.print(help);
-        return;
-        // the file option allow the program go through a user provided text-based script
-      case "--file":
-        try {
-          readable = new FileReader(args[1]);
-        } catch (IndexOutOfBoundsException e) {
-          throw new IllegalArgumentException("Invalid argument (insufficient arguments)");
-        } catch (FileNotFoundException e) {
-          throw new IllegalArgumentException("Invalid argument (file not found)");
-        }
-        break;
-        // interactive mode allow user to use system.in to interact with the program
-      case "--interactive":
-        readable = new InputStreamReader(System.in);
-        break;
-      default:
-        break;
+      switch (instruction) {
+          // print the help message to System.out
+        case "--help":
+          StringBuilder help;
+          help = new StringBuilder();
+          help.append("A simple image processing program\n");
+          help.append(
+              "--file [filepath] to start the program with a script file where all command "
+                  + "are stored\n");
+          help.append("--interactive to start the program with interaction");
+          System.out.print(help);
+          return;
+          // the file option allow the program go through a user provided text-based script
+        case "--file":
+          try {
+            readable = new FileReader(args[1]);
+          } catch (IndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Invalid argument (insufficient arguments)");
+          } catch (FileNotFoundException e) {
+            throw new IllegalArgumentException("Invalid argument (file not found)");
+          }
+          break;
+          // interactive mode allow user to use system.in to interact with the program
+        case "--interactive":
+          readable = new InputStreamReader(System.in);
+          break;
+        default:
+          break;
+      }
     }
 
     // at the time, the model should only be ImageLib

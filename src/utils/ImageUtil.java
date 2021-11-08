@@ -1,15 +1,12 @@
 package utils;
 
-import model.image.ReadOnlyImageModel;
+import model.image.ImageModel;
 
 import javax.imageio.ImageIO;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.function.Function;
 
 /** This class contains utility methods to read an image from file and manipulate a color */
 public class ImageUtil {
@@ -244,7 +241,7 @@ public class ImageUtil {
     }
   }
 
-  public void writeImage(String filepath, ReadOnlyImageModel model) {
+  public void writeImage(String filepath, ImageModel model) {
 
     String extension = new ControllerUtils().getExtension(filepath);
 
@@ -266,7 +263,7 @@ public class ImageUtil {
     }
   }
 
-  private void writePPM(ReadOnlyImageModel model, String filepath) {
+  private void writePPM(ImageModel model, String filepath) {
     StringBuilder image = new StringBuilder();
     StringBuilder header = new StringBuilder();
 
@@ -311,7 +308,7 @@ public class ImageUtil {
     }
   }
 
-  private void imageIOWrite(ReadOnlyImageModel model, String filepath, String extension) {
+  private void imageIOWrite(ImageModel model, String filepath, String extension) {
     // Initialize BufferedImage, assuming Color[][] is already properly populated.
     BufferedImage bufferedImage =
         new BufferedImage(model.getWidth(), model.getHeight(), BufferedImage.TYPE_INT_RGB);
@@ -326,7 +323,13 @@ public class ImageUtil {
     }
 
     try {
-      ImageIO.write(bufferedImage, extension, new File(filepath));
+      File file = new File(filepath);
+
+      if (filepath.contains("/")) {
+        boolean createParent = file.getParentFile().mkdirs();
+      }
+
+      ImageIO.write(bufferedImage, extension, file);
     } catch (IOException e) {
       throw new IllegalArgumentException("Encountered IO exception when trying to write image");
     }

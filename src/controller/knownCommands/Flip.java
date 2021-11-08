@@ -1,9 +1,11 @@
 package controller.knownCommands;
 
 import model.enums.FlipDirection;
+import model.image.ImageFile;
 import model.image.ImageModel;
 import model.imageLibrary.ImageLibModel;
 
+import java.awt.*;
 import java.util.Objects;
 
 public class Flip extends ABSCommand {
@@ -21,6 +23,9 @@ public class Flip extends ABSCommand {
   @Override
   public void execute(ImageLibModel model) {
     ImageModel image = model.read(this.origin);
-    model.addToLib(destination, image.flip(direction));
+    Color[][] color2dArray = image.imageArrayCopy();
+    model.addToLib(
+        destination,
+        new ImageFile(new model.feature.basics.Flip(this.direction).apply(color2dArray)));
   }
 }

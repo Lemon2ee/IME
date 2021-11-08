@@ -1,9 +1,9 @@
 package controller.knownCommands;
 
 import model.enums.FilterType;
-import model.image.ABSImageFile;
+import model.feature.pro.Filter;
+import model.image.ImageFile;
 import model.image.ImageModel;
-import model.image.ReadOnlyImageModel;
 import model.imageLibrary.ImageLibModel;
 
 import java.awt.*;
@@ -16,6 +16,7 @@ public class Blur extends ABSCommand {
   @Override
   public void execute(ImageLibModel model) {
     ImageModel image = model.read(this.origin);
-    model.addToLib(destination, image.filter(FilterType.Blur));
+    Color[][] color2dArray = image.imageArrayCopy();
+    model.addToLib(destination, new ImageFile(new Filter(FilterType.Blur).apply(color2dArray)));
   }
 }

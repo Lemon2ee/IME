@@ -1,7 +1,11 @@
 package controller.knownCommands;
 
+import model.feature.basics.ChangeBrightness;
+import model.image.ImageFile;
 import model.image.ImageModel;
 import model.imageLibrary.ImageLibModel;
+
+import java.awt.*;
 
 public class Brighten extends ABSCommand {
   private final String value;
@@ -24,6 +28,8 @@ public class Brighten extends ABSCommand {
     }
 
     ImageModel image = model.read(this.origin);
-    model.addToLib(destination, image.changeBrightness(brightness));
+    Color[][] color2dArray = image.imageArrayCopy();
+    model.addToLib(
+        destination, new ImageFile(new ChangeBrightness(brightness).apply(color2dArray)));
   }
 }

@@ -30,7 +30,7 @@ public class IMEControllerImpl implements IMEController {
    */
   public IMEControllerImpl(ImageLibModel libModel, Readable readable, ImageProcessorView view) {
     if (libModel == null || readable == null || view == null) {
-      throw new IllegalArgumentException("Require non-null arguments");
+      throw new IllegalArgumentException("Require non-null arguments\n");
     }
     this.libModel = libModel;
     this.readable = readable;
@@ -104,6 +104,8 @@ public class IMEControllerImpl implements IMEController {
             // print error message from the exception received from the model or because of
             // unsupported command
             this.view.renderMessage(e.getMessage());
+          } catch (IndexOutOfBoundsException e) {
+            this.view.renderMessage("Insufficient argument given\n");
           }
         }
       }

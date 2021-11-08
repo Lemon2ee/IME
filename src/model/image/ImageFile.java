@@ -8,13 +8,7 @@ import java.awt.*;
  * image to given file path.
  */
 public class ImageFile extends ABSImageFile {
-
   public ImageFile(Color[][] image) {
     super(image);
-  }
-
-  @Override
-  public ReadOnlyImageModel copyReadOnly() {
-    return new ImageFile(this.imageArrayCopy());
   }
 }

@@ -15,5 +15,5 @@ public interface IFilter {
    * @param origin the original image to filter on as ImageModel
    * @return new image after filtering as ImageModel
    */
-  ImageModel execute(ImageModel origin);
+  Color[][] execute(Color[][] origin);
 }
