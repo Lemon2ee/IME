@@ -1,5 +1,6 @@
 import controller.IMEController;
-import controller.IMEControllerImpl;
+import controller.IMEControllerBasic;
+import controller.IMEControllerPro;
 import model.imageLibrary.ImageLib;
 import view.ImageProcessorView;
 import view.ImageProcessorViewImpl;
@@ -62,7 +63,7 @@ public class ImageProcessor {
     // at the time, the model should only be ImageLib
     ImageLib model = new ImageLib();
     ImageProcessorView view = new ImageProcessorViewImpl(System.out);
-    IMEController controller = new IMEControllerImpl(model, readable, view);
+    IMEController controller = new IMEControllerPro(model, readable, view);
     // run the program
     controller.initProcessor();
   }
