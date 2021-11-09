@@ -1,13 +1,13 @@
-import org.junit.Test;
-
-import java.awt.Color;
-
-import model.filter.Filter;
 import model.filter.IFilter;
+import model.filter.IFilterImpl;
 import model.image.ImageFile;
 import model.image.ImageModel;
+import org.junit.Test;
 
-public class FilterTest {
+import java.awt.*;
+
+public class ModelFilterTest {
+
   Color[][] sampleImage =
       new Color[][] {
         {Color.RED, Color.GREEN, Color.BLUE}, {Color.YELLOW, Color.WHITE, Color.BLACK}
@@ -22,52 +22,52 @@ public class FilterTest {
       };
 
   ImageModel sampleModel = new ImageFile(sampleImage);
-  TestUtils testUtils = new TestUtils();
+  UtilsTestUtils utilsTestUtils = new UtilsTestUtils();
   double[][] invalidKernel;
   IFilter filter;
 
   @Test(expected = IllegalArgumentException.class)
   public void testNullKernel() {
-    new Filter(invalidKernel);
+    new IFilterImpl(invalidKernel);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testEvenKernelWidth() {
     double[][] evenKernel = new double[3][2];
-    new Filter(evenKernel);
+    new IFilterImpl(evenKernel);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testEvenKernelHeight() {
     double[][] evenKernel = new double[2][3];
-    new Filter(evenKernel);
+    new IFilterImpl(evenKernel);
   }
 
   @Test
   public void testUnchangedKernel11() {
-    filter = new Filter(new double[][] {{1.0}});
-    ImageModel result = filter.execute(sampleModel);
-    testUtils.compareTwoColorArrays(sampleImage, result.imageArrayCopy());
+    filter = new IFilterImpl(new double[][] {{1.0}});
+    Color[][] result = filter.execute(sampleModel.imageArrayCopy());
+    utilsTestUtils.compareTwoColorArrays(sampleImage, result);
   }
 
   @Test
   public void testUnchangedKernel13() {
-    filter = new Filter(new double[][] {{0, 1.0, 0}});
-    ImageModel result = filter.execute(sampleModel);
-    testUtils.compareTwoColorArrays(sampleImage, result.imageArrayCopy());
+    filter = new IFilterImpl(new double[][] {{0, 1.0, 0}});
+    Color[][] result = filter.execute(sampleModel.imageArrayCopy());
+    utilsTestUtils.compareTwoColorArrays(sampleImage, result);
   }
 
   @Test
   public void testAllWhiteKernel33() {
-    filter = new Filter(new double[][] {{1.0, 1.0, 1.0}, {1.0, 1.0, 1.0}, {1.0, 1.0, 1.0}});
-    ImageModel result = filter.execute(sampleModel);
-    testUtils.compareTwoColorArrays(whiteImage, result.imageArrayCopy());
+    filter = new IFilterImpl(new double[][] {{1.0, 1.0, 1.0}, {1.0, 1.0, 1.0}, {1.0, 1.0, 1.0}});
+    Color[][] result = filter.execute(sampleModel.imageArrayCopy());
+    utilsTestUtils.compareTwoColorArrays(whiteImage, result);
   }
 
   @Test
   public void testAllBlackKernel55() {
     filter =
-        new Filter(
+        new IFilterImpl(
             new double[][] {
               {-1.0, -1.0, -1.0, -1.0, -1.0},
               {-1.0, -1.0, -1.0, -1.0, -1.0},
@@ -75,7 +75,7 @@ public class FilterTest {
               {-1.0, -1.0, -1.0, -1.0, -1.0},
               {-1.0, -1.0, -1.0, -1.0, -1.0}
             });
-    ImageModel result = filter.execute(sampleModel);
-    testUtils.compareTwoColorArrays(blackImage, result.imageArrayCopy());
+    Color[][] result = filter.execute(sampleModel.imageArrayCopy());
+    utilsTestUtils.compareTwoColorArrays(blackImage, result);
   }
 }

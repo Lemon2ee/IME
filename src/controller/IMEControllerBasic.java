@@ -16,7 +16,8 @@ import java.util.function.Function;
  * A class represents the controller of the image processor, which is responsible for passing
  * received command to model and tell view what to render.
  */
-public class IMEControllerImpl implements IMEController {
+public class IMEControllerBasic implements IMEController {
+  protected final Map<String, Function<String[], IMECommand>> knownCommands;
   private final ImageLibModel libModel;
   private final Readable readable;
   private final ImageProcessorView view;
@@ -28,13 +29,30 @@ public class IMEControllerImpl implements IMEController {
    * @param readable The given readable object where all input would come from
    * @param view The given view object where essential message will be rendered
    */
-  public IMEControllerImpl(ImageLibModel libModel, Readable readable, ImageProcessorView view) {
+  public IMEControllerBasic(ImageLibModel libModel, Readable readable, ImageProcessorView view) {
     if (libModel == null || readable == null || view == null) {
-      throw new IllegalArgumentException("Require non-null arguments");
+      throw new IllegalArgumentException("Require non-null arguments\n");
     }
     this.libModel = libModel;
     this.readable = readable;
     this.view = view;
+    this.knownCommands = new HashMap<>();
+    knownCommands.put("horizontal-flip", (String[] s) -> new Flip(s, FlipDirection.Horizontal));
+    knownCommands.put("vertical-flip", (String[] s) -> new Flip(s, FlipDirection.Vertical));
+    knownCommands.put("red-component", (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.R));
+    knownCommands.put(
+        "green-component", (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.G));
+    knownCommands.put(
+        "blue-component", (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.B));
+    knownCommands.put(
+        "intensity-component", (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.Intensity));
+    knownCommands.put(
+        "value-component", (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.Value));
+    knownCommands.put(
+        "luma-component", (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.Luma));
+    knownCommands.put("brighten", Brighten::new);
+    knownCommands.put("load", Load::new);
+    knownCommands.put("save", Save::new);
   }
 
   /**
@@ -46,36 +64,8 @@ public class IMEControllerImpl implements IMEController {
   @Override
   public void initProcessor() throws IllegalStateException {
     Scanner scanner = new Scanner(this.readable);
-    Map<String, Function<String[], IMECommand>> knownCommands = new HashMap<>();
 
     try {
-      // following command block might throw index out of bound exception
-      // put supported commands
-      knownCommands.put("horizontal-flip", (String[] s) -> new Flip(s, FlipDirection.Horizontal));
-      knownCommands.put("vertical-flip", (String[] s) -> new Flip(s, FlipDirection.Vertical));
-      knownCommands.put(
-          "red-component", (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.R));
-      knownCommands.put(
-          "green-component", (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.G));
-      knownCommands.put(
-          "blue-component", (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.B));
-      knownCommands.put(
-          "intensity-component",
-          (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.Intensity));
-      knownCommands.put(
-          "value-component", (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.Value));
-      knownCommands.put(
-          "luma-component", (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.Luma));
-      knownCommands.put(
-          "alpha-component", (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.Alpha));
-      knownCommands.put(
-          "sepia-component", (String[] s) -> new ComponentGreyScale(s, GreyScaleValue.Sepia));
-      knownCommands.put("blur", Blur::new);
-      knownCommands.put("sharper", Sharpen::new);
-      knownCommands.put("brighten", Brighten::new);
-      knownCommands.put("load", Load::new);
-      knownCommands.put("save", Save::new);
-
       while (scanner.hasNextLine()) {
         String lineCommand = scanner.nextLine();
         // quite the program when detected "q"
@@ -104,6 +94,8 @@ public class IMEControllerImpl implements IMEController {
             // print error message from the exception received from the model or because of
             // unsupported command
             this.view.renderMessage(e.getMessage());
+          } catch (IndexOutOfBoundsException e) {
+            this.view.renderMessage("Insufficient argument given\n");
           }
         }
       }

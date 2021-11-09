@@ -20,7 +20,8 @@ public class Flip extends ABSCommand {
 
   @Override
   public void execute(ImageLibModel model) {
-    ImageModel image = model.read(this.origin);
-    model.addToLib(destination, image.flip(direction));
+    ImageModel image = model.read(this.origin).copy();
+    image.applyFunctional(new model.feature.basics.Flip(this.direction));
+    model.addToLib(destination, image);
   }
 }

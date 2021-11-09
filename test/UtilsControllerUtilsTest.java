@@ -1,9 +1,9 @@
 import org.junit.Test;
 import utils.ControllerUtils;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-public class ControllerUtilsTest {
+public class UtilsControllerUtilsTest {
   ControllerUtils utils = new ControllerUtils();
 
   @Test

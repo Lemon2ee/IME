@@ -1,16 +1,16 @@
 package controller.knownCommands;
 
 import model.enums.GreyScaleValue;
-import model.feature.basics.GreyScale;
+import model.feature.pro.ProGreyScale;
 import model.image.ImageModel;
 import model.imageLibrary.ImageLibModel;
 
 import java.util.Objects;
 
-public class ComponentGreyScale extends ABSCommand {
+public class ProComponentGreyScale extends ABSCommand {
   private final GreyScaleValue value;
 
-  public ComponentGreyScale(String[] commands, GreyScaleValue value) {
+  public ProComponentGreyScale(String[] commands, GreyScaleValue value) {
     super(commands[1], commands[2]);
     Objects.requireNonNull(value);
     this.value = value;
@@ -22,7 +22,7 @@ public class ComponentGreyScale extends ABSCommand {
   @Override
   public void execute(ImageLibModel model) {
     ImageModel image = model.read(this.origin).copy();
-    image.applyFunctional(new GreyScale(value));
+    image.applyFunctional(new ProGreyScale(value));
     model.addToLib(destination, image);
   }
 }

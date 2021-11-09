@@ -1,16 +1,12 @@
-import model.enums.FlipDirection;
 import model.image.ImageFile;
 import model.image.ImageModel;
-import model.image.ReadOnlyImageModel;
 import model.imageLibrary.ImageLib;
 import model.imageLibrary.ReadOnlyImageLibModel;
 import org.junit.Test;
 
 import java.awt.*;
 
-import static org.junit.Assert.*;
-
-public class ReadOnlyImageLibModelTest {
+public class ImageLibModelReadOnlyTest {
 
   @Test
   public void read() {
@@ -22,15 +18,12 @@ public class ReadOnlyImageLibModelTest {
     ImageModel model = new ImageFile(colorArray);
     ImageLib lib = new ImageLib();
     lib.addToLib("12", model);
-    TestUtils utils = new TestUtils();
+    UtilsTestUtils utils = new UtilsTestUtils();
 
     ReadOnlyImageLibModel readOnlyImageLibModel = lib;
 
     utils.compareTwoColorArrays(
         readOnlyImageLibModel.read("12").imageArrayCopy(), model.imageArrayCopy());
     colorArray[1][1] = new Color(0, 0, 0);
-    assertNotEquals(
-        readOnlyImageLibModel.read("12").flip(FlipDirection.Horizontal),
-        readOnlyImageLibModel.read("12"));
   }
 }

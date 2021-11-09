@@ -1,16 +1,14 @@
 package model.filter;
 
-import java.awt.Color;
-
-import model.image.ImageFile;
-import model.image.ImageModel;
 import utils.ImageUtil;
+
+import java.awt.*;
 
 /**
  * The class to represent a common image filter. It takes in a 2d array as filter kernel and apply
  * the filter operation to the given image.
  */
-public class Filter implements IFilter {
+public class IFilterImpl implements IFilter {
   private final double[][] kernel;
   private final ImageUtil utils;
   private final int halfH;
@@ -21,9 +19,9 @@ public class Filter implements IFilter {
    *
    * @param kernel the kernel of the filter as a 2d array of double
    * @throws IllegalArgumentException if the provided filter kernel is null or not having an odd
-   *                                  dimension.
+   *     dimension.
    */
-  public Filter(double[][] kernel) throws IllegalArgumentException {
+  public IFilterImpl(double[][] kernel) throws IllegalArgumentException {
     if (kernel == null) {
       throw new IllegalArgumentException("Provided filter kernel cannot be null.");
     }
@@ -39,15 +37,14 @@ public class Filter implements IFilter {
   }
 
   @Override
-  public ImageModel execute(ImageModel origin) {
-    Color[][] src = origin.imageArrayCopy();
-    int srcHeight = origin.getHeight();
-    int srcWidth = origin.getWidth();
+  public Color[][] execute(Color[][] origin) {
+    int height = origin.length;
+    int width = origin[0].length;
 
-    Color[][] outputArray = new Color[srcHeight][srcWidth];
+    Color[][] outputArray = new Color[height][width];
 
-    for (int r = 0; r < srcHeight; r++) {
-      for (int c = 0; c < srcWidth; c++) {
+    for (int r = 0; r < height; r++) {
+      for (int c = 0; c < width; c++) {
         double newR = 0;
         double newG = 0;
         double newB = 0;
@@ -55,7 +52,7 @@ public class Filter implements IFilter {
         for (int kr = 0; kr <= 2 * halfH; kr++) {
           for (int kc = 0; kc <= 2 * halfW; kc++) {
             try {
-              Color srcColor = src[r - halfH + kr][c - halfW + kc];
+              Color srcColor = origin[r - halfH + kr][c - halfW + kc];
               double weight = this.kernel[kr][kc];
 
               newR += srcColor.getRed() * weight;
@@ -66,11 +63,14 @@ public class Filter implements IFilter {
             }
           }
         }
-        outputArray[r][c] = new Color(utils.clampRange((int) Math.round(newR)),
-                utils.clampRange((int) Math.round(newG)), utils.clampRange((int) Math.round(newB)));
+        outputArray[r][c] =
+            new Color(
+                utils.clampRange((int) Math.round(newR)),
+                utils.clampRange((int) Math.round(newG)),
+                utils.clampRange((int) Math.round(newB)));
       }
     }
 
-    return new ImageFile(outputArray);
+    return outputArray;
   }
 }

@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
-public class ImageProcessorViewImplTest {
+public class ViewImageProcessorViewImplTest {
   @Test(expected = IllegalArgumentException.class)
   public void testConstructor() {
     ImageProcessorView view = new ImageProcessorViewImpl(null);

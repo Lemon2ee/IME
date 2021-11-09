@@ -1,5 +1,5 @@
 import controller.IMEController;
-import controller.IMEControllerImpl;
+import controller.IMEControllerBasic;
 import model.imageLibrary.ImageLib;
 import model.imageLibrary.ImageLibModel;
 import org.junit.Test;
@@ -16,7 +16,7 @@ public class IMEControllerImplTest {
   @Test(expected = IllegalArgumentException.class)
   public void controllerConstructor1() {
     IMEController controller =
-        new IMEControllerImpl(
+        new IMEControllerBasic(
             null, new InputStreamReader(System.in), new ImageProcessorViewImpl(System.out));
   }
 
@@ -24,14 +24,14 @@ public class IMEControllerImplTest {
   public void controllerConstructor2() {
     ImageLib library = new ImageLib();
     IMEController controller =
-        new IMEControllerImpl(library, null, new ImageProcessorViewImpl(System.out));
+        new IMEControllerBasic(library, null, new ImageProcessorViewImpl(System.out));
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void controllerConstructor3() {
     ImageLib library = new ImageLib();
     IMEController controller =
-        new IMEControllerImpl(library, new InputStreamReader(System.in), null);
+        new IMEControllerBasic(library, new InputStreamReader(System.in), null);
   }
 
   @Test
@@ -41,7 +41,7 @@ public class IMEControllerImplTest {
     Readable readable = new StringReader("load test.ppm test");
     Appendable string = new StringBuilder();
     ImageProcessorView view = new ImageProcessorViewImpl(string);
-    IMEController controller = new IMEControllerImpl(library, readable, view);
+    IMEController controller = new IMEControllerBasic(library, readable, view);
     controller.initProcessor();
 
     assertEquals(
@@ -61,7 +61,7 @@ public class IMEControllerImplTest {
     Readable readable = new StringReader("load non-exist.ppm test");
     Appendable string = new StringBuilder();
     ImageProcessorView view = new ImageProcessorViewImpl(string);
-    IMEController controller = new IMEControllerImpl(library, readable, view);
+    IMEController controller = new IMEControllerBasic(library, readable, view);
     controller.initProcessor();
 
     assertEquals("", logger.toString());
@@ -74,7 +74,7 @@ public class IMEControllerImplTest {
     Readable readable = new StringReader("load test.ppm test\nsave test.ppm test");
     Appendable string = new StringBuilder();
     ImageProcessorView view = new ImageProcessorViewImpl(string);
-    IMEController controller = new IMEControllerImpl(library, readable, view);
+    IMEController controller = new IMEControllerBasic(library, readable, view);
     controller.initProcessor();
 
     assertEquals(
@@ -95,7 +95,7 @@ public class IMEControllerImplTest {
     Readable readable = new StringReader("load test.ppm test\nhorizontal-flip test test-hori");
     Appendable string = new StringBuilder();
     ImageProcessorView view = new ImageProcessorViewImpl(string);
-    IMEController controller = new IMEControllerImpl(library, readable, view);
+    IMEController controller = new IMEControllerBasic(library, readable, view);
     controller.initProcessor();
 
     assertEquals(
@@ -123,13 +123,11 @@ public class IMEControllerImplTest {
     Readable readable = new StringReader("vertical-flip test test-verti\n");
     Appendable string = new StringBuilder();
     ImageProcessorView view = new ImageProcessorViewImpl(string);
-    IMEController controller = new IMEControllerImpl(library, readable, view);
+    IMEController controller = new IMEControllerBasic(library, readable, view);
     controller.initProcessor();
 
     assertEquals(
-        "Received copy image array command\n"
-            + "Received FlipDirection = Vertical\n"
-            + "Received copy image array command\n",
+        "Received copy image array command\n" + "Received copy image array command\n",
         logger.toString());
   }
 
@@ -141,13 +139,11 @@ public class IMEControllerImplTest {
     Readable readable = new StringReader("red-component test test-red");
     Appendable string = new StringBuilder();
     ImageProcessorView view = new ImageProcessorViewImpl(string);
-    IMEController controller = new IMEControllerImpl(library, readable, view);
+    IMEController controller = new IMEControllerBasic(library, readable, view);
     controller.initProcessor();
 
     assertEquals(
-        "Received copy image array command\n"
-            + "Received grey scale value = R\n"
-            + "Received copy image array command\n",
+        "Received copy image array command\n" + "Received copy image array command\n",
         logger.toString());
   }
 
@@ -159,13 +155,11 @@ public class IMEControllerImplTest {
     Readable readable = new StringReader("green-component test test-green");
     Appendable string = new StringBuilder();
     ImageProcessorView view = new ImageProcessorViewImpl(string);
-    IMEController controller = new IMEControllerImpl(library, readable, view);
+    IMEController controller = new IMEControllerBasic(library, readable, view);
     controller.initProcessor();
 
     assertEquals(
-        "Received copy image array command\n"
-            + "Received grey scale value = G\n"
-            + "Received copy image array command\n",
+        "Received copy image array command\n" + "Received copy image array command\n",
         logger.toString());
   }
 
@@ -177,13 +171,11 @@ public class IMEControllerImplTest {
     Readable readable = new StringReader("blue-component test test-blue");
     Appendable string = new StringBuilder();
     ImageProcessorView view = new ImageProcessorViewImpl(string);
-    IMEController controller = new IMEControllerImpl(library, readable, view);
+    IMEController controller = new IMEControllerBasic(library, readable, view);
     controller.initProcessor();
 
     assertEquals(
-        "Received copy image array command\n"
-            + "Received grey scale value = B\n"
-            + "Received copy image array command\n",
+        "Received copy image array command\n" + "Received copy image array command\n",
         logger.toString());
   }
 
@@ -195,13 +187,11 @@ public class IMEControllerImplTest {
     Readable readable = new StringReader("value-component test test-value");
     Appendable string = new StringBuilder();
     ImageProcessorView view = new ImageProcessorViewImpl(string);
-    IMEController controller = new IMEControllerImpl(library, readable, view);
+    IMEController controller = new IMEControllerBasic(library, readable, view);
     controller.initProcessor();
 
     assertEquals(
-        "Received copy image array command\n"
-            + "Received grey scale value = Value\n"
-            + "Received copy image array command\n",
+        "Received copy image array command\n" + "Received copy image array command\n",
         logger.toString());
   }
 
@@ -213,13 +203,11 @@ public class IMEControllerImplTest {
     Readable readable = new StringReader("luma-component test test-luma");
     Appendable string = new StringBuilder();
     ImageProcessorView view = new ImageProcessorViewImpl(string);
-    IMEController controller = new IMEControllerImpl(library, readable, view);
+    IMEController controller = new IMEControllerBasic(library, readable, view);
     controller.initProcessor();
 
     assertEquals(
-        "Received copy image array command\n"
-            + "Received grey scale value = Luma\n"
-            + "Received copy image array command\n",
+        "Received copy image array command\n" + "Received copy image array command\n",
         logger.toString());
   }
 
@@ -231,13 +219,11 @@ public class IMEControllerImplTest {
     Readable readable = new StringReader("intensity-component test test-intensity");
     Appendable string = new StringBuilder();
     ImageProcessorView view = new ImageProcessorViewImpl(string);
-    IMEController controller = new IMEControllerImpl(library, readable, view);
+    IMEController controller = new IMEControllerBasic(library, readable, view);
     controller.initProcessor();
 
     assertEquals(
-        "Received copy image array command\n"
-            + "Received grey scale value = Intensity\n"
-            + "Received copy image array command\n",
+        "Received copy image array command\n" + "Received copy image array command\n",
         logger.toString());
   }
 
@@ -250,13 +236,11 @@ public class IMEControllerImplTest {
         new StringReader("intensity-component               test        " + "test-intensity");
     Appendable string = new StringBuilder();
     ImageProcessorView view = new ImageProcessorViewImpl(string);
-    IMEController controller = new IMEControllerImpl(library, readable, view);
+    IMEController controller = new IMEControllerBasic(library, readable, view);
     controller.initProcessor();
 
     assertEquals(
-        "Received copy image array command\n"
-            + "Received grey scale value = Intensity\n"
-            + "Received copy image array command\n",
+        "Received copy image array command\n" + "Received copy image array command\n",
         logger.toString());
   }
 
@@ -268,7 +252,7 @@ public class IMEControllerImplTest {
     Readable readable = new StringReader("# intensity-component test test-intensity\n");
     Appendable string = new StringBuilder();
     ImageProcessorView view = new ImageProcessorViewImpl(string);
-    IMEController controller = new IMEControllerImpl(library, readable, view);
+    IMEController controller = new IMEControllerBasic(library, readable, view);
     controller.initProcessor();
 
     assertEquals("Received copy image array command\n", logger.toString());
@@ -282,7 +266,7 @@ public class IMEControllerImplTest {
     Readable readable = new StringReader("\n");
     Appendable string = new StringBuilder();
     ImageProcessorView view = new ImageProcessorViewImpl(string);
-    IMEController controller = new IMEControllerImpl(library, readable, view);
+    IMEController controller = new IMEControllerBasic(library, readable, view);
     controller.initProcessor();
 
     assertEquals("Received copy image array command\n", logger.toString());

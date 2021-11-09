@@ -7,12 +7,7 @@ import model.imageLibrary.ImageLibModel;
 import org.junit.Test;
 import utils.ImageUtil;
 
-import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-
-import static org.junit.Assert.*;
 
 public class IMECommandTest {
   // brighten command test
@@ -52,7 +47,7 @@ public class IMECommandTest {
     IMECommand command = new Brighten(commandString);
     command.execute(library);
 
-    new TestUtils()
+    new UtilsTestUtils()
         .compareTwoColorArrays(
             new ImageUtil().readPPM("test-brighter.ppm"),
             library.read("test-brighten").imageArrayCopy());
@@ -79,7 +74,7 @@ public class IMECommandTest {
     IMECommand command = new Flip(commandString, FlipDirection.Vertical);
     command.execute(library);
 
-    new TestUtils()
+    new UtilsTestUtils()
         .compareTwoColorArrays(
             new ImageUtil().readPPM("test-verti.ppm"), library.read("test-verti").imageArrayCopy());
   }
@@ -105,7 +100,7 @@ public class IMECommandTest {
     IMECommand command = new ComponentGreyScale(commandString, GreyScaleValue.Luma);
     command.execute(library);
 
-    new TestUtils()
+    new UtilsTestUtils()
         .compareTwoColorArrays(
             new ImageUtil().readPPM("test-gs-luma.ppm"),
             library.read("test-luma").imageArrayCopy());
@@ -132,7 +127,7 @@ public class IMECommandTest {
     IMECommand command = new Save(commandString);
     command.execute(library);
 
-    new TestUtils()
+    new UtilsTestUtils()
         .compareTwoColorArrays(
             new ImageUtil().readPPM("test-test.ppm"), library.read("test").imageArrayCopy());
   }

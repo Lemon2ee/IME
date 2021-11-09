@@ -1,19 +1,23 @@
 import model.enums.FilterType;
 import model.enums.FlipDirection;
 import model.enums.GreyScaleValue;
+import model.feature.basics.ChangeBrightness;
+import model.feature.basics.Flip;
+import model.feature.basics.GreyScale;
+import model.feature.pro.Filter;
+import model.feature.pro.ProGreyScale;
 import model.image.ImageFile;
 import model.image.ImageModel;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.Color;
+import java.awt.*;
 
 /**
  * The JUnit test class for ImageFile class. Including tests for load and save an image and all
  * necessary image processing operations.
  */
-public class ImageFileTest {
+public class ModelFeatureTest {
   Color[][] invalidSample;
   Color[][] sampleImage =
       new Color[][] {
@@ -93,7 +97,7 @@ public class ImageFileTest {
 
   ImageModel model;
 
-  TestUtils testUtils = new TestUtils();
+  UtilsTestUtils utilsTestUtils = new UtilsTestUtils();
 
   @Before
   public void setup() {
@@ -107,110 +111,112 @@ public class ImageFileTest {
 
   @Test
   public void testImageArrayCopy() {
-    this.testUtils.compareTwoColorArrays(sampleImage, model.imageArrayCopy());
+    this.utilsTestUtils.compareTwoColorArrays(sampleImage, model.imageArrayCopy());
   }
 
   @Test
   public void testFlippedVertical() {
-    ImageModel result = model.flip(FlipDirection.Vertical);
-    this.testUtils.compareTwoColorArrays(verticalFlippedSample, result.imageArrayCopy());
+    this.utilsTestUtils.compareTwoColorArrays(
+        verticalFlippedSample, new Flip(FlipDirection.Vertical).apply(model.imageArrayCopy()));
   }
 
   @Test
   public void testFlippedHorizontal() {
-    ImageModel result = model.flip(FlipDirection.Horizontal);
-    this.testUtils.compareTwoColorArrays(horizontalFlippedSample, result.imageArrayCopy());
+    this.utilsTestUtils.compareTwoColorArrays(
+        horizontalFlippedSample, new Flip(FlipDirection.Horizontal).apply(model.imageArrayCopy()));
   }
 
   @Test
   public void testFlipVerticalThenHorizontal() {
-    ImageModel vertical = model.flip(FlipDirection.Vertical);
-    ImageModel result = vertical.flip(FlipDirection.Horizontal);
-    this.testUtils.compareTwoColorArrays(diagonalFlippedSample, result.imageArrayCopy());
+    this.utilsTestUtils.compareTwoColorArrays(
+        diagonalFlippedSample,
+        new Flip(FlipDirection.Horizontal)
+            .apply(new Flip(FlipDirection.Vertical).apply(model.imageArrayCopy())));
   }
 
   @Test
   public void testFlipHorizontalThenVertical() {
-    ImageModel horizontal = model.flip(FlipDirection.Horizontal);
-    ImageModel result = horizontal.flip(FlipDirection.Vertical);
-    this.testUtils.compareTwoColorArrays(diagonalFlippedSample, result.imageArrayCopy());
+    this.utilsTestUtils.compareTwoColorArrays(
+        diagonalFlippedSample,
+        new Flip(FlipDirection.Vertical)
+            .apply(new Flip(FlipDirection.Horizontal).apply(model.imageArrayCopy())));
   }
 
   @Test
   public void testGreyScaleR() {
-    ImageModel result = model.greyScale(GreyScaleValue.R);
-    this.testUtils.compareTwoColorArrays(greyScaleRImage, result.imageArrayCopy());
+    this.utilsTestUtils.compareTwoColorArrays(
+        greyScaleRImage, new GreyScale(GreyScaleValue.R).apply(model.imageArrayCopy()));
   }
 
   @Test
   public void testGreyScaleG() {
-    ImageModel result = model.greyScale(GreyScaleValue.G);
-    this.testUtils.compareTwoColorArrays(greyScaleGImage, result.imageArrayCopy());
+    this.utilsTestUtils.compareTwoColorArrays(
+        greyScaleGImage, new GreyScale(GreyScaleValue.G).apply(model.imageArrayCopy()));
   }
 
   @Test
   public void testGreyScaleB() {
-    ImageModel result = model.greyScale(GreyScaleValue.B);
-    this.testUtils.compareTwoColorArrays(greyScaleBImage, result.imageArrayCopy());
+    this.utilsTestUtils.compareTwoColorArrays(
+        greyScaleBImage, new GreyScale(GreyScaleValue.B).apply(model.imageArrayCopy()));
   }
 
   @Test
   public void testGreyScaleValue() {
-    ImageModel result = model.greyScale(GreyScaleValue.Value);
-    this.testUtils.compareTwoColorArrays(greyScaleVImage, result.imageArrayCopy());
+    this.utilsTestUtils.compareTwoColorArrays(
+        greyScaleVImage, new GreyScale(GreyScaleValue.Value).apply(model.imageArrayCopy()));
   }
 
   @Test
   public void testGreyScaleLuma() {
-    ImageModel result = model.greyScale(GreyScaleValue.Luma);
-    this.testUtils.compareTwoColorArrays(greyScaleLImage, result.imageArrayCopy());
+    this.utilsTestUtils.compareTwoColorArrays(
+        greyScaleLImage, new GreyScale(GreyScaleValue.Luma).apply(model.imageArrayCopy()));
   }
 
   @Test
   public void testGreyScaleIntensity() {
-    ImageModel result = model.greyScale(GreyScaleValue.Intensity);
-    this.testUtils.compareTwoColorArrays(greyScaleIImage, result.imageArrayCopy());
+    this.utilsTestUtils.compareTwoColorArrays(
+        greyScaleIImage, new GreyScale(GreyScaleValue.Intensity).apply(model.imageArrayCopy()));
   }
 
   @Test
   public void testGreyScaleSepia() {
-    ImageModel result = model.greyScale(GreyScaleValue.Sepia);
-    this.testUtils.compareTwoColorArrays(greyScaleSImage, result.imageArrayCopy());
+    this.utilsTestUtils.compareTwoColorArrays(
+        greyScaleSImage, new ProGreyScale(GreyScaleValue.Sepia).apply(model.imageArrayCopy()));
   }
 
   @Test
   public void testBrighten50() {
-    ImageModel result = model.changeBrightness(50);
-    this.testUtils.compareTwoColorArrays(brightenImage, result.imageArrayCopy());
+    this.utilsTestUtils.compareTwoColorArrays(
+        brightenImage, new ChangeBrightness(50).apply(model.imageArrayCopy()));
   }
 
   @Test
   public void testDarken50() {
-    ImageModel result = model.changeBrightness(-50);
-    this.testUtils.compareTwoColorArrays(darkenImage, result.imageArrayCopy());
+    this.utilsTestUtils.compareTwoColorArrays(
+        darkenImage, new ChangeBrightness(-50).apply(model.imageArrayCopy()));
   }
 
   @Test
   public void testOverBrighten() {
-    ImageModel result = model.changeBrightness(256);
-    this.testUtils.compareTwoColorArrays(overBrightenImage, result.imageArrayCopy());
+    this.utilsTestUtils.compareTwoColorArrays(
+        overBrightenImage, new ChangeBrightness(256).apply(model.imageArrayCopy()));
   }
 
   @Test
   public void testOverDarkenImage() {
-    ImageModel result = model.changeBrightness(-256);
-    this.testUtils.compareTwoColorArrays(overDarkenImage, result.imageArrayCopy());
+    this.utilsTestUtils.compareTwoColorArrays(
+        overDarkenImage, new ChangeBrightness(-256).apply(model.imageArrayCopy()));
   }
 
   @Test
   public void testFilterBlur() {
-    ImageModel result = model.filter(FilterType.Blur);
-    this.testUtils.compareTwoColorArrays(blurImage, result.imageArrayCopy());
+    this.utilsTestUtils.compareTwoColorArrays(
+        blurImage, new Filter(FilterType.Blur).apply(model.imageArrayCopy()));
   }
 
   @Test
   public void testFilterSharpen() {
-    ImageModel result = model.filter(FilterType.Sharpen);
-    this.testUtils.compareTwoColorArrays(sharpenImage, result.imageArrayCopy());
+    this.utilsTestUtils.compareTwoColorArrays(
+        sharpenImage, new Filter(FilterType.Sharpen).apply(model.imageArrayCopy()));
   }
 }

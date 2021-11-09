@@ -1,5 +1,6 @@
 package controller.knownCommands;
 
+import model.feature.basics.ChangeBrightness;
 import model.image.ImageModel;
 import model.imageLibrary.ImageLibModel;
 
@@ -23,7 +24,8 @@ public class Brighten extends ABSCommand {
       throw new IllegalArgumentException("Given value is not an integer\n");
     }
 
-    ImageModel image = model.read(this.origin);
-    model.addToLib(destination, image.changeBrightness(brightness));
+    ImageModel image = model.read(this.origin).copy();
+    image.applyFunctional(new ChangeBrightness(brightness));
+    model.addToLib(destination, image);
   }
 }

@@ -2,8 +2,6 @@ package controller.knownCommands;
 
 import model.imageLibrary.ImageLibModel;
 
-import java.io.IOException;
-
 public abstract class ABSCommand implements IMECommand {
   protected final String origin;
   protected final String destination;

@@ -1,4 +1,4 @@
-import java.awt.Color;
+import java.awt.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
  * The util class used for JUnit testing. Including abstraction of modular methods to avoid code
  * duplication.
  */
-public class TestUtils {
+public class UtilsTestUtils {
   /**
    * The method used to compare if two image data are the same.
    *

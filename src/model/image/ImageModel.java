@@ -1,46 +1,35 @@
 package model.image;
 
-import model.enums.FilterType;
-import model.enums.FlipDirection;
-import model.enums.GreyScaleValue;
-import model.filter.Filter;
+import model.feature.FeatureCommand;
+
+import java.awt.*;
 
 /**
  * The model of the Image Processor. Including operations of grey scale, brighten or darken by given
  * value, and flip the image vertically or horizontally.
  */
-public interface ImageModel extends ReadOnlyImageModel {
-  /**
-   * Perform grey scale operation on the given image.
-   *
-   * @param op the grey scale operation to be performed as a GreyScaleValue
-   * @return the new image data after operation as ImageModel
-   */
-  ImageModel greyScale(GreyScaleValue op);
+public interface ImageModel {
 
   /**
-   * Change the brightness of each pixel of the image by a given value.
+   * To get the height of the current image.
    *
-   * @param value the value to be changed on the image as an integer
-   * @return the new image data after operation as ImageModel
+   * @return the height of the image as integer
    */
-  ImageModel changeBrightness(int value);
+  int getHeight();
 
   /**
-   * Flip the image by the given direction.
+   * To get the width of the current image.
    *
-   * @param fd the direction of the flip operation as a FlipDirection
-   * @return the new image data after operation as ImageModel
+   * @return the width of the image as integer
    */
-  ImageModel flip(FlipDirection fd);
+  int getWidth();
 
   /**
-   * Filter the image with the specified operation.
+   * To deep copy the current image data into a new array.
    *
-   * @param ft the type of filter operation to be performed
-   * @return the new image data after operation as ImageModel
+   * @return deep copy of the current image as a 2d array of Color
    */
-  ImageModel filter(FilterType ft);
+  Color[][] imageArrayCopy();
 
   /**
    * Return a deep copy of the current class.
@@ -48,4 +37,11 @@ public interface ImageModel extends ReadOnlyImageModel {
    * @return An ImageModel object with same content but different memory address
    */
   ImageModel copy();
+
+  /**
+   * Apply the given functional command to the current image data.
+   *
+   * @param command the command function to be applied as FeatureCommand
+   */
+  void applyFunctional(FeatureCommand command);
 }

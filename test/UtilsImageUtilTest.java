@@ -1,15 +1,13 @@
 import model.image.ImageFile;
-import model.image.ReadOnlyImageModel;
-
+import model.image.ImageModel;
 import org.junit.Test;
-
 import utils.ImageUtil;
 
-import java.awt.Color;
+import java.awt.*;
 
 import static org.junit.Assert.assertEquals;
 
-public class ImageUtilTest {
+public class UtilsImageUtilTest {
   ImageUtil util = new ImageUtil();
 
   @Test
@@ -20,7 +18,7 @@ public class ImageUtilTest {
           {new Color(255, 255, 0), new Color(255, 255, 255), new Color(0, 0, 0)}
         };
 
-    new TestUtils().compareTwoColorArrays(colorArray, this.util.readPPM("test.ppm"));
+    new UtilsTestUtils().compareTwoColorArrays(colorArray, this.util.readPPM("test.ppm"));
   }
 
   @Test
@@ -126,11 +124,11 @@ public class ImageUtilTest {
           {new Color(255, 0, 0), new Color(0, 255, 0), new Color(0, 0, 255)},
           {new Color(255, 255, 0), new Color(255, 255, 255), new Color(0, 0, 0)}
         };
-    ReadOnlyImageModel model = new ImageFile(colorArray);
+    ImageModel model = new ImageFile(colorArray);
     this.util.writeImage("testWriteImage.ppm", model);
 
-    new TestUtils().compareTwoColorArrays(colorArray, model.imageArrayCopy());
+    new UtilsTestUtils().compareTwoColorArrays(colorArray, model.imageArrayCopy());
 
-    new TestUtils().compareTwoColorArrays(this.util.readPPM("testWriteImage.ppm"), colorArray);
+    new UtilsTestUtils().compareTwoColorArrays(this.util.readPPM("testWriteImage.ppm"), colorArray);
   }
 }
