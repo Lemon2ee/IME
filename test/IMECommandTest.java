@@ -42,14 +42,14 @@ public class IMECommandTest {
   @Test
   public void BrightenTestSuccess() {
     ImageLibModel library = new ImageLib();
-    library.addToLib("test", new ImageFile(new ImageUtil().readPPM("test.ppm")));
+    library.addToLib("test", new ImageFile(new ImageUtil().readPPM("testRes/test.ppm")));
     String[] commandString = "brighten 100 test test-brighten".split(" ");
     IMECommand command = new Brighten(commandString);
     command.execute(library);
 
     new UtilsTestUtils()
         .compareTwoColorArrays(
-            new ImageUtil().readPPM("test-brighter.ppm"),
+            new ImageUtil().readPPM("testRes/test-brighter.ppm"),
             library.read("test-brighten").imageArrayCopy());
   }
 
@@ -69,14 +69,15 @@ public class IMECommandTest {
   @Test
   public void FlipTestSuccess() {
     ImageLibModel library = new ImageLib();
-    library.addToLib("test", new ImageFile(new ImageUtil().readPPM("test.ppm")));
+    library.addToLib("test", new ImageFile(new ImageUtil().readPPM("testRes/test.ppm")));
     String[] commandString = "vertical-flip test test-verti".split(" ");
     IMECommand command = new Flip(commandString, FlipDirection.Vertical);
     command.execute(library);
 
     new UtilsTestUtils()
         .compareTwoColorArrays(
-            new ImageUtil().readPPM("test-verti.ppm"), library.read("test-verti").imageArrayCopy());
+            new ImageUtil().readPPM("testRes/test-verti.ppm"),
+            library.read("test-verti").imageArrayCopy());
   }
 
   // grey scale command test
@@ -95,14 +96,14 @@ public class IMECommandTest {
   @Test
   public void GreyTestSuccess() {
     ImageLibModel library = new ImageLib();
-    library.addToLib("test", new ImageFile(new ImageUtil().readPPM("test.ppm")));
+    library.addToLib("test", new ImageFile(new ImageUtil().readPPM("testRes/test.ppm")));
     String[] commandString = "luma-component test test-luma".split(" ");
     IMECommand command = new ComponentGreyScale(commandString, GreyScaleValue.Luma);
     command.execute(library);
 
     new UtilsTestUtils()
         .compareTwoColorArrays(
-            new ImageUtil().readPPM("test-gs-luma.ppm"),
+            new ImageUtil().readPPM("testRes/test-gs-luma.ppm"),
             library.read("test-luma").imageArrayCopy());
   }
 
@@ -122,7 +123,7 @@ public class IMECommandTest {
   @Test
   public void SaveTestSuccess() {
     ImageLibModel library = new ImageLib();
-    library.addToLib("test", new ImageFile(new ImageUtil().readPPM("test.ppm")));
+    library.addToLib("test", new ImageFile(new ImageUtil().readPPM("testRes/test.ppm")));
     String[] commandString = "save test-test.ppm test".split(" ");
     IMECommand command = new Save(commandString);
     command.execute(library);

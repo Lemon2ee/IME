@@ -18,7 +18,7 @@ public class UtilsImageUtilTest {
           {new Color(255, 255, 0), new Color(255, 255, 255), new Color(0, 0, 0)}
         };
 
-    new UtilsTestUtils().compareTwoColorArrays(colorArray, this.util.readPPM("test.ppm"));
+    new UtilsTestUtils().compareTwoColorArrays(colorArray, this.util.readPPM("testRes/test.ppm"));
   }
 
   @Test
@@ -125,10 +125,51 @@ public class UtilsImageUtilTest {
           {new Color(255, 255, 0), new Color(255, 255, 255), new Color(0, 0, 0)}
         };
     ImageModel model = new ImageFile(colorArray);
-    this.util.writeImage("testWriteImage.ppm", model);
+    this.util.writeImage("testRes/testWriteImage.ppm", model);
 
     new UtilsTestUtils().compareTwoColorArrays(colorArray, model.imageArrayCopy());
 
-    new UtilsTestUtils().compareTwoColorArrays(this.util.readPPM("testWriteImage.ppm"), colorArray);
+    new UtilsTestUtils()
+        .compareTwoColorArrays(this.util.readPPM("testRes/testWriteImage.ppm"), colorArray);
+  }
+
+  @Test
+  public void testReadJPG() {
+    Color[][] colorArray = new Color[][] {{new Color(255, 255, 255)}};
+
+    Color[][] colors = this.util.imageIORead("testRes/test.jpg");
+
+    new UtilsTestUtils().compareTwoColorArrays(colorArray, colors);
+  }
+
+  @Test
+  public void testReadPNG() {
+    Color[][] colorArray = new Color[][] {{new Color(255, 255, 255)}};
+
+    Color[][] colors = this.util.imageIORead("testRes/test.png");
+
+    new UtilsTestUtils().compareTwoColorArrays(colorArray, colors);
+  }
+
+  @Test
+  public void testWriteJPG() {
+    Color[][] colorArray = new Color[][] {{new Color(255, 255, 255)}};
+
+    this.util.writeImage("testRes/test-write.jpg", new ImageFile(colorArray));
+
+    Color[][] colors = this.util.imageIORead("testRes/test-write.jpg");
+
+    new UtilsTestUtils().compareTwoColorArrays(colorArray, colors);
+  }
+
+  @Test
+  public void testWritePNG() {
+    Color[][] colorArray = new Color[][] {{new Color(255, 255, 255)}};
+
+    this.util.writeImage("testRes/test-write.png", new ImageFile(colorArray));
+
+    Color[][] colors = this.util.imageIORead("testRes/test.png");
+
+    new UtilsTestUtils().compareTwoColorArrays(colorArray, colors);
   }
 }

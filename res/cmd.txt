@@ -1,0 +1,51 @@
+load xatel.png xatel
+
+brighten 100 xatel xatel-brighter
+
+brighten -100 xatel xatel-darker
+
+vertical-flip xatel xatel-vertical
+
+horizontal-flip xatel-vertical xatel-vertical-horizontal
+
+red-component xatel xatel-greyscale-red
+
+green-component xatel xatel-greyscale-green
+
+blue-component xatel xatel-greyscale-blue
+
+luma-component xatel xatel-greyscale-luma
+
+intensity-component xatel xatel-greyscale-intensity
+
+value-component xatel xatel-value
+
+alpha-component xatel xatel-alpha
+
+sepia-component xatel xatel-sepia
+
+sharper xatel xatel-sharper
+sharper xatel-sharper xatel-sharper
+sharper xatel-sharper xatel-sharper
+
+blur xatel xatel-blur
+blur xatel-blur xatel-blur
+blur xatel-blur xatel-blur
+
+
+
+# xatel ignore
+save xatel-brighter.bmp xatel-brighter
+save xatel-darker.png xatel-darker
+save xatel-gs-red.ppm xatel-greyscale-red
+save xatel-gs-green.png xatel-greyscale-green
+save xatel-gs-blue.jpg xatel-greyscale-blue
+save xatel-gs-luma.png xatel-greyscale-luma
+save xatel-gs-intensity.png xatel-greyscale-intensity
+save xatel-verti-hori-flip.png xatel-vertical-horizontal
+save xatel-verti.jpg xatel-vertical
+save xatel-value.png xatel-value
+save xatel-blur.png xatel-blur
+save xatel-alpha.png xatel-alpha
+save xatel-sharper.jpg xatel-sharper
+save xatel-sepia.bmp xatel-sepia

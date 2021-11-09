@@ -39,7 +39,7 @@ public class IMEControllerImplTest {
   public void controllerTestLoad() {
     StringBuilder logger = new StringBuilder();
     ImageLibModel library = new MockImageLib(logger);
-    Readable readable = new StringReader("load test.ppm test");
+    Readable readable = new StringReader("load testRes/test.ppm test");
     Appendable string = new StringBuilder();
     ImageProcessorView view = new ImageProcessorViewImpl(string);
     IMEController controller = new IMEControllerBasic(library, readable, view);
@@ -72,7 +72,7 @@ public class IMEControllerImplTest {
   public void controllerTestSave() {
     StringBuilder logger = new StringBuilder();
     ImageLibModel library = new MockImageLib(logger);
-    Readable readable = new StringReader("load test.ppm test\nsave test.ppm test");
+    Readable readable = new StringReader("load testRes/test.ppm test\nsave testRes/test.ppm test");
     Appendable string = new StringBuilder();
     ImageProcessorView view = new ImageProcessorViewImpl(string);
     IMEController controller = new IMEControllerBasic(library, readable, view);
@@ -93,7 +93,8 @@ public class IMEControllerImplTest {
   public void controllerTestHorizontalFlip() {
     StringBuilder logger = new StringBuilder();
     ImageLibModel library = new MockImageLib(logger);
-    Readable readable = new StringReader("load test.ppm test\nhorizontal-flip test test-hori");
+    Readable readable =
+        new StringReader("load testRes/test.ppm test\nhorizontal-flip test test-hori");
     Appendable string = new StringBuilder();
     ImageProcessorView view = new ImageProcessorViewImpl(string);
     IMEController controller = new IMEControllerBasic(library, readable, view);

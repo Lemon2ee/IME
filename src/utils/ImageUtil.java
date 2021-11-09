@@ -96,7 +96,11 @@ public class ImageUtil {
 
       for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
-          imageArray[y][x] = new Color(bufferedImage.getRGB(x, y), true);
+          if (filename.contains("png")) {
+            imageArray[y][x] = new Color(bufferedImage.getRGB(x, y), true);
+          } else {
+            imageArray[y][x] = new Color(bufferedImage.getRGB(x, y), false);
+          }
         }
       }
       return imageArray;
