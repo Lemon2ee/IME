@@ -52,4 +52,11 @@ public class Flip implements FeatureCommand {
 
     return output;
   }
+
+  @Override
+  public String toString() {
+    return "Flip{" +
+        "direction=" + direction +
+        '}';
+  }
 }
