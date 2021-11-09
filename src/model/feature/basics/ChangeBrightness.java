@@ -5,9 +5,18 @@ import utils.ImageUtil;
 
 import java.awt.*;
 
+/**
+ * The class represents a feature to perform change brightness operation on the image. Can be
+ * either brighten or darken the pixels in the given image.
+ */
 public class ChangeBrightness implements FeatureCommand {
   private final int value;
 
+  /**
+   * Create a function object to change the brightness of the image by given value.
+   *
+   * @param value the value of brightness to be changed on the image as integer
+   */
   public ChangeBrightness(int value) {
     this.value = value;
   }

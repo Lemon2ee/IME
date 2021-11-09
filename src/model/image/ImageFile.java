@@ -18,7 +18,7 @@ public class ImageFile implements ImageModel {
   private Color[][] image;
 
   /**
-   * The default constructor
+   * The default constructor of an ImageModel.
    *
    * @param image a 2d array which represents a PPM image.
    */

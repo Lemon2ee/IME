@@ -10,11 +10,20 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 
+/**
+ * The class represents a feature to perform grey scale operation on the image. Including
+ * standard greyscale operations that are available for the users.
+ */
 public class GreyScale implements FeatureCommand {
   protected final GreyScaleValue value;
   protected final Map<GreyScaleValue, Function<Color, Color>> greyScaleValueFunctionMap;
   protected final ImageUtil util;
 
+  /**
+   * Create a GreyScale function object to be applied on the given image.
+   *
+   * @param value the target value for the grey scale operation as GreyScaleValue
+   */
   public GreyScale(GreyScaleValue value) {
     this.value = Objects.requireNonNull(value);
     this.util = new ImageUtil();

@@ -6,9 +6,18 @@ import model.feature.FeatureCommand;
 import java.awt.*;
 import java.util.Objects;
 
+/**
+ * The class represents a flip operation that can be performed on a given image. The flip can be
+ * either horizontal or vertical.
+ */
 public class Flip implements FeatureCommand {
   private final FlipDirection direction;
 
+  /**
+   * To create a function object of flipping an image by the target direction.
+   *
+   * @param direction the direction to be flipped as FlipDirection
+   */
   public Flip(FlipDirection direction) {
     this.direction = Objects.requireNonNull(direction);
   }
