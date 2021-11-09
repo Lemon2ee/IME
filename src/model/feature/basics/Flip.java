@@ -34,14 +34,18 @@ public class Flip implements FeatureCommand {
       for (int r = 0; r < height; r++) {
         for (int c = 0; c < width; c++) {
           srcColor = image[r][width - 1 - c];
-          output[r][c] = new Color(srcColor.getRed(), srcColor.getGreen(), srcColor.getBlue());
+          output[r][c] =
+              new Color(
+                  srcColor.getRed(), srcColor.getGreen(), srcColor.getBlue(), srcColor.getAlpha());
         }
       }
     } else {
       for (int r = 0; r < height; r++) {
         for (int c = 0; c < width; c++) {
           srcColor = image[height - 1 - r][c];
-          output[r][c] = new Color(srcColor.getRed(), srcColor.getGreen(), srcColor.getBlue());
+          output[r][c] =
+              new Color(
+                  srcColor.getRed(), srcColor.getGreen(), srcColor.getBlue(), srcColor.getAlpha());
         }
       }
     }

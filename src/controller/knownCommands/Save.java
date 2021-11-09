@@ -15,7 +15,6 @@ public class Save extends ABSCommand {
   @Override
   public void execute(ImageLibModel model) {
     ImageUtil util = new ImageUtil();
-
     util.writeImage(this.destination, model.read(this.origin));
   }
 }

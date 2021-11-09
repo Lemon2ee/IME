@@ -48,6 +48,7 @@ public class IFilterImpl implements IFilter {
         double newR = 0;
         double newG = 0;
         double newB = 0;
+        int alpha = 0;
 
         for (int kr = 0; kr <= 2 * halfH; kr++) {
           for (int kc = 0; kc <= 2 * halfW; kc++) {
@@ -58,16 +59,19 @@ public class IFilterImpl implements IFilter {
               newR += srcColor.getRed() * weight;
               newG += srcColor.getGreen() * weight;
               newB += srcColor.getBlue() * weight;
+              alpha = srcColor.getAlpha();
             } catch (IndexOutOfBoundsException ibe) {
               // Do nothing
             }
           }
         }
+
         outputArray[r][c] =
             new Color(
                 utils.clampRange((int) Math.round(newR)),
                 utils.clampRange((int) Math.round(newG)),
-                utils.clampRange((int) Math.round(newB)));
+                utils.clampRange((int) Math.round(newB)),
+                alpha);
       }
     }
 
