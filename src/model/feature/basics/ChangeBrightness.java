@@ -1,12 +1,11 @@
 package model.feature.basics;
 
-import model.feature.BasicFeature;
-import model.image.ImageFile;
+import model.feature.FeatureCommand;
 import utils.ImageUtil;
 
 import java.awt.*;
 
-public class ChangeBrightness implements BasicFeature {
+public class ChangeBrightness implements FeatureCommand {
   private final int value;
 
   public ChangeBrightness(int value) {

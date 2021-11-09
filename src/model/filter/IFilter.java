@@ -1,8 +1,6 @@
 package model.filter;
 
-import java.awt.Color;
-
-import model.image.ImageModel;
+import java.awt.*;
 
 /**
  * The interface represents a filer.The filter has only one method to execute on the given 2d array

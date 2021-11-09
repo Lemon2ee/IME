@@ -1,13 +1,12 @@
 package model.feature.basics;
 
 import model.enums.FlipDirection;
-import model.feature.BasicFeature;
-import model.image.ImageFile;
+import model.feature.FeatureCommand;
 
 import java.awt.*;
 import java.util.Objects;
 
-public class Flip implements BasicFeature {
+public class Flip implements FeatureCommand {
   private final FlipDirection direction;
 
   public Flip(FlipDirection direction) {

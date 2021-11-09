@@ -1,8 +1,7 @@
 package model.feature.basics;
 
 import model.enums.GreyScaleValue;
-import model.feature.BasicFeature;
-import model.image.ImageFile;
+import model.feature.FeatureCommand;
 import utils.ImageUtil;
 
 import java.awt.*;
@@ -11,7 +10,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 
-public class GreyScale implements BasicFeature {
+public class GreyScale implements FeatureCommand {
   protected final GreyScaleValue value;
   protected final Map<GreyScaleValue, Function<Color, Color>> greyScaleValueFunctionMap;
   protected final ImageUtil util;

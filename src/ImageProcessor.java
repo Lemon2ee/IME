@@ -1,5 +1,4 @@
 import controller.IMEController;
-import controller.IMEControllerBasic;
 import controller.IMEControllerPro;
 import model.imageLibrary.ImageLib;
 import view.ImageProcessorView;

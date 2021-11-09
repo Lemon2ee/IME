@@ -1,5 +1,7 @@
 package model.image;
 
+import model.feature.FeatureCommand;
+
 import java.awt.*;
 
 /**
@@ -20,4 +22,6 @@ public interface ImageModel {
    * @return An ImageModel object with same content but different memory address
    */
   ImageModel copy();
+
+  void applyFunctional(FeatureCommand command);
 }

@@ -17,10 +17,10 @@ import java.util.function.Function;
  * received command to model and tell view what to render.
  */
 public class IMEControllerBasic implements IMEController {
+  protected final Map<String, Function<String[], IMECommand>> knownCommands;
   private final ImageLibModel libModel;
   private final Readable readable;
   private final ImageProcessorView view;
-  protected final Map<String, Function<String[], IMECommand>> knownCommands;
 
   /**
    * The default constructor.

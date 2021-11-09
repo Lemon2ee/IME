@@ -1,14 +1,89 @@
 package model.image;
 
-import java.awt.*;
+import model.enums.GreyScaleValue;
+import model.feature.FeatureCommand;
+import utils.ImageUtil;
 
-/**
- * The class represents the model of a PPM image processing queue. Including load image into the
- * queue, perform grey scale operation, change the image brightness, flip target image and save the
- * image to given file path.
- */
-public class ImageFile extends ABSImageFile {
+import java.awt.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+
+public class ImageFile implements ImageModel {
+  protected final ImageUtil util;
+  protected final Map<GreyScaleValue, Function<Color, Color>> greyScaleValueFunctionMap;
+  private final int height;
+  private final int width;
+  private Color[][] image;
+
+  /**
+   * The default constructor
+   *
+   * @param image a 2d array which represents a PPM image.
+   */
   public ImageFile(Color[][] image) {
-    super(image);
+    if (image == null) {
+      throw new IllegalArgumentException("Require non null arguments\n");
+    }
+
+    for (Color[] row : image) {
+      if (row == null) {
+        throw new IllegalArgumentException("Does not accept array with null value in it\n");
+      }
+
+      if (Arrays.asList(row).contains(null)) {
+        throw new IllegalArgumentException("Does not accept array with null value in it\n");
+      }
+    }
+
+    this.image = image;
+    this.height = this.image.length;
+    this.width = this.image[0].length;
+    this.util = new ImageUtil();
+    this.greyScaleValueFunctionMap = new HashMap<>();
+  }
+
+  /**
+   * Deep copy the PPMImage.
+   *
+   * @return A deep copy of this class
+   */
+  @Override
+  public ImageModel copy() {
+    return new ImageFile(this.image);
+  }
+
+  @Override
+  public void applyFunctional(FeatureCommand command) {
+    this.image = command.apply(this.image);
+  }
+
+  @Override
+  public int getHeight() {
+    return this.height;
+  }
+
+  @Override
+  public int getWidth() {
+    return this.width;
+  }
+
+  @Override
+  public Color[][] imageArrayCopy() {
+    Color[][] output = new Color[this.height][this.width];
+
+    for (int row = 0; row < this.height; row++) {
+      for (int col = 0; col < this.width; col++) {
+        Color old = this.image[row][col];
+        int red = old.getRed();
+        int green = old.getGreen();
+        int blue = old.getBlue();
+        Color newColor = new Color(red, green, blue);
+
+        output[row][col] = newColor;
+      }
+    }
+    return output;
   }
 }

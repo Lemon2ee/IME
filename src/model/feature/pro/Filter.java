@@ -1,13 +1,13 @@
 package model.feature.pro;
 
 import model.enums.FilterType;
-import model.feature.BasicFeature;
-import model.filter.IFilterImpl;
+import model.feature.FeatureCommand;
 import model.filter.IFilter;
+import model.filter.IFilterImpl;
 
 import java.awt.*;
 
-public class Filter implements BasicFeature {
+public class Filter implements FeatureCommand {
   private final FilterType type;
 
   public Filter(FilterType type) {

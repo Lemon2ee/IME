@@ -1,10 +1,8 @@
 package model.filter;
 
-import java.awt.Color;
-
-import model.image.ImageFile;
-import model.image.ImageModel;
 import utils.ImageUtil;
+
+import java.awt.*;
 
 /**
  * The class to represent a common image filter. It takes in a 2d array as filter kernel and apply
