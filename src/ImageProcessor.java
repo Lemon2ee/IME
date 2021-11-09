@@ -1,6 +1,6 @@
 import controller.IMEController;
 import controller.IMEControllerPro;
-import model.imageLibrary.ImageLib;
+import model.library.ImageLib;
 import view.ImageProcessorView;
 import view.ImageProcessorViewImpl;
 
@@ -29,7 +29,6 @@ public class ImageProcessor {
       String instruction = args[0];
 
       switch (instruction) {
-          // print the help message to System.out
         case "--help":
           StringBuilder help;
           help = new StringBuilder();

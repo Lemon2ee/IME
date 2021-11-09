@@ -6,6 +6,12 @@ import org.junit.Test;
 
 import java.awt.Color;
 
+import static org.junit.Assert.assertTrue;
+
+/**
+ * The JUnit test class for ImageFile class. Including tests for load and save an image and all
+ * necessary image processing operations.
+ */
 public class ModelFilterTest {
 
   Color[][] sampleImage =
@@ -47,21 +53,24 @@ public class ModelFilterTest {
   public void testUnchangedKernel11() {
     filter = new IFilterImpl(new double[][] {{1.0}});
     Color[][] result = filter.execute(sampleModel.imageArrayCopy());
-    utilsTestUtils.compareTwoColorArrays(sampleImage, result);
+    boolean boo = this.utilsTestUtils.compareTwoColorArrays(sampleImage, result);
+    assertTrue(boo);
   }
 
   @Test
   public void testUnchangedKernel13() {
     filter = new IFilterImpl(new double[][] {{0, 1.0, 0}});
     Color[][] result = filter.execute(sampleModel.imageArrayCopy());
-    utilsTestUtils.compareTwoColorArrays(sampleImage, result);
+    boolean boo = this.utilsTestUtils.compareTwoColorArrays(sampleImage, result);
+    assertTrue(boo);
   }
 
   @Test
   public void testAllWhiteKernel33() {
     filter = new IFilterImpl(new double[][] {{1.0, 1.0, 1.0}, {1.0, 1.0, 1.0}, {1.0, 1.0, 1.0}});
     Color[][] result = filter.execute(sampleModel.imageArrayCopy());
-    utilsTestUtils.compareTwoColorArrays(whiteImage, result);
+    boolean boo = this.utilsTestUtils.compareTwoColorArrays(whiteImage, result);
+    assertTrue(boo);
   }
 
   @Test
@@ -76,6 +85,7 @@ public class ModelFilterTest {
               {-1.0, -1.0, -1.0, -1.0, -1.0}
             });
     Color[][] result = filter.execute(sampleModel.imageArrayCopy());
-    utilsTestUtils.compareTwoColorArrays(blackImage, result);
+    boolean boo = this.utilsTestUtils.compareTwoColorArrays(blackImage, result);
+    assertTrue(boo);
   }
 }

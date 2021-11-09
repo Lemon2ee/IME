@@ -24,7 +24,7 @@ public class Filter implements FeatureCommand {
   }
 
   /**
-   * Apply filters to the given 2d color array which represents an image
+   * Apply filters to the given 2d color array which represents an image.
    *
    * @param image the image data to be processed as a 2d array of Color
    * @return An after-modification 2d array which represents an image
@@ -61,6 +61,6 @@ public class Filter implements FeatureCommand {
 
   @Override
   public String toString() {
-    return "Filter{" + "type=" + type + '}';
+    return "Filter{" + "type=" + type + "}\n";
   }
 }

@@ -1,9 +1,14 @@
 package controller;
 
-import controller.knownCommands.*;
+import controller.commands.Brighten;
+import controller.commands.ComponentGreyScale;
+import controller.commands.Flip;
+import controller.commands.Load;
+import controller.commands.Save;
+import controller.commands.IMECommand;
 import model.enums.FlipDirection;
 import model.enums.GreyScaleValue;
-import model.imageLibrary.ImageLibModel;
+import model.library.ImageLibModel;
 import view.ImageProcessorView;
 
 import java.io.IOException;

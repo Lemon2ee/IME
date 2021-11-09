@@ -3,6 +3,7 @@ import utils.ControllerUtils;
 
 import static org.junit.Assert.assertEquals;
 
+/** A class which test the controller utils. */
 public class UtilsControllerUtilsTest {
   ControllerUtils utils = new ControllerUtils();
 

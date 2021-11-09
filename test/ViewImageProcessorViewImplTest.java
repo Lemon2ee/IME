@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
+/** Test the ImageProcessorViewImpl, including rendering message to the given appendable. */
 public class ViewImageProcessorViewImplTest {
   @Test(expected = IllegalArgumentException.class)
   public void testConstructor() {

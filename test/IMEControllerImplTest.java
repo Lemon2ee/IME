@@ -1,8 +1,8 @@
 import controller.IMEController;
 import controller.IMEControllerBasic;
 import controller.IMEControllerPro;
-import model.imageLibrary.ImageLib;
-import model.imageLibrary.ImageLibModel;
+import model.library.ImageLib;
+import model.library.ImageLibModel;
 import org.junit.Test;
 import view.ImageProcessorView;
 import view.ImageProcessorViewImpl;
@@ -12,6 +12,9 @@ import java.io.StringReader;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * A test class for IMEControllerImpl which contains test for error handling and input forwarding.
+ */
 public class IMEControllerImplTest {
 
   @Test(expected = IllegalArgumentException.class)

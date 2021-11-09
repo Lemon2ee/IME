@@ -1,51 +1,51 @@
-load xatel.png xatel
+load screenshot.png screenshot
 
-brighten 100 xatel xatel-brighter
+brighten 100 screenshot screenshot-brighter
 
-brighten -100 xatel xatel-darker
+brighten -100 screenshot screenshot-darker
 
-vertical-flip xatel xatel-vertical
+vertical-flip screenshot screenshot-vertical
 
-horizontal-flip xatel-vertical xatel-vertical-horizontal
+horizontal-flip screenshot-vertical screenshot-vertical-horizontal
 
-red-component xatel xatel-greyscale-red
+red-component screenshot screenshot-greyscale-red
 
-green-component xatel xatel-greyscale-green
+green-component screenshot screenshot-greyscale-green
 
-blue-component xatel xatel-greyscale-blue
+blue-component screenshot screenshot-greyscale-blue
 
-luma-component xatel xatel-greyscale-luma
+luma-component screenshot screenshot-greyscale-luma
 
-intensity-component xatel xatel-greyscale-intensity
+intensity-component screenshot screenshot-greyscale-intensity
 
-value-component xatel xatel-value
+value-component screenshot screenshot-value
 
-alpha-component xatel xatel-alpha
+alpha-component screenshot screenshot-alpha
 
-sepia-component xatel xatel-sepia
+sepia-component screenshot screenshot-sepia
 
-sharper xatel xatel-sharper
-sharper xatel-sharper xatel-sharper
-sharper xatel-sharper xatel-sharper
+sharper screenshot screenshot-sharper
+sharper screenshot-sharper screenshot-sharper
+sharper screenshot-sharper screenshot-sharper
 
-blur xatel xatel-blur
-blur xatel-blur xatel-blur
-blur xatel-blur xatel-blur
+blur screenshot screenshot-blur
+blur screenshot-blur screenshot-blur
+blur screenshot-blur screenshot-blur
 
 
 
-# xatel ignore
-save xatel-brighter.bmp xatel-brighter
-save xatel-darker.png xatel-darker
-save xatel-gs-red.ppm xatel-greyscale-red
-save xatel-gs-green.png xatel-greyscale-green
-save xatel-gs-blue.jpg xatel-greyscale-blue
-save xatel-gs-luma.png xatel-greyscale-luma
-save xatel-gs-intensity.png xatel-greyscale-intensity
-save xatel-verti-hori-flip.png xatel-vertical-horizontal
-save xatel-verti.jpg xatel-vertical
-save xatel-value.png xatel-value
-save xatel-blur.png xatel-blur
-save xatel-alpha.png xatel-alpha
-save xatel-sharper.jpg xatel-sharper
-save xatel-sepia.bmp xatel-sepia
+# screenshot ignore
+save screenshot-brighter.bmp screenshot-brighter
+save screenshot-darker.png screenshot-darker
+save screenshot-gs-red.ppm screenshot-greyscale-red
+save screenshot-gs-green.png screenshot-greyscale-green
+save screenshot-gs-blue.jpg screenshot-greyscale-blue
+save screenshot-gs-luma.png screenshot-greyscale-luma
+save screenshot-gs-intensity.png screenshot-greyscale-intensity
+save screenshot-verti-hori-flip.png screenshot-vertical-horizontal
+save screenshot-verti.jpg screenshot-vertical
+save screenshot-value.png screenshot-value
+save screenshot-blur.png screenshot-blur
+save screenshot-alpha.png screenshot-alpha
+save screenshot-sharper.jpg screenshot-sharper
+save screenshot-sepia.bmp screenshot-sepia

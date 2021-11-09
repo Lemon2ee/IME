@@ -13,7 +13,7 @@ import java.io.FileNotFoundException;
 
 import java.util.Scanner;
 
-/** This class contains utility methods to read an image from file and manipulate a color */
+/** This class contains utility methods to read an image from file and manipulate a color. */
 public class ImageUtil {
 
   /**

@@ -1,10 +1,10 @@
 package controller;
 
-import controller.knownCommands.Blur;
-import controller.knownCommands.ProComponentGreyScale;
-import controller.knownCommands.Sharpen;
+import controller.commands.Blur;
+import controller.commands.ProComponentGreyScale;
+import controller.commands.Sharpen;
 import model.enums.GreyScaleValue;
-import model.imageLibrary.ImageLibModel;
+import model.library.ImageLibModel;
 import view.ImageProcessorView;
 
 /**
