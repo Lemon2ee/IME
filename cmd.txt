@@ -35,7 +35,7 @@ blur screenshot-blur screenshot-blur
 
 
 # screenshot ignore
-save images/screenshot-brighter.png screenshot-brighter
+save images/screenshot-brighter.bmp screenshot-brighter
 save images/screenshot-darker.png screenshot-darker
 save images/screenshot-gs-red.ppm screenshot-greyscale-red
 save images/screenshot-gs-green.png screenshot-greyscale-green
@@ -48,4 +48,4 @@ save images/screenshot-value.png screenshot-value
 save images/screenshot-blur.png screenshot-blur
 save images/screenshot-alpha.png screenshot-alpha
 save images/screenshot-sharper.jpg screenshot-sharper
-save images/screenshot-sepia.png screenshot-sepia
+save images/screenshot-sepia.bmp screenshot-sepia

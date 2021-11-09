@@ -1,7 +1,7 @@
 import model.feature.FeatureCommand;
 import model.image.ImageModel;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Objects;
 
 public class MockImageFile implements ImageModel {

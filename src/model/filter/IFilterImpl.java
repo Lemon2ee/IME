@@ -2,7 +2,7 @@ package model.filter;
 
 import utils.ImageUtil;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * The class to represent a common image filter. It takes in a 2d array as filter kernel and apply
@@ -36,6 +36,12 @@ public class IFilterImpl implements IFilter {
     this.utils = new ImageUtil();
   }
 
+  /**
+   * Apply filter to the given color 2d array.
+   *
+   * @param origin the original image to filter on as ImageModel
+   * @return an after-modification color 2d array representing an image.
+   */
   @Override
   public Color[][] execute(Color[][] origin) {
     int height = origin.length;

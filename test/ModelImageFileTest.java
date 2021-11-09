@@ -2,7 +2,7 @@ import model.image.ImageFile;
 import model.image.ImageModel;
 import org.junit.Test;
 
-import java.awt.*;
+import java.awt.Color;
 
 import static org.junit.Assert.assertEquals;
 

@@ -3,7 +3,7 @@ package model.feature.basics;
 import model.enums.FlipDirection;
 import model.feature.FeatureCommand;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Objects;
 
 /**
@@ -22,6 +22,12 @@ public class Flip implements FeatureCommand {
     this.direction = Objects.requireNonNull(direction);
   }
 
+  /**
+   * Flip the given image according to the direction filed.
+   *
+   * @param image the image data to be processed as a 2d array of Color
+   * @return An after-modification 2d array which represents an image
+   */
   @Override
   public Color[][] apply(Color[][] image) {
 
@@ -55,8 +61,6 @@ public class Flip implements FeatureCommand {
 
   @Override
   public String toString() {
-    return "Flip{" +
-        "direction=" + direction +
-        '}';
+    return "Flip{" + "direction=" + direction + '}';
   }
 }

@@ -11,7 +11,7 @@ import model.image.ImageModel;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * The JUnit test class for ImageFile class. Including tests for load and save an image and all

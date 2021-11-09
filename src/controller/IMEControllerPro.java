@@ -7,6 +7,10 @@ import model.enums.GreyScaleValue;
 import model.imageLibrary.ImageLibModel;
 import view.ImageProcessorView;
 
+/**
+ * A pro version of IMEControllerBasic with support of Alpha, Sepia greyscale and blurring,
+ * sharpening.
+ */
 public class IMEControllerPro extends IMEControllerBasic {
   /**
    * The default constructor, but with additional command support.

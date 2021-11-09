@@ -4,15 +4,15 @@ import model.enums.GreyScaleValue;
 import model.feature.FeatureCommand;
 import utils.ImageUtil;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 
 /**
- * The class represents a feature to perform grey scale operation on the image. Including
- * standard greyscale operations that are available for the users.
+ * The class represents a feature to perform grey scale operation on the image. Including standard
+ * greyscale operations that are available for the users.
  */
 public class GreyScale implements FeatureCommand {
   protected final GreyScaleValue value;
@@ -30,6 +30,12 @@ public class GreyScale implements FeatureCommand {
     this.greyScaleValueFunctionMap = new HashMap<>();
   }
 
+  /**
+   * Convert the given color 2d array based on the greyscale component.
+   *
+   * @param image the image data to be processed as a 2d array of Color
+   * @return An after-modification 2d array which represents an image
+   */
   @Override
   public Color[][] apply(Color[][] image) {
     greyScaleValueFunctionMap.put(GreyScaleValue.R, this.util::toRed);
@@ -63,7 +69,6 @@ public class GreyScale implements FeatureCommand {
 
   @Override
   public String toString() {
-    return "GreyScale{" +
-        "value=" + value + "}";
+    return "GreyScale{" + "value=" + value + "}";
   }
 }

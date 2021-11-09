@@ -4,7 +4,7 @@ import model.imageLibrary.ImageLibModel;
 import model.imageLibrary.ReadOnlyImageLibModel;
 import org.junit.Test;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class ImageLibTest {
   // no constructor test since it does not need one.

@@ -4,12 +4,17 @@ import model.enums.GreyScaleValue;
 import model.feature.FeatureCommand;
 import utils.ImageUtil;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * The class represents the model of an image which is being represented with a color 2d array.
+ * Including load image into the queue, perform grey scale operation, change the image brightness,
+ * flip target image and save the image to given file path.
+ */
 public class ImageFile implements ImageModel {
   protected final ImageUtil util;
   protected final Map<GreyScaleValue, Function<Color, Color>> greyScaleValueFunctionMap;
@@ -54,21 +59,41 @@ public class ImageFile implements ImageModel {
     return new ImageFile(this.image);
   }
 
+  /**
+   * Apply given feature command to the image array.
+   *
+   * @param command the command function to be applied as FeatureCommand
+   */
   @Override
   public void applyFunctional(FeatureCommand command) {
     this.image = command.apply(this.image);
   }
 
+  /**
+   * Get the height of image.
+   *
+   * @return an integer representing the height of the image
+   */
   @Override
   public int getHeight() {
     return this.height;
   }
 
+  /**
+   * Get the width of image.
+   *
+   * @return an integer representing the height of the image
+   */
   @Override
   public int getWidth() {
     return this.width;
   }
 
+  /**
+   * Return a deep copy of the current image 2d array.
+   *
+   * @return
+   */
   @Override
   public Color[][] imageArrayCopy() {
     Color[][] output = new Color[this.height][this.width];

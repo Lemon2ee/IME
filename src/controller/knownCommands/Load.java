@@ -10,8 +10,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * A concrete class which implements the IMECommand and provides the functionality of importing the
+ * image to the program.
+ */
 public class Load extends ABSCommand {
 
+  /**
+   * Default constructor.
+   *
+   * @param commands The given array of commands which contains the origin and destination of the
+   *     operation.
+   */
   public Load(String[] commands) {
     super(commands[1], commands[2]);
     if (commands.length > 3) {
@@ -19,6 +29,12 @@ public class Load extends ABSCommand {
     }
   }
 
+  /**
+   * Load the image correspond from the origin in the given local with according to the extension in
+   * the filepath.
+   *
+   * @param model The given ImageLibModel where the resources would come from.
+   */
   @Override
   public void execute(ImageLibModel model) {
     Map<String, Function<String, Color[][]>> knownExtension = new HashMap<>();

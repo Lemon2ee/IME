@@ -4,7 +4,7 @@ import model.imageLibrary.ImageLib;
 import model.imageLibrary.ReadOnlyImageLibModel;
 import org.junit.Test;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class ImageLibModelReadOnlyTest {
 

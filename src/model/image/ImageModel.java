@@ -2,7 +2,7 @@ package model.image;
 
 import model.feature.FeatureCommand;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * The model of the Image Processor. Including operations of grey scale, brighten or darken by given
@@ -32,7 +32,7 @@ public interface ImageModel {
   Color[][] imageArrayCopy();
 
   /**
-   * Return a deep copy of the current class.
+   * Return a deep copy with the same content of current class.
    *
    * @return An ImageModel object with same content but different memory address
    */

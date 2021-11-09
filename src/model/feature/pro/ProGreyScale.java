@@ -9,10 +9,10 @@ import model.feature.basics.GreyScale;
  */
 public class ProGreyScale extends GreyScale {
   /**
-   * Create a GreyScale function object includes advanced grey scale operations to be applied on
-   * the given image.
+   * Create a GreyScale function object includes advanced grey scale operations to be applied on the
+   * given image.
    *
-   * @param value the grey scale value to be applied to the image as GreyScaleVAlue
+   * @param value the grey scale value to be applied to the image as GreyScaleValue
    */
   public ProGreyScale(GreyScaleValue value) {
     super(value);
