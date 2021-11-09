@@ -20,7 +20,7 @@ public class MockImageFile implements ImageModel {
 
   @Override
   public void applyFunctional(FeatureCommand command) {
-
+    log.append(command.toString()).append("\n");
   }
 
   @Override

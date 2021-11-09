@@ -60,4 +60,10 @@ public class GreyScale implements FeatureCommand {
 
     return output;
   }
+
+  @Override
+  public String toString() {
+    return "GreyScale{" +
+        "value=" + value + "}";
+  }
 }

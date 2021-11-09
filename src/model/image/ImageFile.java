@@ -75,11 +75,7 @@ public class ImageFile implements ImageModel {
 
     for (int row = 0; row < this.height; row++) {
       for (int col = 0; col < this.width; col++) {
-        Color old = this.image[row][col];
-        int red = old.getRed();
-        int green = old.getGreen();
-        int blue = old.getBlue();
-        Color newColor = new Color(red, green, blue);
+        Color newColor = new Color(this.image[row][col].getRGB(), true);
 
         output[row][col] = newColor;
       }
