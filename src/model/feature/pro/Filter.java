@@ -44,4 +44,11 @@ public class Filter implements FeatureCommand {
 
     return filter.execute(image);
   }
+
+  @Override
+  public String toString() {
+    return "Filter{" +
+        "type=" + type +
+        '}';
+  }
 }

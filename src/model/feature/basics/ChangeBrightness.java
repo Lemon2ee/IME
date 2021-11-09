@@ -28,4 +28,11 @@ public class ChangeBrightness implements FeatureCommand {
 
     return output;
   }
+
+  @Override
+  public String toString() {
+    return "ChangeBrightness{" +
+        "value=" + value +
+        '}';
+  }
 }

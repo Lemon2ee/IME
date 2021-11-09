@@ -127,7 +127,10 @@ public class IMEControllerImplTest {
     controller.initProcessor();
 
     assertEquals(
-        "Received copy image array command\n" + "Received copy image array command\n",
+        "Received copy image array command\n"
+            + "Received Copy command\n"
+            + "Flip{direction=Vertical}\n"
+            + "Received copy image array command\n",
         logger.toString());
   }
 
@@ -143,7 +146,10 @@ public class IMEControllerImplTest {
     controller.initProcessor();
 
     assertEquals(
-        "Received copy image array command\n" + "Received copy image array command\n",
+        "Received copy image array command\n"
+            + "Received Copy command\n"
+            + "GreyScale{value=R}\n"
+            + "Received copy image array command\n",
         logger.toString());
   }
 
@@ -159,7 +165,10 @@ public class IMEControllerImplTest {
     controller.initProcessor();
 
     assertEquals(
-        "Received copy image array command\n" + "Received copy image array command\n",
+        "Received copy image array command\n"
+            + "Received Copy command\n"
+            + "GreyScale{value=G}\n"
+            + "Received copy image array command\n",
         logger.toString());
   }
 
@@ -175,7 +184,10 @@ public class IMEControllerImplTest {
     controller.initProcessor();
 
     assertEquals(
-        "Received copy image array command\n" + "Received copy image array command\n",
+        "Received copy image array command\n"
+            + "Received Copy command\n"
+            + "GreyScale{value=B}\n"
+            + "Received copy image array command\n",
         logger.toString());
   }
 
@@ -191,7 +203,10 @@ public class IMEControllerImplTest {
     controller.initProcessor();
 
     assertEquals(
-        "Received copy image array command\n" + "Received copy image array command\n",
+        "Received copy image array command\n"
+            + "Received Copy command\n"
+            + "GreyScale{value=Value}\n"
+            + "Received copy image array command\n",
         logger.toString());
   }
 
@@ -207,7 +222,10 @@ public class IMEControllerImplTest {
     controller.initProcessor();
 
     assertEquals(
-        "Received copy image array command\n" + "Received copy image array command\n",
+        "Received copy image array command\n"
+            + "Received Copy command\n"
+            + "GreyScale{value=Luma}\n"
+            + "Received copy image array command\n",
         logger.toString());
   }
 
@@ -223,7 +241,10 @@ public class IMEControllerImplTest {
     controller.initProcessor();
 
     assertEquals(
-        "Received copy image array command\n" + "Received copy image array command\n",
+        "Received copy image array command\n"
+            + "Received Copy command\n"
+            + "GreyScale{value=Intensity}\n"
+            + "Received copy image array command\n",
         logger.toString());
   }
 
@@ -240,7 +261,10 @@ public class IMEControllerImplTest {
     controller.initProcessor();
 
     assertEquals(
-        "Received copy image array command\n" + "Received copy image array command\n",
+        "Received copy image array command\n"
+            + "Received Copy command\n"
+            + "GreyScale{value=Intensity}\n"
+            + "Received copy image array command\n",
         logger.toString());
   }
 
