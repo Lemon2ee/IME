@@ -1,11 +1,16 @@
 import model.image.ImageFile;
-import model.imageLibrary.ImageLib;
-import model.imageLibrary.ImageLibModel;
-import model.imageLibrary.ReadOnlyImageLibModel;
+import model.library.ImageLib;
+import model.library.ImageLibModel;
+import model.library.ReadOnlyImageLibModel;
 import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 
-import java.awt.*;
+import java.awt.Color;
 
+/**
+ * The test class which verify ImageLib works as desired. Including reading and adding to the
+ * library
+ */
 public class ImageLibTest {
   // no constructor test since it does not need one.
 
@@ -17,7 +22,9 @@ public class ImageLibTest {
     Color[][] array = new Color[1][1];
     array[0][0] = new Color(244);
     library.addToLib("1", new ImageFile(array));
-    new UtilsTestUtils().compareTwoColorArrays(array, library.read("1").imageArrayCopy());
+    boolean boo =
+        new UtilsTestUtils().compareTwoColorArrays(array, library.read("1").imageArrayCopy());
+    assertTrue(boo);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -48,10 +55,12 @@ public class ImageLibTest {
   @Test
   public void ReadOnlyAddAndRead() {
     ImageLibModel library = new ImageLib();
-    ReadOnlyImageLibModel ReadLibrary = library;
+    ReadOnlyImageLibModel readLibrary = library;
     Color[][] array = new Color[1][1];
     array[0][0] = new Color(244);
     library.addToLib("1", new ImageFile(array));
-    new UtilsTestUtils().compareTwoColorArrays(array, ReadLibrary.read("1").imageArrayCopy());
+    boolean boo =
+        new UtilsTestUtils().compareTwoColorArrays(array, readLibrary.read("1").imageArrayCopy());
+    assertTrue(boo);
   }
 }

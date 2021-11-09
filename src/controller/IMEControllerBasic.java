@@ -1,9 +1,14 @@
 package controller;
 
-import controller.knownCommands.*;
+import controller.commands.Brighten;
+import controller.commands.ComponentGreyScale;
+import controller.commands.Flip;
+import controller.commands.Load;
+import controller.commands.Save;
+import controller.commands.IMECommand;
 import model.enums.FlipDirection;
 import model.enums.GreyScaleValue;
-import model.imageLibrary.ImageLibModel;
+import model.library.ImageLibModel;
 import view.ImageProcessorView;
 
 import java.io.IOException;
@@ -28,6 +33,7 @@ public class IMEControllerBasic implements IMEController {
    * @param libModel The provided model which will handle all manipulation of images
    * @param readable The given readable object where all input would come from
    * @param view The given view object where essential message will be rendered
+   * @throws IllegalArgumentException when null object is provided.
    */
   public IMEControllerBasic(ImageLibModel libModel, Readable readable, ImageProcessorView view) {
     if (libModel == null || readable == null || view == null) {

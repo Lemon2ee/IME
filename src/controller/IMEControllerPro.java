@@ -1,12 +1,16 @@
 package controller;
 
-import controller.knownCommands.Blur;
-import controller.knownCommands.ProComponentGreyScale;
-import controller.knownCommands.Sharpen;
+import controller.commands.Blur;
+import controller.commands.ProComponentGreyScale;
+import controller.commands.Sharpen;
 import model.enums.GreyScaleValue;
-import model.imageLibrary.ImageLibModel;
+import model.library.ImageLibModel;
 import view.ImageProcessorView;
 
+/**
+ * A pro version of IMEControllerBasic with support of Alpha, Sepia greyscale and blurring,
+ * sharpening.
+ */
 public class IMEControllerPro extends IMEControllerBasic {
   /**
    * The default constructor, but with additional command support.

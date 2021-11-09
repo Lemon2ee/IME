@@ -27,7 +27,7 @@ public class ImageProcessorViewImpl implements ImageProcessorView {
   @Override
   public void renderMessage(String message) throws IOException {
     if (message == null) {
-      throw new IllegalArgumentException("No able to render a null object");
+      throw new IllegalArgumentException("Not able to render a null object");
     }
     this.appendable.append(message);
   }

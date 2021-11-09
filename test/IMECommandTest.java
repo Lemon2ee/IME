@@ -1,14 +1,21 @@
-import controller.knownCommands.*;
+import controller.commands.Brighten;
+import controller.commands.ComponentGreyScale;
+import controller.commands.Flip;
+import controller.commands.Save;
+import controller.commands.IMECommand;
 import model.enums.FlipDirection;
 import model.enums.GreyScaleValue;
 import model.image.ImageFile;
-import model.imageLibrary.ImageLib;
-import model.imageLibrary.ImageLibModel;
+import model.library.ImageLib;
+import model.library.ImageLibModel;
 import org.junit.Test;
 import utils.ImageUtil;
 
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertTrue;
+
+/** A test class of IMECommand which includes every concrete class which implement it. */
 public class IMECommandTest {
   // brighten command test
   @Test(expected = IllegalArgumentException.class)
@@ -42,15 +49,16 @@ public class IMECommandTest {
   @Test
   public void BrightenTestSuccess() {
     ImageLibModel library = new ImageLib();
-    library.addToLib("test", new ImageFile(new ImageUtil().readPPM("test.ppm")));
+    library.addToLib("test", new ImageFile(new ImageUtil().readPPM("testRes/test.ppm")));
     String[] commandString = "brighten 100 test test-brighten".split(" ");
     IMECommand command = new Brighten(commandString);
     command.execute(library);
 
-    new UtilsTestUtils()
-        .compareTwoColorArrays(
-            new ImageUtil().readPPM("test-brighter.ppm"),
-            library.read("test-brighten").imageArrayCopy());
+    assertTrue(
+        new UtilsTestUtils()
+            .compareTwoColorArrays(
+                new ImageUtil().readPPM("testRes/test-brighter.ppm"),
+                library.read("test-brighten").imageArrayCopy()));
   }
 
   // flip command test
@@ -69,14 +77,16 @@ public class IMECommandTest {
   @Test
   public void FlipTestSuccess() {
     ImageLibModel library = new ImageLib();
-    library.addToLib("test", new ImageFile(new ImageUtil().readPPM("test.ppm")));
+    library.addToLib("test", new ImageFile(new ImageUtil().readPPM("testRes/test.ppm")));
     String[] commandString = "vertical-flip test test-verti".split(" ");
     IMECommand command = new Flip(commandString, FlipDirection.Vertical);
     command.execute(library);
 
-    new UtilsTestUtils()
-        .compareTwoColorArrays(
-            new ImageUtil().readPPM("test-verti.ppm"), library.read("test-verti").imageArrayCopy());
+    assertTrue(
+        new UtilsTestUtils()
+            .compareTwoColorArrays(
+                new ImageUtil().readPPM("testRes/test-verti.ppm"),
+                library.read("test-verti").imageArrayCopy()));
   }
 
   // grey scale command test
@@ -95,15 +105,16 @@ public class IMECommandTest {
   @Test
   public void GreyTestSuccess() {
     ImageLibModel library = new ImageLib();
-    library.addToLib("test", new ImageFile(new ImageUtil().readPPM("test.ppm")));
+    library.addToLib("test", new ImageFile(new ImageUtil().readPPM("testRes/test.ppm")));
     String[] commandString = "luma-component test test-luma".split(" ");
     IMECommand command = new ComponentGreyScale(commandString, GreyScaleValue.Luma);
     command.execute(library);
 
-    new UtilsTestUtils()
-        .compareTwoColorArrays(
-            new ImageUtil().readPPM("test-gs-luma.ppm"),
-            library.read("test-luma").imageArrayCopy());
+    assertTrue(
+        new UtilsTestUtils()
+            .compareTwoColorArrays(
+                new ImageUtil().readPPM("testRes/test-gs-luma.ppm"),
+                library.read("test-luma").imageArrayCopy()));
   }
 
   // grey scale command test
@@ -122,13 +133,15 @@ public class IMECommandTest {
   @Test
   public void SaveTestSuccess() {
     ImageLibModel library = new ImageLib();
-    library.addToLib("test", new ImageFile(new ImageUtil().readPPM("test.ppm")));
-    String[] commandString = "save test-test.ppm test".split(" ");
+    library.addToLib("test", new ImageFile(new ImageUtil().readPPM("testRes/test.ppm")));
+    String[] commandString = "save testRes/test-test.ppm test".split(" ");
     IMECommand command = new Save(commandString);
     command.execute(library);
 
-    new UtilsTestUtils()
-        .compareTwoColorArrays(
-            new ImageUtil().readPPM("test-test.ppm"), library.read("test").imageArrayCopy());
+    assertTrue(
+        new UtilsTestUtils()
+            .compareTwoColorArrays(
+                new ImageUtil().readPPM("testRes/test-test.ppm"),
+                library.read("test").imageArrayCopy()));
   }
 }

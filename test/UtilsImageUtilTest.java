@@ -3,10 +3,12 @@ import model.image.ImageModel;
 import org.junit.Test;
 import utils.ImageUtil;
 
-import java.awt.*;
+import java.awt.Color;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+/** Test class for ImageUtil which contains all implemented method. */
 public class UtilsImageUtilTest {
   ImageUtil util = new ImageUtil();
 
@@ -18,7 +20,11 @@ public class UtilsImageUtilTest {
           {new Color(255, 255, 0), new Color(255, 255, 255), new Color(0, 0, 0)}
         };
 
-    new UtilsTestUtils().compareTwoColorArrays(colorArray, this.util.readPPM("test.ppm"));
+    boolean boo =
+        new UtilsTestUtils()
+            .compareTwoColorArrays(colorArray, this.util.readPPM("testRes/test.ppm"));
+
+    assertTrue(boo);
   }
 
   @Test
@@ -125,10 +131,64 @@ public class UtilsImageUtilTest {
           {new Color(255, 255, 0), new Color(255, 255, 255), new Color(0, 0, 0)}
         };
     ImageModel model = new ImageFile(colorArray);
-    this.util.writeImage("testWriteImage.ppm", model);
+    this.util.writeImage("testRes/testWriteImage.ppm", model);
 
-    new UtilsTestUtils().compareTwoColorArrays(colorArray, model.imageArrayCopy());
+    boolean boo = new UtilsTestUtils().compareTwoColorArrays(colorArray, model.imageArrayCopy());
 
-    new UtilsTestUtils().compareTwoColorArrays(this.util.readPPM("testWriteImage.ppm"), colorArray);
+    assertTrue(boo);
+
+    boolean boo1 =
+        new UtilsTestUtils()
+            .compareTwoColorArrays(this.util.readPPM("testRes/testWriteImage.ppm"), colorArray);
+
+    assertTrue(boo1);
+  }
+
+  @Test
+  public void testReadJPG() {
+    Color[][] colorArray = new Color[][] {{new Color(255, 255, 255)}};
+
+    Color[][] colors = this.util.imageIORead("testRes/test.jpg");
+
+    boolean boo = new UtilsTestUtils().compareTwoColorArrays(colorArray, colors);
+
+    assertTrue(boo);
+  }
+
+  @Test
+  public void testReadPNG() {
+    Color[][] colorArray = new Color[][] {{new Color(255, 255, 255)}};
+
+    Color[][] colors = this.util.imageIORead("testRes/test.png");
+
+    boolean boo = new UtilsTestUtils().compareTwoColorArrays(colorArray, colors);
+
+    assertTrue(boo);
+  }
+
+  @Test
+  public void testWriteJPG() {
+    Color[][] colorArray = new Color[][] {{new Color(255, 255, 255)}};
+
+    this.util.writeImage("testRes/test-write.jpg", new ImageFile(colorArray));
+
+    Color[][] colors = this.util.imageIORead("testRes/test-write.jpg");
+
+    boolean boo = new UtilsTestUtils().compareTwoColorArrays(colorArray, colors);
+
+    assertTrue(boo);
+  }
+
+  @Test
+  public void testWritePNG() {
+    Color[][] colorArray = new Color[][] {{new Color(255, 255, 255)}};
+
+    this.util.writeImage("testRes/test-write.png", new ImageFile(colorArray));
+
+    Color[][] colors = this.util.imageIORead("testRes/test.png");
+
+    boolean boo = new UtilsTestUtils().compareTwoColorArrays(colorArray, colors);
+
+    assertTrue(boo);
   }
 }

@@ -3,12 +3,17 @@ package utils;
 import model.image.ImageModel;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+
 import java.util.Scanner;
 
-/** This class contains utility methods to read an image from file and manipulate a color */
+/** This class contains utility methods to read an image from file and manipulate a color. */
 public class ImageUtil {
 
   /**
@@ -68,6 +73,12 @@ public class ImageUtil {
     return colorArray;
   }
 
+  /**
+   * Read image format supported by ImageIO.
+   *
+   * @param filename file path of the image
+   * @return A 2-dimensional color 2d array representing the image
+   */
   public Color[][] imageIORead(String filename) {
     File image = new File(filename);
 
@@ -85,7 +96,11 @@ public class ImageUtil {
 
       for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
-          imageArray[y][x] = new Color(bufferedImage.getRGB(x, y), true);
+          if (filename.contains("png")) {
+            imageArray[y][x] = new Color(bufferedImage.getRGB(x, y), true);
+          } else {
+            imageArray[y][x] = new Color(bufferedImage.getRGB(x, y), false);
+          }
         }
       }
       return imageArray;
@@ -173,6 +188,12 @@ public class ImageUtil {
         });
   }
 
+  /**
+   * Perform sepia value grey scale on a rgb pixel.
+   *
+   * @param origin the original pixel for the grey scale as Color
+   * @return the new pixel after grey scale as Color
+   */
   public Color toSepia(Color origin) {
     return colorTransform(
         origin,
@@ -242,6 +263,12 @@ public class ImageUtil {
     }
   }
 
+  /**
+   * Write an image to local disk with given extension.
+   *
+   * @param filepath where the image will be stored at
+   * @param model the source of image
+   */
   public void writeImage(String filepath, ImageModel model) {
 
     String extension = new ControllerUtils().getExtension(filepath);
@@ -253,17 +280,24 @@ public class ImageUtil {
       case ".png":
         this.imageIOWrite(model, filepath, "png");
         break;
-      case ".bpm":
-        this.imageIOWrite(model, filepath, "bpm");
+      case ".bmp":
+        this.imageIOWrite(model, filepath, "bmp");
         break;
       case ".jpg":
         this.imageIOWrite(model, filepath, "jpg");
         break;
       default:
-        break;
+        throw new IllegalArgumentException(
+            "Does not support exporting the image as this format: " + extension + "\n");
     }
   }
 
+  /**
+   * Convert image to PPM file format and write it to local disk.
+   *
+   * @param model the image source
+   * @param filepath the file path where the image will be stored
+   */
   private void writePPM(ImageModel model, String filepath) {
     StringBuilder image = new StringBuilder();
     StringBuilder header = new StringBuilder();
@@ -309,10 +343,24 @@ public class ImageUtil {
     }
   }
 
+  /**
+   * A private helper method to utilize imageio to write an image to local disk.
+   *
+   * @param model the image source
+   * @param filepath the local file path where the image will be stored
+   * @param extension the given file format
+   */
   private void imageIOWrite(ImageModel model, String filepath, String extension) {
     // Initialize BufferedImage, assuming Color[][] is already properly populated.
-    BufferedImage bufferedImage =
-        new BufferedImage(model.getWidth(), model.getHeight(), BufferedImage.TYPE_INT_ARGB);
+    BufferedImage bufferedImage;
+
+    if (extension.equals("png")) {
+      bufferedImage =
+          new BufferedImage(model.getWidth(), model.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+    } else {
+      bufferedImage =
+          new BufferedImage(model.getWidth(), model.getHeight(), BufferedImage.TYPE_INT_RGB);
+    }
 
     Color[][] array = model.imageArrayCopy();
 

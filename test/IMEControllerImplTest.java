@@ -1,7 +1,8 @@
 import controller.IMEController;
 import controller.IMEControllerBasic;
-import model.imageLibrary.ImageLib;
-import model.imageLibrary.ImageLibModel;
+import controller.IMEControllerPro;
+import model.library.ImageLib;
+import model.library.ImageLibModel;
 import org.junit.Test;
 import view.ImageProcessorView;
 import view.ImageProcessorViewImpl;
@@ -11,6 +12,9 @@ import java.io.StringReader;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * A test class for IMEControllerImpl which contains test for error handling and input forwarding.
+ */
 public class IMEControllerImplTest {
 
   @Test(expected = IllegalArgumentException.class)
@@ -38,7 +42,7 @@ public class IMEControllerImplTest {
   public void controllerTestLoad() {
     StringBuilder logger = new StringBuilder();
     ImageLibModel library = new MockImageLib(logger);
-    Readable readable = new StringReader("load test.ppm test");
+    Readable readable = new StringReader("load testRes/test.ppm test");
     Appendable string = new StringBuilder();
     ImageProcessorView view = new ImageProcessorViewImpl(string);
     IMEController controller = new IMEControllerBasic(library, readable, view);
@@ -71,7 +75,7 @@ public class IMEControllerImplTest {
   public void controllerTestSave() {
     StringBuilder logger = new StringBuilder();
     ImageLibModel library = new MockImageLib(logger);
-    Readable readable = new StringReader("load test.ppm test\nsave test.ppm test");
+    Readable readable = new StringReader("load testRes/test.ppm test\nsave testRes/test.ppm test");
     Appendable string = new StringBuilder();
     ImageProcessorView view = new ImageProcessorViewImpl(string);
     IMEController controller = new IMEControllerBasic(library, readable, view);
@@ -92,7 +96,8 @@ public class IMEControllerImplTest {
   public void controllerTestHorizontalFlip() {
     StringBuilder logger = new StringBuilder();
     ImageLibModel library = new MockImageLib(logger);
-    Readable readable = new StringReader("load test.ppm test\nhorizontal-flip test test-hori");
+    Readable readable =
+        new StringReader("load testRes/test.ppm test\nhorizontal-flip test test-hori");
     Appendable string = new StringBuilder();
     ImageProcessorView view = new ImageProcessorViewImpl(string);
     IMEController controller = new IMEControllerBasic(library, readable, view);
@@ -294,5 +299,81 @@ public class IMEControllerImplTest {
     controller.initProcessor();
 
     assertEquals("Received copy image array command\n", logger.toString());
+  }
+
+  @Test
+  public void controllerTestBlur() {
+    StringBuilder logger = new StringBuilder();
+    ImageLibModel library = new MockImageLib(new StringBuilder());
+    library.addToLib("test", new MockImageFile(logger));
+    Readable readable = new StringReader("blur test test\n");
+    Appendable string = new StringBuilder();
+    ImageProcessorView view = new ImageProcessorViewImpl(string);
+    IMEController controller = new IMEControllerPro(library, readable, view);
+    controller.initProcessor();
+
+    assertEquals(
+        "Received copy image array command\n"
+            + "Received Copy command\n"
+            + "Filter{type=Blur}\n"
+            + "Received copy image array command\n",
+        logger.toString());
+  }
+
+  @Test
+  public void controllerTestSharpen() {
+    StringBuilder logger = new StringBuilder();
+    ImageLibModel library = new MockImageLib(new StringBuilder());
+    library.addToLib("test", new MockImageFile(logger));
+    Readable readable = new StringReader("sharper test test\n");
+    Appendable string = new StringBuilder();
+    ImageProcessorView view = new ImageProcessorViewImpl(string);
+    IMEController controller = new IMEControllerPro(library, readable, view);
+    controller.initProcessor();
+
+    assertEquals(
+        "Received copy image array command\n"
+            + "Received Copy command\n"
+            + "Filter{type=Sharpen}\n"
+            + "Received copy image array command\n",
+        logger.toString());
+  }
+
+  @Test
+  public void controllerTestSepiaComponent() {
+    StringBuilder logger = new StringBuilder();
+    ImageLibModel library = new MockImageLib(new StringBuilder());
+    library.addToLib("test", new MockImageFile(logger));
+    Readable readable = new StringReader("sepia-component test test-sepia\n");
+    Appendable string = new StringBuilder();
+    ImageProcessorView view = new ImageProcessorViewImpl(string);
+    IMEController controller = new IMEControllerPro(library, readable, view);
+    controller.initProcessor();
+
+    assertEquals(
+        "Received copy image array command\n"
+            + "Received Copy command\n"
+            + "GreyScale{value=Sepia}\n"
+            + "Received copy image array command\n",
+        logger.toString());
+  }
+
+  @Test
+  public void controllerTestAlphaComponent() {
+    StringBuilder logger = new StringBuilder();
+    ImageLibModel library = new MockImageLib(new StringBuilder());
+    library.addToLib("test", new MockImageFile(logger));
+    Readable readable = new StringReader("alpha-component test test-sepia\n");
+    Appendable string = new StringBuilder();
+    ImageProcessorView view = new ImageProcessorViewImpl(string);
+    IMEController controller = new IMEControllerPro(library, readable, view);
+    controller.initProcessor();
+
+    assertEquals(
+        "Received copy image array command\n"
+            + "Received Copy command\n"
+            + "GreyScale{value=Alpha}\n"
+            + "Received copy image array command\n",
+        logger.toString());
   }
 }

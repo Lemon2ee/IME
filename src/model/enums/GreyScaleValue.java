@@ -1,5 +1,6 @@
 package model.enums;
 
+/** All grey scale value that is now supported. */
 public enum GreyScaleValue {
   R, // Grey Scale operation by its R channel value
   G, // Grey Scale operation by its G channel value
