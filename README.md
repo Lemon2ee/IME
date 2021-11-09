@@ -24,12 +24,35 @@ Structure: In model package
         - Provides writable method to the users, acts like an interface which provides readable &
           writable permission.
     - ABSImageFile (implements ImageModel)
-        - Implements basic functionality of the ImageModel
+        - Implements basic functionality of the ImageModel.
 - Package: enums
     - FlipDirection
-        - The flip direction that has been provided
+        - The flip direction that has been provided.
     - GreyScaleValue
-        - The available component for grey scale operations
+        - The available component for grey scale operations.
+- Package: filter
+    - IFilter (interface)
+        - Provide necessary public method to apply the filter to the given 2d array of image 
+          data and generate a new 2d array after operation.
+    - IFilterImpl (implements IFilter)
+        - The class takes in a filter kernel in the contructor, and only public method is to 
+          apply the filter operation to the given image data.
+- Package: feature
+    - FeatureCommand (interface)
+        - Provide necessary public method for all features as a function object that can be 
+          applied to the provided image data.
+    - Package: basics
+        - ChangeBrightness (implements FeatureCommand)
+            - Change the brightness of the image by given value.
+        - Flip (implements FeatureCommand)
+            - Flip the image by the given flip direction.
+        - GreyScale (implements FeatureCommand)
+            - Basic operations of grey scale can use R, G, B, Intensity, Luma or average Value.
+    - Package: pro
+        - Filter (implements FeatureCommand)
+            - Filter the image by specific filter kernel, can be either blur or sharpen.
+        - ProGreyScale (implements FeatureCommand)
+            - Advanced operations of grey scale can use the Alpha value or convert to Sepia tone.
 
 Structure: In controller package
 
