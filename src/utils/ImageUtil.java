@@ -85,7 +85,7 @@ public class ImageUtil {
 
       for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
-          imageArray[y][x] = new Color(bufferedImage.getRGB(x, y));
+          imageArray[y][x] = new Color(bufferedImage.getRGB(x, y), true);
         }
       }
       return imageArray;
@@ -101,7 +101,7 @@ public class ImageUtil {
    * @return the new pixel after grey scale as Color
    */
   public Color toRed(Color origin) {
-    return new Color(origin.getRed(), origin.getRed(), origin.getRed());
+    return new Color(origin.getRed(), origin.getRed(), origin.getRed(), origin.getAlpha());
   }
 
   /**
@@ -111,7 +111,7 @@ public class ImageUtil {
    * @return the new pixel after grey scale as Color
    */
   public Color toGreen(Color origin) {
-    return new Color(origin.getGreen(), origin.getGreen(), origin.getGreen());
+    return new Color(origin.getGreen(), origin.getGreen(), origin.getGreen(), origin.getAlpha());
   }
 
   /**
@@ -121,7 +121,7 @@ public class ImageUtil {
    * @return the new pixel after grey scale as Color
    */
   public Color toBlue(Color origin) {
-    return new Color(origin.getBlue(), origin.getBlue(), origin.getBlue());
+    return new Color(origin.getBlue(), origin.getBlue(), origin.getBlue(), origin.getAlpha());
   }
 
   /**
@@ -132,7 +132,7 @@ public class ImageUtil {
    */
   public Color toValue(Color origin) {
     int maxValue = Math.max(origin.getRed(), Math.max(origin.getGreen(), origin.getBlue()));
-    return new Color(maxValue, maxValue, maxValue);
+    return new Color(maxValue, maxValue, maxValue, origin.getAlpha());
   }
 
   /**
@@ -142,7 +142,7 @@ public class ImageUtil {
    * @return the new pixel after grey scale as Color
    */
   public Color toAlpha(Color origin) {
-    return new Color(origin.getAlpha(), origin.getAlpha(), origin.getAlpha());
+    return new Color(origin.getAlpha(), origin.getAlpha(), origin.getAlpha(), origin.getAlpha());
   }
 
   /**
@@ -191,7 +191,7 @@ public class ImageUtil {
     int newG = origin.getGreen() + value;
     int newB = origin.getBlue() + value;
 
-    return new Color(clampRange(newR), clampRange(newG), clampRange(newB));
+    return new Color(clampRange(newR), clampRange(newG), clampRange(newB), origin.getAlpha());
   }
 
   /**
@@ -224,7 +224,8 @@ public class ImageUtil {
     return new Color(
         clampRange((int) Math.round(newR)),
         clampRange((int) Math.round(newG)),
-        clampRange((int) Math.round(newB)));
+        clampRange((int) Math.round(newB)),
+        origin.getAlpha());
   }
 
   /**
@@ -311,7 +312,7 @@ public class ImageUtil {
   private void imageIOWrite(ImageModel model, String filepath, String extension) {
     // Initialize BufferedImage, assuming Color[][] is already properly populated.
     BufferedImage bufferedImage =
-        new BufferedImage(model.getWidth(), model.getHeight(), BufferedImage.TYPE_INT_RGB);
+        new BufferedImage(model.getWidth(), model.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
     Color[][] array = model.imageArrayCopy();
 

@@ -19,9 +19,7 @@ public class MockImageFile implements ImageModel {
   }
 
   @Override
-  public void applyFunctional(FeatureCommand command) {
-
-  }
+  public void applyFunctional(FeatureCommand command) {}
 
   @Override
   public int getHeight() {

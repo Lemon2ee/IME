@@ -1,51 +1,51 @@
-load doge.png doge
+load screenshot.png screenshot
 
-brighten 100 doge doge-brighter
+brighten 100 screenshot screenshot-brighter
 
-brighten -100 doge doge-darker
+brighten -100 screenshot screenshot-darker
 
-vertical-flip doge doge-vertical
+vertical-flip screenshot screenshot-vertical
 
-horizontal-flip doge-vertical doge-vertical-horizontal
+horizontal-flip screenshot-vertical screenshot-vertical-horizontal
 
-red-component doge doge-greyscale-red
+red-component screenshot screenshot-greyscale-red
 
-green-component doge doge-greyscale-green
+green-component screenshot screenshot-greyscale-green
 
-blue-component doge doge-greyscale-blue
+blue-component screenshot screenshot-greyscale-blue
 
-luma-component doge doge-greyscale-luma
+luma-component screenshot screenshot-greyscale-luma
 
-intensity-component doge doge-greyscale-intensity
+intensity-component screenshot screenshot-greyscale-intensity
 
-value-component doge doge-value
+value-component screenshot screenshot-value
 
-alpha-component doge doge-alpha
+alpha-component screenshot screenshot-alpha
 
-sepia-component doge doge-sepia
+sepia-component screenshot screenshot-sepia
 
-sharper doge doge-sharper
-sharper doge-sharper doge-sharper
-sharper doge-sharper doge-sharper
+sharper screenshot screenshot-sharper
+sharper screenshot-sharper screenshot-sharper
+sharper screenshot-sharper screenshot-sharper
 
-blur doge doge-blur
-blur doge-blur doge-blur
-blur doge-blur doge-blur
+blur screenshot screenshot-blur
+blur screenshot-blur screenshot-blur
+blur screenshot-blur screenshot-blur
 
 
 
-# doge ignore
-save images/doge-brighter.png doge-brighter
-save images/doge-darker.png doge-darker
-save images/doge-gs-red.ppm doge-greyscale-red
-save images/doge-gs-green.png doge-greyscale-green
-save images/doge-gs-blue.jpg doge-greyscale-blue
-save images/doge-gs-luma.png doge-greyscale-luma
-save images/doge-gs-intensity.png doge-greyscale-intensity
-save images/doge-verti-hori-flip.png doge-vertical-horizontal
-save images/doge-verti.jpg doge-vertical
-save images/doge-value.png doge-value
-save images/doge-blur.png doge-blur
-save images/doge-alpha.png doge-alpha
-save images/doge-sharper.jpg doge-sharper
-save images/doge-sepia.png doge-sepia
+# screenshot ignore
+save images/screenshot-brighter.png screenshot-brighter
+save images/screenshot-darker.png screenshot-darker
+save images/screenshot-gs-red.ppm screenshot-greyscale-red
+save images/screenshot-gs-green.png screenshot-greyscale-green
+save images/screenshot-gs-blue.jpg screenshot-greyscale-blue
+save images/screenshot-gs-luma.png screenshot-greyscale-luma
+save images/screenshot-gs-intensity.png screenshot-greyscale-intensity
+save images/screenshot-verti-hori-flip.png screenshot-vertical-horizontal
+save images/screenshot-verti.jpg screenshot-vertical
+save images/screenshot-value.png screenshot-value
+save images/screenshot-blur.png screenshot-blur
+save images/screenshot-alpha.png screenshot-alpha
+save images/screenshot-sharper.jpg screenshot-sharper
+save images/screenshot-sepia.png screenshot-sepia
