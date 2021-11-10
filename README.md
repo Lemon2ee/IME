@@ -8,7 +8,7 @@ A simple image processing tool that is capable of manipulating PPM3 files. (as o
 
 Structure: In model package
 
-- Package: imageLibrary
+- Package: library
     - ImageLibModel (interface, extend ReadOnlyImageLibModel)
         - Can add stuff to the library
     - ReadOnlyImageLibModel (interface)
@@ -23,24 +23,24 @@ Structure: In model package
     - ImageModel (extend ReadOnlyImageModel)
         - Provides writable method to the users, acts like an interface which provides readable &
           writable permission.
-    - ABSImageFile (implements ImageModel)
-        - Implements basic functionality of the ImageModel.
 - Package: enums
     - FlipDirection
         - The flip direction that has been provided.
     - GreyScaleValue
         - The available component for grey scale operations.
+    - FilterType
+        - The available types of filter to be applied on an image.
 - Package: filter
     - IFilter (interface)
-        - Provide necessary public method to apply the filter to the given 2d array of image 
-          data and generate a new 2d array after operation.
+        - Provide necessary public method to apply the filter to the given 2d array of image data
+          and generate a new 2d array after operation.
     - IFilterImpl (implements IFilter)
-        - The class takes in a filter kernel in the contructor, and only public method is to 
-          apply the filter operation to the given image data.
+        - The class takes in a filter kernel in the contructor, and only public method is to apply
+          the filter operation to the given image data.
 - Package: feature
     - FeatureCommand (interface)
-        - Provide necessary public method for all features as a function object that can be 
-          applied to the provided image data.
+        - Provide necessary public method for all features as a function object that can be applied
+          to the provided image data.
     - Package: basics
         - ChangeBrightness (implements FeatureCommand)
             - Change the brightness of the image by given value.
@@ -56,7 +56,7 @@ Structure: In model package
 
 Structure: In controller package
 
-- Package: knownCommands
+- Package: commands
     - IMECommand (interface)
         - Provides the execute command which accepts an ImageLibModel.
     - ABSCommand (abstract class which implements IMECommand)
@@ -78,17 +78,7 @@ Structure: In view package
 
 #### Getting started
 
-Currently, we do not have support for GUI, so all operations have to be done in either interactive
-mode or file mode.
-
-#### To run the text based script:
-
-You need to provide the following line as a command line argument to run the given script.
-
---file cmd.txt
-
-You can replace cmd.txt with the path of any script you want to run. The script must be formatted,
-that is, each line in the script should contain only one command.
+Please see USEME.md in the root directory.
 
 #### Image Reference:
 

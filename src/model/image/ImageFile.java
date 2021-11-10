@@ -92,7 +92,7 @@ public class ImageFile implements ImageModel {
   /**
    * Return a deep copy of the current image 2d array.
    *
-   * @return
+   * @return a color 2d array which has a different memory address as the currently stored one.
    */
   @Override
   public Color[][] imageArrayCopy() {

@@ -61,6 +61,7 @@ public class ImageProcessor {
     // at the time, the model should only be ImageLib
     ImageLib model = new ImageLib();
     ImageProcessorView view = new ImageProcessorViewImpl(System.out);
+    // free update from basic to pro :)
     IMEController controller = new IMEControllerPro(model, readable, view);
     // run the program
     controller.initProcessor();
