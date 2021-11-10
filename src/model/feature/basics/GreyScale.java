@@ -28,6 +28,12 @@ public class GreyScale implements FeatureCommand {
     this.value = Objects.requireNonNull(value);
     this.util = new ImageUtil();
     this.greyScaleValueFunctionMap = new HashMap<>();
+    greyScaleValueFunctionMap.put(GreyScaleValue.R, this.util::toRed);
+    greyScaleValueFunctionMap.put(GreyScaleValue.G, this.util::toGreen);
+    greyScaleValueFunctionMap.put(GreyScaleValue.B, this.util::toBlue);
+    greyScaleValueFunctionMap.put(GreyScaleValue.Intensity, this.util::toIntensity);
+    greyScaleValueFunctionMap.put(GreyScaleValue.Luma, this.util::toLuma);
+    greyScaleValueFunctionMap.put(GreyScaleValue.Value, this.util::toValue);
   }
 
   /**
@@ -38,13 +44,6 @@ public class GreyScale implements FeatureCommand {
    */
   @Override
   public Color[][] apply(Color[][] image) {
-    greyScaleValueFunctionMap.put(GreyScaleValue.R, this.util::toRed);
-    greyScaleValueFunctionMap.put(GreyScaleValue.G, this.util::toGreen);
-    greyScaleValueFunctionMap.put(GreyScaleValue.B, this.util::toBlue);
-    greyScaleValueFunctionMap.put(GreyScaleValue.Intensity, this.util::toIntensity);
-    greyScaleValueFunctionMap.put(GreyScaleValue.Luma, this.util::toLuma);
-    greyScaleValueFunctionMap.put(GreyScaleValue.Value, this.util::toValue);
-
     Function<Color, Color> colorFunction;
 
     colorFunction = this.greyScaleValueFunctionMap.getOrDefault(this.value, null);
