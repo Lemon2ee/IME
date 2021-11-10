@@ -31,6 +31,10 @@ mode or file mode.
   "image_name_dest"
     - vertical
     - horizontal
+- greyscale image_name_source image_name_dest // same as luma-component image_name_source
+  image_name_dest
+- sepia image_name_source image_name_dest // same as sepia-component image_name_source
+    image_name_dest
 
 ### Interactive mode:
 

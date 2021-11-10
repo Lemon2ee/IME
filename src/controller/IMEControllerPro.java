@@ -25,7 +25,11 @@ public class IMEControllerPro extends IMEControllerBasic {
         "alpha-component", (String[] s) -> new ProComponentGreyScale(s, GreyScaleValue.Alpha));
     super.knownCommands.put(
         "sepia-component", (String[] s) -> new ProComponentGreyScale(s, GreyScaleValue.Sepia));
+    super.knownCommands.put(
+        "greyscale", (String[] s) -> new ProComponentGreyScale(s, GreyScaleValue.Luma));
+    super.knownCommands.put(
+        "sepia", (String[] s) -> new ProComponentGreyScale(s, GreyScaleValue.Sepia));
     super.knownCommands.put("blur", Blur::new);
-    super.knownCommands.put("sharper", Sharpen::new);
+    super.knownCommands.put("sharpen", Sharpen::new);
   }
 }

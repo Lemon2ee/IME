@@ -1,4 +1,13 @@
-import controller.commands.*;
+import controller.commands.Blur;
+import controller.commands.IMECommand;
+import controller.commands.Brighten;
+import controller.commands.ComponentGreyScale;
+import controller.commands.ProComponentGreyScale;
+import controller.commands.Save;
+import controller.commands.Flip;
+import controller.commands.Sharpen;
+import controller.commands.Load;
+
 import model.enums.FlipDirection;
 import model.enums.GreyScaleValue;
 import model.image.ImageFile;
@@ -7,12 +16,47 @@ import model.library.ImageLibModel;
 import org.junit.Test;
 import utils.ImageUtil;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertTrue;
 
 /** A test class of IMECommand which includes every concrete class which implement it. */
 public class ControllerIMECommandTest {
+
+  @Test(expected = IllegalArgumentException.class)
+  public void loadFileUnsupported() {
+    ImageLibModel library = new ImageLib();
+    String[] commandString = "load test.xcf test".split(" ");
+    IMECommand command = new Load(commandString);
+    command.execute(library);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void loadFileNotFound() {
+    ImageLibModel library = new ImageLib();
+    String[] commandString = "load test1.ppm test".split(" ");
+    IMECommand command = new Load(commandString);
+    command.execute(library);
+  }
+
+  @Test
+  public void loadFileLoaded() {
+    ImageLibModel library = new ImageLib();
+    String[] commandString = "load testRes/test.ppm test".split(" ");
+    IMECommand command = new Load(commandString);
+    command.execute(library);
+
+    assertTrue(
+        new UtilsTestUtils()
+            .compareTwoColorArrays(
+                new Color[][] {
+                  {new Color(255, 0, 0), new Color(0, 255, 0), new Color(0, 0, 255)},
+                  {new Color(255, 255, 0), new Color(255, 255, 255), new Color(0, 0, 0)}
+                },
+                library.read("test").imageArrayCopy()));
+  }
+
   // brighten command test
   @Test(expected = IllegalArgumentException.class)
   public void BrightenTestInvalidExtra() {

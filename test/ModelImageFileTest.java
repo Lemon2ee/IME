@@ -1,3 +1,4 @@
+import model.feature.basics.ChangeBrightness;
 import model.image.ImageFile;
 import model.image.ImageModel;
 import org.junit.Test;
@@ -60,5 +61,19 @@ public class ModelImageFileTest {
 
     assertSame(model1, model1);
     assertNotSame(model1, model1.copy());
+  }
+
+  @Test
+  public void testApplyFunction() {
+    Color[][] array1 = new Color[][] {new Color[] {new Color(1, 1, 1)}};
+    Color[][] array12 = new Color[][] {new Color[] {new Color(11, 11, 11)}};
+
+    ImageModel model1 = new ImageFile(array1);
+
+    assertTrue(new UtilsTestUtils().compareTwoColorArrays(array1, model1.imageArrayCopy()));
+
+    model1.applyFunctional(new ChangeBrightness(10));
+
+    assertTrue(new UtilsTestUtils().compareTwoColorArrays(array12, model1.imageArrayCopy()));
   }
 }

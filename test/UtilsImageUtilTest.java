@@ -167,6 +167,17 @@ public class UtilsImageUtilTest {
   }
 
   @Test
+  public void testReadBMP() {
+    Color[][] colorArray = new Color[][] {{new Color(255, 255, 255)}};
+
+    Color[][] colors = this.util.imageIORead("testRes/test.bmp");
+
+    boolean boo = new UtilsTestUtils().compareTwoColorArrays(colorArray, colors);
+
+    assertTrue(boo);
+  }
+
+  @Test
   public void testWriteJPG() {
     Color[][] colorArray = new Color[][] {{new Color(255, 255, 255)}};
 
@@ -186,6 +197,19 @@ public class UtilsImageUtilTest {
     this.util.writeImage("testRes/test-write.png", new ImageFile(colorArray));
 
     Color[][] colors = this.util.imageIORead("testRes/test.png");
+
+    boolean boo = new UtilsTestUtils().compareTwoColorArrays(colorArray, colors);
+
+    assertTrue(boo);
+  }
+
+  @Test
+  public void testWriteBMP() {
+    Color[][] colorArray = new Color[][] {{new Color(255, 255, 255)}};
+
+    this.util.writeImage("testRes/test-write.bmp", new ImageFile(colorArray));
+
+    Color[][] colors = this.util.imageIORead("testRes/test.bmp");
 
     boolean boo = new UtilsTestUtils().compareTwoColorArrays(colorArray, colors);
 

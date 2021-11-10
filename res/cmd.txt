@@ -22,11 +22,13 @@ value-component screenshot screenshot-value
 
 alpha-component screenshot screenshot-alpha
 
-sepia-component screenshot screenshot-sepia
+sepia screenshot screenshot-sepia
 
-sharper screenshot screenshot-sharper
-sharper screenshot-sharper screenshot-sharper
-sharper screenshot-sharper screenshot-sharper
+greyscale screenshot screenshot-greyscale
+
+sharpen screenshot screenshot-sharper
+sharpen screenshot-sharper screenshot-sharper
+sharpen screenshot-sharper screenshot-sharper
 
 blur screenshot screenshot-blur
 blur screenshot-blur screenshot-blur
@@ -34,7 +36,7 @@ blur screenshot-blur screenshot-blur
 
 
 
-# screenshot ignore
+# comment to ignore
 save screenshot-brighter.bmp screenshot-brighter
 save screenshot-darker.png screenshot-darker
 save screenshot-gs-red.ppm screenshot-greyscale-red
@@ -49,3 +51,8 @@ save screenshot-blur.png screenshot-blur
 save screenshot-alpha.png screenshot-alpha
 save screenshot-sharper.jpg screenshot-sharper
 save screenshot-sepia.bmp screenshot-sepia
+save screenshot-greyscale.jpg screenshot-greyscale
+save screenshot-origin.jpg screenshot
+save screenshot-origin.ppm screenshot
+save screenshot-origin.png screenshot
+save screenshot-origin.bmp screenshot

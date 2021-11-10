@@ -325,7 +325,7 @@ public class ControllerIMEControllerImplTest {
     StringBuilder logger = new StringBuilder();
     ImageLibModel library = new MockImageLib(new StringBuilder());
     library.addToLib("test", new MockImageFile(logger));
-    Readable readable = new StringReader("sharper test test\n");
+    Readable readable = new StringReader("sharpen test test\n");
     Appendable string = new StringBuilder();
     ImageProcessorView view = new ImageProcessorViewImpl(string);
     IMEController controller = new IMEControllerPro(library, readable, view);
@@ -373,6 +373,44 @@ public class ControllerIMEControllerImplTest {
         "Received copy image array command\n"
             + "Received Copy command\n"
             + "GreyScale{value=Alpha}\n"
+            + "Received copy image array command\n",
+        logger.toString());
+  }
+
+  @Test
+  public void controllerTestSepiaDirectCall() {
+    StringBuilder logger = new StringBuilder();
+    ImageLibModel library = new MockImageLib(new StringBuilder());
+    library.addToLib("test", new MockImageFile(logger));
+    Readable readable = new StringReader("sepia test test-sepia\n");
+    Appendable string = new StringBuilder();
+    ImageProcessorView view = new ImageProcessorViewImpl(string);
+    IMEController controller = new IMEControllerPro(library, readable, view);
+    controller.initProcessor();
+
+    assertEquals(
+        "Received copy image array command\n"
+            + "Received Copy command\n"
+            + "GreyScale{value=Sepia}\n"
+            + "Received copy image array command\n",
+        logger.toString());
+  }
+
+  @Test
+  public void controllerTestGreyScaleDirectCall() {
+    StringBuilder logger = new StringBuilder();
+    ImageLibModel library = new MockImageLib(new StringBuilder());
+    library.addToLib("test", new MockImageFile(logger));
+    Readable readable = new StringReader("greyscale test test-sepia\n");
+    Appendable string = new StringBuilder();
+    ImageProcessorView view = new ImageProcessorViewImpl(string);
+    IMEController controller = new IMEControllerPro(library, readable, view);
+    controller.initProcessor();
+
+    assertEquals(
+        "Received copy image array command\n"
+            + "Received Copy command\n"
+            + "GreyScale{value=Luma}\n"
             + "Received copy image array command\n",
         logger.toString());
   }
