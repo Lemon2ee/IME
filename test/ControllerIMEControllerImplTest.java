@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * A test class for IMEControllerImpl which contains test for error handling and input forwarding.
  */
-public class IMEControllerImplTest {
+public class ControllerIMEControllerImplTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void controllerConstructor1() {

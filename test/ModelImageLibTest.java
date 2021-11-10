@@ -11,7 +11,7 @@ import java.awt.Color;
  * The test class which verify ImageLib works as desired. Including reading and adding to the
  * library
  */
-public class ImageLibTest {
+public class ModelImageLibTest {
   // no constructor test since it does not need one.
 
   // writeable and readable ImageLib tests

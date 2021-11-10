@@ -15,6 +15,9 @@ public class Blur extends ABSCommand {
    */
   public Blur(String[] array) {
     super(array[1], array[2]);
+    if (array.length > 3) {
+      throw new IllegalArgumentException("Invalid arguments length\n");
+    }
   }
 
   /**

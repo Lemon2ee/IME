@@ -16,6 +16,9 @@ public class Sharpen extends ABSCommand {
    */
   public Sharpen(String[] array) {
     super(array[1], array[2]);
+    if (array.length > 3) {
+      throw new IllegalArgumentException("Invalid arguments length\n");
+    }
   }
 
   /**

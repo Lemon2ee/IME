@@ -26,12 +26,11 @@ mode or file mode.
   image_name_source and store it as image_name_dest
 - sharpen image_name_source image_name_dest // apply sharpening effect to the image with name
   image_name_source and store it as image_name_dest
-- foo-flip image_name_source image_name_dest // flip the image with name 
-  "image_name_source" according to the given foo (foo is one of the following) and store it as 
-  "image_name_dest" 
-  - vertical
-  - horizontal
-  
+- foo-flip image_name_source image_name_dest // flip the image with name
+  "image_name_source" according to the given foo (foo is one of the following) and store it as
+  "image_name_dest"
+    - vertical
+    - horizontal
 
 ### Interactive mode:
 

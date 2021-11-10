@@ -1,8 +1,4 @@
-import controller.commands.Brighten;
-import controller.commands.ComponentGreyScale;
-import controller.commands.Flip;
-import controller.commands.Save;
-import controller.commands.IMECommand;
+import controller.commands.*;
 import model.enums.FlipDirection;
 import model.enums.GreyScaleValue;
 import model.image.ImageFile;
@@ -16,7 +12,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertTrue;
 
 /** A test class of IMECommand which includes every concrete class which implement it. */
-public class IMECommandTest {
+public class ControllerIMECommandTest {
   // brighten command test
   @Test(expected = IllegalArgumentException.class)
   public void BrightenTestInvalidExtra() {
@@ -142,6 +138,118 @@ public class IMECommandTest {
         new UtilsTestUtils()
             .compareTwoColorArrays(
                 new ImageUtil().readPPM("testRes/test-test.ppm"),
+                library.read("test").imageArrayCopy()));
+  }
+
+  // blur command test
+  @Test(expected = IllegalArgumentException.class)
+  public void BlurTestInvalidExtra() {
+    String[] commandString = "blur test test extra".split(" ");
+    IMECommand command = new Blur(commandString);
+  }
+
+  @Test(expected = IndexOutOfBoundsException.class)
+  public void BlurTestInvalidMissingArgs() {
+    String[] commandString = "blur test".split(" ");
+    IMECommand command = new Blur(commandString);
+  }
+
+  @Test
+  public void BlurTestSuccess() {
+    ImageLibModel library = new ImageLib();
+    library.addToLib("test", new ImageFile(new ImageUtil().readPPM("testRes/test.ppm")));
+    String[] commandString = "blur test test".split(" ");
+    IMECommand command = new Blur(commandString);
+    command.execute(library);
+
+    assertTrue(
+        new UtilsTestUtils()
+            .compareTwoColorArrays(
+                new ImageUtil().readPPM("testRes/test-blur.ppm"),
+                library.read("test").imageArrayCopy()));
+  }
+
+  // sharpen command test
+  @Test(expected = IllegalArgumentException.class)
+  public void SharperTestInvalidExtra() {
+    String[] commandString = "sharper test test extra".split(" ");
+    IMECommand command = new Sharpen(commandString);
+  }
+
+  @Test(expected = IndexOutOfBoundsException.class)
+  public void SharperTestInvalidMissingArgs() {
+    String[] commandString = "sharper test".split(" ");
+    IMECommand command = new Sharpen(commandString);
+  }
+
+  @Test
+  public void SharperTestSuccess() {
+    ImageLibModel library = new ImageLib();
+    library.addToLib("test", new ImageFile(new ImageUtil().readPPM("testRes/test.ppm")));
+    String[] commandString = "sharper test test".split(" ");
+    IMECommand command = new Sharpen(commandString);
+    command.execute(library);
+
+    assertTrue(
+        new UtilsTestUtils()
+            .compareTwoColorArrays(
+                new ImageUtil().readPPM("testRes/test-sharper.ppm"),
+                library.read("test").imageArrayCopy()));
+  }
+
+  // pro grey scale command test
+  @Test(expected = IllegalArgumentException.class)
+  public void SepiaTestInvalidExtra() {
+    String[] commandString = "sepia-component test test extra".split(" ");
+    IMECommand command = new ProComponentGreyScale(commandString, GreyScaleValue.Sepia);
+  }
+
+  @Test(expected = IndexOutOfBoundsException.class)
+  public void SepiaTestInvalidMissingArgs() {
+    String[] commandString = "sepia-component test".split(" ");
+    IMECommand command = new ProComponentGreyScale(commandString, GreyScaleValue.Sepia);
+  }
+
+  @Test
+  public void SepiaTestSuccess() {
+    ImageLibModel library = new ImageLib();
+    library.addToLib("test", new ImageFile(new ImageUtil().readPPM("testRes/test.ppm")));
+    String[] commandString = "sepia-component test test".split(" ");
+    IMECommand command = new ProComponentGreyScale(commandString, GreyScaleValue.Sepia);
+    command.execute(library);
+
+    assertTrue(
+        new UtilsTestUtils()
+            .compareTwoColorArrays(
+                new ImageUtil().readPPM("testRes/test-sepia.ppm"),
+                library.read("test").imageArrayCopy()));
+  }
+
+  // pro grey scale command test
+  @Test(expected = IllegalArgumentException.class)
+  public void AlphaTestInvalidExtra() {
+    String[] commandString = "alpha-component test test extra".split(" ");
+    IMECommand command = new ProComponentGreyScale(commandString, GreyScaleValue.Alpha);
+  }
+
+  @Test(expected = IndexOutOfBoundsException.class)
+  public void AlphaTestInvalidMissingArgs() {
+    String[] commandString = "alpha-component test".split(" ");
+    IMECommand command = new ProComponentGreyScale(commandString, GreyScaleValue.Alpha);
+  }
+
+  @Test
+  public void AlphaTestSuccess() {
+    ImageLibModel library = new ImageLib();
+    library.addToLib("test", new ImageFile(new ImageUtil().readPPM("testRes/test.ppm")));
+    String[] commandString = "alpha-component test test".split(" ");
+    IMECommand command = new ProComponentGreyScale(commandString, GreyScaleValue.Alpha);
+    command.execute(library);
+
+    assertTrue(
+        new UtilsTestUtils()
+            .compareTwoColorArrays(
+                new ImageUtil().readPPM("testRes/test-alph.ppm"),
                 library.read("test").imageArrayCopy()));
   }
 }
