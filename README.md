@@ -76,6 +76,18 @@ Structure: In view package
     - The implementation of ImageProcessorView, which only pass message to the given appendable
       object.
 
+Structure: In utils package
+
+- ControllerUtils (concrete class)
+    - Contains method that are useful to controller.
+- ImageUtil (concrete class)
+    - Contains method that are useful to model and method related to IO.
+
+ImageProcessor
+
+- Contains the main method which takes in arguments to initialize the program accordingly, provide
+  --help as arguments to see the help message (would be outputted on system.out)
+
 #### Getting started
 
 Please see USEME.md in the root directory.
