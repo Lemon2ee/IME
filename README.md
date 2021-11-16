@@ -2,7 +2,7 @@
 
 ### About
 
-A simple image processing tool that is capable of manipulating PPM3 files. (as of Assignment4)
+A simple image processing tool that is capable of manipulating PPM3，PNG, JPG and BMP file
 
 ### Code overview
 
@@ -35,7 +35,7 @@ Structure: In model package
         - Provide necessary public method to apply the filter to the given 2d array of image data
           and generate a new 2d array after operation.
     - IFilterImpl (implements IFilter)
-        - The class takes in a filter kernel in the contructor, and only public method is to apply
+        - The class takes in a filter kernel in the constructor, and only public method is to apply
           the filter operation to the given image data.
 - Package: feature
     - FeatureCommand (interface)
@@ -66,8 +66,11 @@ Structure: In controller package
           (called by the controller).
 - IMEController (interface)
     - Provides one function which initialize the program and process the input.
-- IMEControllerImpl
-    - The implementation of IMEController
+- IMEControllerBasic
+    - The basic version of IMEController which supports rgb, luma, value, intensity greyscale,
+      brighten, flip, load and save. = IMEControllerPro
+    - Pro version of IMEController, with additional feature like blur, alpha-component, sharpen and
+      sepia greyscale.
 
 Structure: In view package
 
