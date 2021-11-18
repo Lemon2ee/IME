@@ -25,10 +25,15 @@ public class ImageProcessorViewImpl implements ImageProcessorView {
    * @throws IllegalArgumentException when transmission to the view fails
    */
   @Override
-  public void renderMessage(String message) throws IOException {
+  public void renderMessage(String message) {
     if (message == null) {
       throw new IllegalArgumentException("Not able to render a null object");
     }
-    this.appendable.append(message);
+
+    try {
+      this.appendable.append(message);
+    } catch (IOException e) {
+      throw new IllegalArgumentException("Transition from view to IO failed");
+    }
   }
 }

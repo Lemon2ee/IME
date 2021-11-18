@@ -3,7 +3,7 @@ package utils;
 import model.image.ImageModel;
 
 import javax.imageio.ImageIO;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.FileInputStream;
@@ -352,6 +352,22 @@ public class ImageUtil {
    */
   private void imageIOWrite(ImageModel model, String filepath, String extension) {
     // Initialize BufferedImage, assuming Color[][] is already properly populated.
+    BufferedImage bufferedImage = this.color2dToImage(model, extension);
+
+    try {
+      File file = new File(filepath);
+
+      if (filepath.contains("/")) {
+        boolean createParent = file.getParentFile().mkdirs();
+      }
+
+      ImageIO.write(bufferedImage, extension, file);
+    } catch (IOException e) {
+      throw new IllegalArgumentException("Encountered IO exception when trying to write image");
+    }
+  }
+
+  public BufferedImage color2dToImage(ImageModel model, String extension) {
     BufferedImage bufferedImage;
 
     if (extension.equals("png")) {
@@ -371,16 +387,6 @@ public class ImageUtil {
       }
     }
 
-    try {
-      File file = new File(filepath);
-
-      if (filepath.contains("/")) {
-        boolean createParent = file.getParentFile().mkdirs();
-      }
-
-      ImageIO.write(bufferedImage, extension, file);
-    } catch (IOException e) {
-      throw new IllegalArgumentException("Encountered IO exception when trying to write image");
-    }
+    return bufferedImage;
   }
 }

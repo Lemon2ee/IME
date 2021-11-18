@@ -1,6 +1,8 @@
 import controller.IMEController;
 import controller.IMEControllerPro;
+import controller.IMEControllerProGUI;
 import model.library.ImageLib;
+import view.ImageProcessorGUIViewImpl;
 import view.ImageProcessorView;
 import view.ImageProcessorViewImpl;
 
@@ -21,8 +23,11 @@ public class ImageProcessor {
    */
   public static void main(String[] args) throws IllegalStateException {
     Readable readable = null;
+    ImageLib model = new ImageLib();
+
     if (args.length == 0) {
-      readable = new InputStreamReader(System.in);
+      ImageProcessorView view = new ImageProcessorGUIViewImpl(System.out, model);
+      IMEController controller = new IMEControllerProGUI(model, view);
     } else {
 
       // the first argument
@@ -56,14 +61,11 @@ public class ImageProcessor {
         default:
           break;
       }
-    }
 
-    // at the time, the model should only be ImageLib
-    ImageLib model = new ImageLib();
-    ImageProcessorView view = new ImageProcessorViewImpl(System.out);
-    // free update from basic to pro :)
-    IMEController controller = new IMEControllerPro(model, readable, view);
-    // run the program
-    controller.initProcessor();
+      ImageProcessorView view = new ImageProcessorViewImpl(System.out);
+      IMEController controller = new IMEControllerPro(model, readable, view);
+      // run the program
+      controller.initProcessor();
+    }
   }
 }
