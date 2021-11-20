@@ -18,16 +18,17 @@ import java.util.function.Function;
 public class ImageFile implements ImageModel {
   protected final ImageUtil util;
   protected final Map<GreyScaleValue, Function<Color, Color>> greyScaleValueFunctionMap;
-  private final int height;
-  private final int width;
-  private Color[][] image;
+  protected final int height;
+  protected final int width;
+  protected Color[][] image;
 
   /**
    * The default constructor of an ImageModel.
    *
    * @param image a 2d array which represents a PPM image.
+   * @throws IllegalArgumentException if the given image data contains null
    */
-  public ImageFile(Color[][] image) {
+  public ImageFile(Color[][] image) throws IllegalArgumentException {
     if (image == null) {
       throw new IllegalArgumentException("Require non null arguments\n");
     }
@@ -56,7 +57,7 @@ public class ImageFile implements ImageModel {
    */
   @Override
   public ImageModel copy() {
-    return new ImageFile(this.image);
+    return new ImageFile(this.imageArrayCopy());
   }
 
   /**
