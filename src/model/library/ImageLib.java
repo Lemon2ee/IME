@@ -3,7 +3,9 @@ package model.library;
 import model.image.ImageModel;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * A class represents the library of imageModel, capable of reading from and putting back ImageModel
@@ -52,5 +54,11 @@ public class ImageLib implements ImageLibModel {
     }
 
     return imageModel.copy();
+  }
+
+  @Override
+  public Set<String> getKeys() {
+    // TODO: deep clone ?
+    return this.dictionary.keySet();
   }
 }

@@ -4,6 +4,7 @@ import model.library.ImageLibModel;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /** A mock class of ImageLib used for test only. */
 public class MockImageLib implements ImageLibModel {
@@ -49,5 +50,10 @@ public class MockImageLib implements ImageLibModel {
   public ImageModel read(String key) throws IllegalArgumentException {
     this.log.append("Received read command looking for ").append(key).append("\n");
     return dictionary.get(key);
+  }
+
+  @Override
+  public Set<String> getKeys() {
+    return null;
   }
 }

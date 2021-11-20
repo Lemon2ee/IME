@@ -11,7 +11,6 @@ import model.enums.GreyScaleValue;
 import model.library.ImageLibModel;
 import view.ImageProcessorView;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -24,7 +23,7 @@ import java.util.function.Function;
 public class IMEControllerBasic implements IMEController {
   protected final Map<String, Function<String[], IMECommand>> knownCommands;
   private final ImageLibModel libModel;
-  private final Readable readable;
+  protected Readable readable;
   private final ImageProcessorView view;
 
   /**
@@ -71,43 +70,38 @@ public class IMEControllerBasic implements IMEController {
   public void initProcessor() throws IllegalStateException {
     Scanner scanner = new Scanner(this.readable);
 
-    try {
-      while (scanner.hasNextLine()) {
-        String lineCommand = scanner.nextLine();
-        // quite the program when detected "q"
-        if (lineCommand.equalsIgnoreCase("q")) {
-          return;
-        }
+    while (scanner.hasNextLine()) {
+      String lineCommand = scanner.nextLine();
+      // quite the program when detected "q"
+      if (lineCommand.equalsIgnoreCase("q")) {
+        return;
+      }
 
-        // ignore space, # and etc.
-        if (!lineCommand.equals("") && lineCommand.charAt(0) != '#') {
-          // parse the command input
-          String[] commandInArray = lineCommand.split("\\s+");
-          String command = commandInArray[0];
-          IMECommand c;
+      // ignore space, # and etc.
+      if (!lineCommand.equals("") && lineCommand.charAt(0) != '#') {
+        // parse the command input
+        String[] commandInArray = lineCommand.split("\\s+");
+        String command = commandInArray[0];
+        IMECommand c;
 
-          // execute given commands
-          try {
-            // TODO: better implementation
-            Function<String[], IMECommand> cmd = knownCommands.getOrDefault(command, null);
-            if (cmd == null) {
-              throw new IllegalArgumentException("Unsupported command " + command + "\n");
-            } else {
-              c = cmd.apply(commandInArray);
-              c.execute(this.libModel);
-            }
-          } catch (IllegalArgumentException e) {
-            // print error message from the exception received from the model or because of
-            // unsupported command
-            this.view.renderMessage(e.getMessage());
-          } catch (IndexOutOfBoundsException e) {
-            this.view.renderMessage("Insufficient argument given\n");
+        // execute given commands
+        try {
+          // TODO: better implementation
+          Function<String[], IMECommand> cmd = knownCommands.getOrDefault(command, null);
+          if (cmd == null) {
+            throw new IllegalArgumentException("Unsupported command " + command + "\n");
+          } else {
+            c = cmd.apply(commandInArray);
+            c.execute(this.libModel);
           }
+        } catch (IllegalArgumentException e) {
+          // print error message from the exception received from the model or because of
+          // unsupported command
+          this.view.renderMessage(e.getMessage());
+        } catch (IndexOutOfBoundsException e) {
+          this.view.renderMessage("Insufficient argument given\n");
         }
       }
-    } catch (IOException e) {
-      // when transmission to the view fails
-      throw new IllegalStateException("Transmission to the view fails");
     }
   }
 }
