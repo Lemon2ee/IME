@@ -2,6 +2,7 @@ import controller.IMEController;
 import controller.IMEControllerPro;
 import controller.IMEControllerProGUI;
 import model.library.ImageLib;
+import view.ImageProcessorGUIView;
 import view.ImageProcessorGUIViewImpl;
 import view.ImageProcessorView;
 import view.ImageProcessorViewImpl;
@@ -26,7 +27,7 @@ public class ImageProcessor {
     ImageLib model = new ImageLib();
 
     if (args.length == 0) {
-      ImageProcessorView view = new ImageProcessorGUIViewImpl(System.out, model);
+      ImageProcessorGUIView view = new ImageProcessorGUIViewImpl(System.out, model);
       IMEController controller = new IMEControllerProGUI(model, view);
     } else {
 

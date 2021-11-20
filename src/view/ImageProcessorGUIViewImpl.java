@@ -1,6 +1,5 @@
 package view;
 
-import controller.IMEController;
 import controller.IMEControllerGUI;
 import controller.IMEControllerProGUI;
 import model.library.ImageLib;
@@ -12,16 +11,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.StringReader;
-import java.nio.Buffer;
 import java.util.*;
-import java.util.function.Function;
 
 public class ImageProcessorGUIViewImpl extends JFrame
-    implements ImageProcessorView, ActionListener {
-  private final ImageProcessorView delegate;
+    implements ImageProcessorGUIView, ActionListener {
   private final IMEControllerGUI controller;
   private final ImageLib library;
   private final JLabel imageLabel;
@@ -34,7 +28,6 @@ public class ImageProcessorGUIViewImpl extends JFrame
   public ImageProcessorGUIViewImpl(Appendable appendable, ImageLib library) {
     // initialize
     super();
-    this.delegate = new ImageProcessorViewImpl(Objects.requireNonNull(appendable));
     this.library = Objects.requireNonNull(library);
     this.controller = new IMEControllerProGUI(this.library, this);
     this.imageNameExtension = new HashMap<>();
@@ -71,7 +64,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
     /*
     Create a combo box in the control panel
      */
-    combobox = new JComboBox<String>();
+    combobox = new JComboBox<>();
     // the event listener when an option is selected
     combobox.setActionCommand("select-image");
     combobox.addActionListener(this);
@@ -204,17 +197,21 @@ public class ImageProcessorGUIViewImpl extends JFrame
     }
   }
 
-  private void updateImageIcon(boolean operationOnExistImage) {
+  public void updateImageIcon(boolean operationOnExistImage) {
     String imageNameSelect = this.returnSelectedName();
     Image resultImage;
 
-    resultImage =
-        new ImageUtil()
-            .color2dToImage(
-                this.library.read(imageNameSelect),
-                this.imageNameExtension.getOrDefault(imageNameSelect, "jpg"));
-    this.bufferedImageMap.put(imageNameSelect, resultImage);
+    resultImage = this.bufferedImageMap.getOrDefault(imageNameSelect, null);
 
+    if (resultImage == null || operationOnExistImage) {
+      resultImage =
+          new ImageUtil()
+              .color2dToImage(
+                  this.library.read(imageNameSelect),
+                  this.imageNameExtension.getOrDefault(imageNameSelect, "jpg"));
+    }
+
+    this.bufferedImageMap.put(imageNameSelect, resultImage);
     this.imageLabel.setIcon(new ImageIcon(resultImage));
   }
 
@@ -243,7 +240,11 @@ public class ImageProcessorGUIViewImpl extends JFrame
     this.controller.acceptCommand(
         filePathGreyScale + " " + selectedImage + " " + fileSaveGreyscale);
     this.updateCombobox();
+    System.out.println(fileSaveGreyscale);
+    System.out.println(
+        ((DefaultComboBoxModel<String>) combobox.getModel()).getIndexOf(fileSaveGreyscale));
+
     this.updateImageIcon(
-        (((DefaultComboBoxModel<String>) combobox.getModel()).getIndexOf(selectedImage) != -1));
+        (((DefaultComboBoxModel<String>) combobox.getModel()).getIndexOf(fileSaveGreyscale) != -1));
   }
 }
