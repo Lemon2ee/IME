@@ -11,7 +11,7 @@ public class UtilsTestUtils {
    * Determine if two color arrays are equal.
    *
    * @param expected The expected color array
-   * @param actual   The actual color array
+   * @param actual The actual color array
    * @return boolean after all value tests are passed
    */
   public boolean compareTwoColorArrays(Color[][] expected, Color[][] actual) {
@@ -28,7 +28,7 @@ public class UtilsTestUtils {
    * Determine if two int arrays are the same
    *
    * @param expected the expected int array
-   * @param actual   the actual int array
+   * @param actual the actual int array
    * @return boolean after all value tests are passed
    */
   public boolean compareTwoIntArrays(int[][] expected, int[][] actual) {

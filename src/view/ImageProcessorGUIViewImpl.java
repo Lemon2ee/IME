@@ -24,7 +24,7 @@ import java.util.function.Function;
  * would not change. All panel and component would not be scaled to fit the window size.
  */
 public class ImageProcessorGUIViewImpl extends JFrame
-        implements ImageProcessorGUIView, ActionListener {
+    implements ImageProcessorGUIView, ActionListener {
   private final IMEControllerGUI controller;
   private final ImageLib library;
   private final JLabel imageLabel;
@@ -147,7 +147,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
   @Override
   public void renderMessage(String message) {
     JOptionPane.showMessageDialog(
-            this, "Error message: " + message, "Error", JOptionPane.ERROR_MESSAGE);
+        this, "Error message: " + message, "Error", JOptionPane.ERROR_MESSAGE);
   }
 
   /**
@@ -192,6 +192,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
         break;
     }
 
+    System.out.println("At least tried");
     this.updateHistogram();
     // TODO: debug only
     System.out.println(e.getActionCommand());
@@ -225,9 +226,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
       this.controller.acceptCommand(
           "brighten" + " " + brightenValue + " " + image + " " + imageSaveLocation);
       this.updateCombobox();
-      this.updateImageIcon(
-          (((DefaultComboBoxModel<String>) combobox.getModel()).getIndexOf(imageSaveLocation)
-              != -1));
+      this.updateImageIcon(imageSaveLocation, true);
     }
   }
 
@@ -241,9 +240,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
     if (imageSaveLocation != null) {
       this.controller.acceptCommand(filterType + " " + image + " " + imageSaveLocation);
       this.updateCombobox();
-      this.updateImageIcon(
-          (((DefaultComboBoxModel<String>) combobox.getModel()).getIndexOf(imageSaveLocation)
-              != -1));
+      this.updateImageIcon(imageSaveLocation, true);
     }
   }
 
@@ -272,9 +269,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
     if (imageSaveLocation != null) {
       this.controller.acceptCommand(flipDirection + " " + image + " " + imageSaveLocation);
       this.updateCombobox();
-      this.updateImageIcon(
-          (((DefaultComboBoxModel<String>) combobox.getModel()).getIndexOf(imageSaveLocation)
-              != -1));
+      this.updateImageIcon(imageSaveLocation, true);
     }
   }
 
@@ -284,7 +279,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
   }
 
   private void selectAction() {
-    this.updateImageIcon(false);
+    this.updateImageIcon(this.returnSelectedName(), false);
   }
 
   private void saveAction() {
@@ -312,7 +307,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
       this.imageNameExtension.put(name, new ControllerUtils().getExtension(filePath));
       this.controller.acceptCommand("load " + filePath + " " + name);
       this.updateCombobox();
-      this.updateImageIcon(false);
+      this.updateImageIcon(name, false);
     }
   }
 
@@ -325,22 +320,23 @@ public class ImageProcessorGUIViewImpl extends JFrame
     }
   }
 
-  public void updateImageIcon(boolean operationOnExistImage) {
-    String imageNameSelect = this.returnSelectedName();
+  public void updateImageIcon(String modifiedImage, boolean modified) {
     Image resultImage;
 
-    resultImage = this.bufferedImageMap.getOrDefault(imageNameSelect, null);
+    resultImage = this.bufferedImageMap.getOrDefault(modifiedImage, null);
 
-    if (resultImage == null || operationOnExistImage) {
+    if (resultImage == null || modified) {
       resultImage =
-              new ImageUtil()
-                      .color2dToImage(
-                              this.library.read(imageNameSelect),
-                              this.imageNameExtension.getOrDefault(imageNameSelect, "jpg"));
+          new ImageUtil()
+              .color2dToImage(
+                  this.library.read(modifiedImage),
+                  this.imageNameExtension.getOrDefault(modifiedImage, "jpg"));
     }
 
-    this.bufferedImageMap.put(imageNameSelect, resultImage);
-    this.imageLabel.setIcon(new ImageIcon(resultImage));
+    this.bufferedImageMap.put(modifiedImage, resultImage);
+    if (Objects.equals(modifiedImage, this.returnSelectedName())) {
+      this.imageLabel.setIcon(new ImageIcon(resultImage));
+    }
   }
 
   private String returnSelectedName() {
@@ -372,9 +368,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
       this.controller.acceptCommand(
           filePathGreyScale + " " + selectedImage + " " + fileSaveGreyscale);
       this.updateCombobox();
-      this.updateImageIcon(
-          (((DefaultComboBoxModel<String>) combobox.getModel()).getIndexOf(fileSaveGreyscale)
-              != -1));
+      this.updateImageIcon(fileSaveGreyscale, true);
     }
   }
 
@@ -383,6 +377,9 @@ public class ImageProcessorGUIViewImpl extends JFrame
     int[][] histogram =
         new ImageUtil().histogram(this.library.read(imageNameSelect).imageArrayCopy());
     JPanel histogramPanel = new HistogramPanel(histogram);
+    this.histogram.removeAll();
     this.histogram.add(histogramPanel, BorderLayout.CENTER);
+    this.histogram.revalidate();
+    this.histogram.repaint();
   }
 }
