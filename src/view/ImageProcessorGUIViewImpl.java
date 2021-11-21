@@ -32,6 +32,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
   private final Map<String, Image> bufferedImageMap;
   private final ArrayList<String> listOfGreyScale;
   private final ArrayList<String> flipDirections;
+  private final JPanel histogram;
 
   /**
    * The default constructor where all panel and frame would be initialized.
@@ -127,7 +128,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
     Place to display histogram.
     TODO: add histogram
      */
-    JPanel histogram = new JPanel();
+    histogram = new JPanel(new BorderLayout());
     controlPanel.add(histogram, BorderLayout.PAGE_END);
     histogram.setPreferredSize(new Dimension(290, 200));
 
@@ -189,6 +190,8 @@ public class ImageProcessorGUIViewImpl extends JFrame
       default:
         break;
     }
+
+    this.updateHistogram();
     // TODO: debug only
     System.out.println(e.getActionCommand());
   }
@@ -372,5 +375,13 @@ public class ImageProcessorGUIViewImpl extends JFrame
           (((DefaultComboBoxModel<String>) combobox.getModel()).getIndexOf(fileSaveGreyscale)
               != -1));
     }
+  }
+
+  private void updateHistogram() {
+    String imageNameSelect = this.returnSelectedName();
+    int[][] histogram =
+        new ImageUtil().histogram(this.library.read(imageNameSelect).imageArrayCopy());
+    JPanel histogramPanel = new HistogramPanel(histogram);
+    this.histogram.add(histogramPanel, BorderLayout.CENTER);
   }
 }
