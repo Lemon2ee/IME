@@ -8,6 +8,7 @@ import utils.ImageUtil;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +16,7 @@ import java.io.File;
 import java.util.*;
 
 public class ImageProcessorGUIViewImpl extends JFrame
-    implements ImageProcessorGUIView, ActionListener {
+        implements ImageProcessorGUIView, ActionListener {
   private final IMEControllerGUI controller;
   private final ImageLib library;
   private final JLabel imageLabel;
@@ -88,23 +89,23 @@ public class ImageProcessorGUIViewImpl extends JFrame
     this.flipDirections = new ArrayList<>();
 
     String[] supported = {
-      "load",
-      "save",
-      "brighten",
-      "red-component",
-      "green-component",
-      "blue" + "-component",
-      "intensity-component",
-      "value-component",
-      "luma-component",
-      "horizontal" + "-flip",
-      "vertical-flip",
-      "alpha-component",
-      "sepia-component",
-      "greyscale",
-      "sepia",
-      "blur",
-      "sharpen"
+            "load",
+            "save",
+            "brighten",
+            "red-component",
+            "green-component",
+            "blue" + "-component",
+            "intensity-component",
+            "value-component",
+            "luma-component",
+            "horizontal" + "-flip",
+            "vertical-flip",
+            "alpha-component",
+            "sepia-component",
+            "greyscale",
+            "sepia",
+            "blur",
+            "sharpen"
     };
 
     for (String str : supported) {
@@ -128,9 +129,13 @@ public class ImageProcessorGUIViewImpl extends JFrame
     /*
     Place to display histogram.
      */
-    JPanel histogram = new JPanel();
-    controlPanel.add(histogram, BorderLayout.PAGE_END);
-    histogram.setPreferredSize(new Dimension(290, 200));
+    int[][] histogram = new ImageUtil().histogram(new Color[][]{
+            {new Color(255, 0, 0), new Color(0, 255, 0), new Color(0, 0, 255)},
+            {new Color(255, 255, 0), new Color(255, 255, 255), new Color(0, 0, 0)}
+    });
+    JPanel histogramPanel = new HistogramPanel(histogram);
+    controlPanel.add(histogramPanel, BorderLayout.PAGE_END);
+    histogramPanel.setPreferredSize(new Dimension(266, 210));
 
     // frame display and config
     setVisible(true);
@@ -141,38 +146,37 @@ public class ImageProcessorGUIViewImpl extends JFrame
   @Override
   public void renderMessage(String message) {
     JOptionPane.showMessageDialog(
-        this, "Error message: " + message, "Error", JOptionPane.ERROR_MESSAGE);
+            this, "Error message: " + message, "Error", JOptionPane.ERROR_MESSAGE);
   }
 
   // perform action with the controller
   @Override
   public void actionPerformed(ActionEvent e) {
     switch (e.getActionCommand()) {
-      case "load":
-        {
-          // copy and paste file selector panel from the swing demo
-          final JFileChooser fileChooser = new JFileChooser(".");
-          FileNameExtensionFilter filter =
-              new FileNameExtensionFilter(
-                  "Supported by the pro version controller", "jpg", "ppm", "png", "bmp");
-          fileChooser.setFileFilter(filter);
-          int retValue = fileChooser.showOpenDialog(this);
-          if (retValue == JFileChooser.APPROVE_OPTION) {
-            File f = fileChooser.getSelectedFile();
-            String filePath = f.getPath();
-            String name = JOptionPane.showInputDialog(this, "Please input the image name");
-            this.imageNameExtension.put(name, new ControllerUtils().getExtension(filePath));
-            this.controller.acceptCommand("load " + filePath + " " + name);
-            this.updateCombobox();
-            this.updateImageIcon(false);
-          }
+      case "load": {
+        // copy and paste file selector panel from the swing demo
+        final JFileChooser fileChooser = new JFileChooser(".");
+        FileNameExtensionFilter filter =
+                new FileNameExtensionFilter(
+                        "Supported by the pro version controller", "jpg", "ppm", "png", "bmp");
+        fileChooser.setFileFilter(filter);
+        int retValue = fileChooser.showOpenDialog(this);
+        if (retValue == JFileChooser.APPROVE_OPTION) {
+          File f = fileChooser.getSelectedFile();
+          String filePath = f.getPath();
+          String name = JOptionPane.showInputDialog(this, "Please input the image name");
+          this.imageNameExtension.put(name, new ControllerUtils().getExtension(filePath));
+          this.controller.acceptCommand("load " + filePath + " " + name);
+          this.updateCombobox();
+          this.updateImageIcon(false);
         }
-        break;
+      }
+      break;
       case "save":
         String name = (String) this.combobox.getSelectedItem();
         String filePath =
-            JOptionPane.showInputDialog(
-                this, "Please provide name and path of image you want to save to");
+                JOptionPane.showInputDialog(
+                        this, "Please provide name and path of image you want to save to");
         this.controller.acceptCommand("save " + filePath + " " + name);
         break;
       case "select-image":
@@ -205,10 +209,10 @@ public class ImageProcessorGUIViewImpl extends JFrame
 
     if (resultImage == null || operationOnExistImage) {
       resultImage =
-          new ImageUtil()
-              .color2dToImage(
-                  this.library.read(imageNameSelect),
-                  this.imageNameExtension.getOrDefault(imageNameSelect, "jpg"));
+              new ImageUtil()
+                      .color2dToImage(
+                              this.library.read(imageNameSelect),
+                              this.imageNameExtension.getOrDefault(imageNameSelect, "jpg"));
     }
 
     this.bufferedImageMap.put(imageNameSelect, resultImage);
@@ -225,26 +229,26 @@ public class ImageProcessorGUIViewImpl extends JFrame
 
   private void componentGreyScaleAction(String selectedImage) {
     String filePathGreyScale =
-        (String)
-            JOptionPane.showInputDialog(
-                this,
-                "Please select one of the following supported greyscale component",
-                "Title",
-                JOptionPane.PLAIN_MESSAGE,
-                new ImageIcon(),
-                this.listOfGreyScale.toArray(),
-                "green-component");
+            (String)
+                    JOptionPane.showInputDialog(
+                            this,
+                            "Please select one of the following supported greyscale component",
+                            "Title",
+                            JOptionPane.PLAIN_MESSAGE,
+                            new ImageIcon(),
+                            this.listOfGreyScale.toArray(),
+                            "green-component");
     String fileSaveGreyscale =
-        JOptionPane.showInputDialog(
-            this, "Please provide name and path of image you want to save to");
+            JOptionPane.showInputDialog(
+                    this, "Please provide name and path of image you want to save to");
     this.controller.acceptCommand(
-        filePathGreyScale + " " + selectedImage + " " + fileSaveGreyscale);
+            filePathGreyScale + " " + selectedImage + " " + fileSaveGreyscale);
     this.updateCombobox();
     System.out.println(fileSaveGreyscale);
     System.out.println(
-        ((DefaultComboBoxModel<String>) combobox.getModel()).getIndexOf(fileSaveGreyscale));
+            ((DefaultComboBoxModel<String>) combobox.getModel()).getIndexOf(fileSaveGreyscale));
 
     this.updateImageIcon(
-        (((DefaultComboBoxModel<String>) combobox.getModel()).getIndexOf(fileSaveGreyscale) != -1));
+            (((DefaultComboBoxModel<String>) combobox.getModel()).getIndexOf(fileSaveGreyscale) != -1));
   }
 }
