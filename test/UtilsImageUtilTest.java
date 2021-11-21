@@ -1,6 +1,8 @@
 import model.image.ImageFile;
 import model.image.ImageModel;
+
 import org.junit.Test;
+
 import utils.ImageUtil;
 
 import java.awt.Color;
@@ -8,21 +10,24 @@ import java.awt.Color;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-/** Test class for ImageUtil which contains all implemented method. */
+/**
+ * Test class for ImageUtil which contains all implemented method.
+ */
 public class UtilsImageUtilTest {
   ImageUtil util = new ImageUtil();
+  UtilsTestUtils testUtil = new UtilsTestUtils();
 
   @Test
   public void testReadPPM() {
     Color[][] colorArray =
-        new Color[][] {
-          {new Color(255, 0, 0), new Color(0, 255, 0), new Color(0, 0, 255)},
-          {new Color(255, 255, 0), new Color(255, 255, 255), new Color(0, 0, 0)}
-        };
+            new Color[][]{
+                    {new Color(255, 0, 0), new Color(0, 255, 0), new Color(0, 0, 255)},
+                    {new Color(255, 255, 0), new Color(255, 255, 255), new Color(0, 0, 0)}
+            };
 
     boolean boo =
-        new UtilsTestUtils()
-            .compareTwoColorArrays(colorArray, this.util.readPPM("testRes/test.ppm"));
+            new UtilsTestUtils()
+                    .compareTwoColorArrays(colorArray, this.util.readPPM("testRes/test.ppm"));
 
     assertTrue(boo);
   }
@@ -106,6 +111,23 @@ public class UtilsImageUtilTest {
   }
 
   @Test
+  public void testHistogram() {
+    Color[][] rgb = new Color[][]{{Color.RED, Color.GREEN}, {Color.BLUE, Color.BLACK}};
+    int[][] histogramTemp = new int[4][256];
+
+    histogramTemp[0][255] += 1;
+    histogramTemp[0][0] += 3;
+    histogramTemp[1][255] += 1;
+    histogramTemp[1][0] += 3;
+    histogramTemp[2][255] += 1;
+    histogramTemp[2][0] += 3;
+    histogramTemp[3][85] += 3;
+    histogramTemp[3][0] += 1;
+
+    assertTrue(testUtil.compareTwoIntArrays(histogramTemp, util.histogram(rgb)));
+  }
+
+  @Test
   public void testClampRangeNegative() {
     int result = this.util.clampRange(-255);
     assertEquals(0, result);
@@ -126,10 +148,10 @@ public class UtilsImageUtilTest {
   @Test
   public void testWriteImage() {
     Color[][] colorArray =
-        new Color[][] {
-          {new Color(255, 0, 0), new Color(0, 255, 0), new Color(0, 0, 255)},
-          {new Color(255, 255, 0), new Color(255, 255, 255), new Color(0, 0, 0)}
-        };
+            new Color[][]{
+                    {new Color(255, 0, 0), new Color(0, 255, 0), new Color(0, 0, 255)},
+                    {new Color(255, 255, 0), new Color(255, 255, 255), new Color(0, 0, 0)}
+            };
     ImageModel model = new ImageFile(colorArray);
     this.util.writeImage("testRes/testWriteImage.ppm", model);
 
@@ -138,15 +160,15 @@ public class UtilsImageUtilTest {
     assertTrue(boo);
 
     boolean boo1 =
-        new UtilsTestUtils()
-            .compareTwoColorArrays(this.util.readPPM("testRes/testWriteImage.ppm"), colorArray);
+            new UtilsTestUtils()
+                    .compareTwoColorArrays(this.util.readPPM("testRes/testWriteImage.ppm"), colorArray);
 
     assertTrue(boo1);
   }
 
   @Test
   public void testReadJPG() {
-    Color[][] colorArray = new Color[][] {{new Color(255, 255, 255)}};
+    Color[][] colorArray = new Color[][]{{new Color(255, 255, 255)}};
 
     Color[][] colors = this.util.imageIORead("testRes/test.jpg");
 
@@ -157,7 +179,7 @@ public class UtilsImageUtilTest {
 
   @Test
   public void testReadPNG() {
-    Color[][] colorArray = new Color[][] {{new Color(255, 255, 255)}};
+    Color[][] colorArray = new Color[][]{{new Color(255, 255, 255)}};
 
     Color[][] colors = this.util.imageIORead("testRes/test.png");
 
@@ -168,7 +190,7 @@ public class UtilsImageUtilTest {
 
   @Test
   public void testReadBMP() {
-    Color[][] colorArray = new Color[][] {{new Color(255, 255, 255)}};
+    Color[][] colorArray = new Color[][]{{new Color(255, 255, 255)}};
 
     Color[][] colors = this.util.imageIORead("testRes/test.bmp");
 
@@ -179,7 +201,7 @@ public class UtilsImageUtilTest {
 
   @Test
   public void testWriteJPG() {
-    Color[][] colorArray = new Color[][] {{new Color(255, 255, 255)}};
+    Color[][] colorArray = new Color[][]{{new Color(255, 255, 255)}};
 
     this.util.writeImage("testRes/test-write.jpg", new ImageFile(colorArray));
 
@@ -192,7 +214,7 @@ public class UtilsImageUtilTest {
 
   @Test
   public void testWritePNG() {
-    Color[][] colorArray = new Color[][] {{new Color(255, 255, 255)}};
+    Color[][] colorArray = new Color[][]{{new Color(255, 255, 255)}};
 
     this.util.writeImage("testRes/test-write.png", new ImageFile(colorArray));
 
@@ -205,7 +227,7 @@ public class UtilsImageUtilTest {
 
   @Test
   public void testWriteBMP() {
-    Color[][] colorArray = new Color[][] {{new Color(255, 255, 255)}};
+    Color[][] colorArray = new Color[][]{{new Color(255, 255, 255)}};
 
     this.util.writeImage("testRes/test-write.bmp", new ImageFile(colorArray));
 

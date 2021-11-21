@@ -23,8 +23,8 @@ import java.util.function.Function;
 public class IMEControllerBasic implements IMEController {
   protected final Map<String, Function<String[], IMECommand>> knownCommands;
   private final ImageLibModel libModel;
-  protected Readable readable;
   private final ImageProcessorView view;
+  protected Readable readable;
 
   /**
    * The default constructor.
