@@ -4,6 +4,7 @@ import model.library.ImageLibModel;
 import view.ImageProcessorGUIView;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.util.HashSet;
 import java.util.Set;
 
 public class IMEControllerProGUI extends IMEControllerPro implements IMEControllerGUI {
@@ -22,13 +23,10 @@ public class IMEControllerProGUI extends IMEControllerPro implements IMEControll
     this.readable = new StringReader(command);
     System.out.println("Accepted command: " + command);
     this.initProcessor();
-    String[] commandInArray = command.split("\\s+");
-
-
   }
 
   @Override
   public Set<String> getSupportCommands() {
-    return this.knownCommands.keySet();
+    return new HashSet<>(this.knownCommands.keySet());
   }
 }
