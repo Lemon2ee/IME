@@ -5,7 +5,10 @@ import java.util.Objects;
 
 import javax.swing.JPanel;
 
-/** The subclass of JPanel. Used to visualize the histogram data of the given image. */
+/**
+ * The subclass of JPanel. Used to visualize the histogram data of the given image.
+ */
+
 public class HistogramPanel extends JPanel {
   private static final int BOARDER = 5;
   private static final int HEIGHT = 200;

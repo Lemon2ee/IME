@@ -8,6 +8,7 @@ import utils.ImageUtil;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +24,7 @@ import java.util.function.Function;
  * would not change. All panel and component would not be scaled to fit the window size.
  */
 public class ImageProcessorGUIViewImpl extends JFrame
-    implements ImageProcessorGUIView, ActionListener {
+        implements ImageProcessorGUIView, ActionListener {
   private final IMEControllerGUI controller;
   private final ImageLib library;
   private final JLabel imageLabel;
@@ -146,7 +147,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
   @Override
   public void renderMessage(String message) {
     JOptionPane.showMessageDialog(
-        this, "Error message: " + message, "Error", JOptionPane.ERROR_MESSAGE);
+            this, "Error message: " + message, "Error", JOptionPane.ERROR_MESSAGE);
   }
 
   /**
@@ -332,10 +333,10 @@ public class ImageProcessorGUIViewImpl extends JFrame
 
     if (resultImage == null || operationOnExistImage) {
       resultImage =
-          new ImageUtil()
-              .color2dToImage(
-                  this.library.read(imageNameSelect),
-                  this.imageNameExtension.getOrDefault(imageNameSelect, "jpg"));
+              new ImageUtil()
+                      .color2dToImage(
+                              this.library.read(imageNameSelect),
+                              this.imageNameExtension.getOrDefault(imageNameSelect, "jpg"));
     }
 
     this.bufferedImageMap.put(imageNameSelect, resultImage);
