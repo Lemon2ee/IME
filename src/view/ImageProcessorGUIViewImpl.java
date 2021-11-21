@@ -305,7 +305,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
       String filePath = f.getPath();
       String name = JOptionPane.showInputDialog(this, "Please input the image name");
       this.imageNameExtension.put(name, new ControllerUtils().getExtension(filePath));
-      this.controller.acceptCommand("load " + filePath + " " + name);
+      this.controller.acceptCommand("load " + filePath.replace(" ", "\\\\") + " " + name);
       this.updateCombobox();
       this.updateImageIcon(name, false);
     }
