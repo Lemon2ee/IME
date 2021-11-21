@@ -27,7 +27,7 @@ public class ImageProcessor {
     ImageLib model = new ImageLib();
 
     if (args.length == 0) {
-      ImageProcessorGUIView view = new ImageProcessorGUIViewImpl(System.out, model);
+      ImageProcessorGUIView view = new ImageProcessorGUIViewImpl(model);
       IMEController controller = new IMEControllerProGUI(model, view);
     } else {
 

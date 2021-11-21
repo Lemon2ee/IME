@@ -286,6 +286,35 @@ public class ImageUtil {
   }
 
   /**
+   * Generate the histogram statistic of the image data. 0 - R 1 - G 2 - B 3 - Intensity
+   *
+   * @param image the model to take statistic on as ImageModel
+   * @return a 2d int array with length 256 integrate all histogram data
+   */
+  public int[][] histogram(Color[][] image) {
+    int[][] output = new int[4][256];
+    int height = image.length;
+    int width = image[0].length;
+    for (Color[] colors : image) {
+      for (int c = 0; c < width; c++) {
+        Color origin = colors[c];
+        int R = origin.getRed();
+        int G = origin.getGreen();
+        int B = origin.getBlue();
+
+        output[0][R] += 1;
+        output[1][G] += 1;
+        output[2][B] += 1;
+
+        int intensity = (int) Math.round(((double) R + (double) G + (double) B) / 3);
+        output[3][intensity] += 1;
+      }
+    }
+
+    return output;
+  }
+
+  /**
    * Clamp the range of the color value into the valid range of 0-255.
    *
    * @param value the calculated new channel value

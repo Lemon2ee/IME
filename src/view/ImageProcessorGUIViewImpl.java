@@ -14,7 +14,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.*;
+import java.util.List;
+import java.util.function.Function;
 
+/**
+ * An ImageProcessorGUIView implementation which acts as the GUI of this program. The default
+ * windows size is set to be 1280*720 which can be resized when needed, but only the image display
+ * panel would be resized, the control panel (AKA. the place where all buttons and histogram exist.)
+ * would not change. All panel and component would not be scaled to fit the window size.
+ */
 public class ImageProcessorGUIViewImpl extends JFrame
         implements ImageProcessorGUIView, ActionListener {
   private final IMEControllerGUI controller;
@@ -25,32 +33,34 @@ public class ImageProcessorGUIViewImpl extends JFrame
   private final Map<String, Image> bufferedImageMap;
   private final ArrayList<String> listOfGreyScale;
   private final ArrayList<String> flipDirections;
+  private final JPanel histogram;
 
-  public ImageProcessorGUIViewImpl(Appendable appendable, ImageLib library) {
+  /**
+   * The default constructor where all panel and frame would be initialized.
+   *
+   * @param library The given image library where all image resources would be stored.
+   */
+  public ImageProcessorGUIViewImpl(ImageLib library) {
     // initialize
     super();
     this.library = Objects.requireNonNull(library);
     this.controller = new IMEControllerProGUI(this.library, this);
     this.imageNameExtension = new HashMap<>();
     this.bufferedImageMap = new HashMap<>();
+    this.listOfGreyScale = new ArrayList<>();
+    this.flipDirections = new ArrayList<>();
 
     // set gui dimension and relative info
     setTitle("Image Processor");
     setSize(new Dimension(1280, 720));
 
-    // create new panel
+    // create the master panel
     JPanel mainPanel = new JPanel();
-    // for elements to be arranged vertically within this panel
     mainPanel.setLayout(new BorderLayout());
-    // scroll bars around this main panel
     JScrollPane mainScrollPane = new JScrollPane(mainPanel);
     add(mainScrollPane);
 
-    // exit program when JFrame is closed
-    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
     // set up the west control panel
-    // TODO: probably set the control panel to scroll panel
     JPanel controlPanel = new JPanel();
     controlPanel.setBorder(BorderFactory.createTitledBorder("Control Panel"));
     controlPanel.setLayout(new BorderLayout());
@@ -62,17 +72,14 @@ public class ImageProcessorGUIViewImpl extends JFrame
     imagePanel.setLayout(new BorderLayout());
     mainPanel.add(imagePanel, BorderLayout.CENTER);
 
-    /*
-    Create a combo box in the control panel
-     */
+    // Add image selection box to the top of control panel
     combobox = new JComboBox<>();
-    // the event listener when an option is selected
     combobox.setActionCommand("select-image");
     combobox.addActionListener(this);
     this.updateCombobox();
     controlPanel.add(combobox, BorderLayout.PAGE_START);
 
-    // set up the west operation panel in control panel
+    // set up the center operation panel in control panel
     JPanel operationPanel = new JPanel();
     operationPanel.setBorder(BorderFactory.createTitledBorder("Operation Panel"));
     operationPanel.setLayout(new BoxLayout(operationPanel, BoxLayout.PAGE_AXIS));
@@ -85,30 +92,15 @@ public class ImageProcessorGUIViewImpl extends JFrame
     imageScroll.setPreferredSize(new Dimension(960, 600));
     imagePanel.add(imageScroll, BorderLayout.CENTER);
 
-    this.listOfGreyScale = new ArrayList<>();
-    this.flipDirections = new ArrayList<>();
+    List<String> commands = new ArrayList<>(Arrays.asList("load", "save"));
 
-    String[] supported = {
-            "load",
-            "save",
-            "brighten",
-            "red-component",
-            "green-component",
-            "blue" + "-component",
-            "intensity-component",
-            "value-component",
-            "luma-component",
-            "horizontal" + "-flip",
-            "vertical-flip",
-            "alpha-component",
-            "sepia-component",
-            "greyscale",
-            "sepia",
-            "blur",
-            "sharpen"
-    };
+    Set<String> listOfCommand = this.controller.getSupportCommands();
+    commands.forEach(listOfCommand::remove);
+    commands.addAll(listOfCommand);
+    commands.sort(Comparator.comparing(String::length));
 
-    for (String str : supported) {
+    // create supported buttons
+    for (String str : commands) {
       if (str.contains("component")) {
         listOfGreyScale.add(str);
       } else if (str.contains("flip")) {
@@ -121,75 +113,207 @@ public class ImageProcessorGUIViewImpl extends JFrame
       }
     }
 
+    // create separate greyscale button
     JButton componentGreyScale = new JButton("Component GreyScale");
     componentGreyScale.setActionCommand("component-greyscale");
     componentGreyScale.addActionListener(this);
     operationPanel.add(componentGreyScale);
 
+    // create separate flip button
+    JButton flip = new JButton("Flip");
+    flip.setActionCommand("flip");
+    flip.addActionListener(this);
+    operationPanel.add(flip);
+
     /*
     Place to display histogram.
+    TODO: add histogram
      */
-    int[][] histogram = new ImageUtil().histogram(new Color[][]{
-            {new Color(255, 0, 0), new Color(0, 255, 0), new Color(0, 0, 255)},
-            {new Color(255, 255, 0), new Color(255, 255, 255), new Color(0, 0, 0)}
-    });
-    JPanel histogramPanel = new HistogramPanel(histogram);
-    controlPanel.add(histogramPanel, BorderLayout.PAGE_END);
-    histogramPanel.setPreferredSize(new Dimension(266, 210));
+    histogram = new JPanel(new BorderLayout());
+    controlPanel.add(histogram, BorderLayout.PAGE_END);
+    histogram.setPreferredSize(new Dimension(290, 200));
 
     // frame display and config
     setVisible(true);
     setDefaultLookAndFeelDecorated(false);
+    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
   }
 
-  // displaying message with a popup
+  /**
+   * Pop up message box when error message being received.
+   *
+   * @param message the message to be transmitted
+   */
   @Override
   public void renderMessage(String message) {
     JOptionPane.showMessageDialog(
             this, "Error message: " + message, "Error", JOptionPane.ERROR_MESSAGE);
   }
 
-  // perform action with the controller
+  /**
+   * Perform actions correspondingly.
+   *
+   * @param e the given action event as string
+   */
   @Override
   public void actionPerformed(ActionEvent e) {
     switch (e.getActionCommand()) {
-      case "load": {
-        // copy and paste file selector panel from the swing demo
-        final JFileChooser fileChooser = new JFileChooser(".");
-        FileNameExtensionFilter filter =
-                new FileNameExtensionFilter(
-                        "Supported by the pro version controller", "jpg", "ppm", "png", "bmp");
-        fileChooser.setFileFilter(filter);
-        int retValue = fileChooser.showOpenDialog(this);
-        if (retValue == JFileChooser.APPROVE_OPTION) {
-          File f = fileChooser.getSelectedFile();
-          String filePath = f.getPath();
-          String name = JOptionPane.showInputDialog(this, "Please input the image name");
-          this.imageNameExtension.put(name, new ControllerUtils().getExtension(filePath));
-          this.controller.acceptCommand("load " + filePath + " " + name);
-          this.updateCombobox();
-          this.updateImageIcon(false);
-        }
-      }
-      break;
+      case "load":
+        this.loadAction();
+        break;
       case "save":
-        String name = (String) this.combobox.getSelectedItem();
-        String filePath =
-                JOptionPane.showInputDialog(
-                        this, "Please provide name and path of image you want to save to");
-        this.controller.acceptCommand("save " + filePath + " " + name);
+        this.saveAction();
         break;
       case "select-image":
-        this.updateImageIcon(false);
+        this.selectAction();
         break;
       case "component-greyscale":
-        String imageNameGreyScale = (String) this.combobox.getSelectedItem();
-        this.componentGreyScaleAction(imageNameGreyScale);
+        this.componentGSAction();
+        break;
+      case "flip":
+        this.flipAction();
+        break;
+      case "blur":
+        this.simpleAction("blur");
+        break;
+      case "sharpen":
+        this.simpleAction("sharpen");
+        break;
+      case "sepia":
+        this.simpleAction("sepia");
+        break;
+      case "greyscale":
+        this.simpleAction("greyscale");
+        break;
+      case "brighten":
+        this.brightenAction();
         break;
       default:
         break;
     }
+
+    this.updateHistogram();
+    // TODO: debug only
     System.out.println(e.getActionCommand());
+  }
+
+  private void brightenAction() {
+    String image = (String) this.combobox.getSelectedItem();
+
+    String value =
+        JOptionPane.showInputDialog(
+            this, "Please provide the value you wish to brighten (negative to darken)");
+
+    Integer brightenValue = null;
+    String imageSaveLocation = null;
+
+    try {
+      if (value != null) {
+        brightenValue = Integer.parseInt(value);
+      }
+    } catch (NumberFormatException e) {
+      this.renderMessage("Wrong input format for brighten value");
+    }
+
+    if (brightenValue != null) {
+      imageSaveLocation =
+          JOptionPane.showInputDialog(
+              this, "Please provide name and path of image you want to save to");
+    }
+
+    if (imageSaveLocation != null) {
+      this.controller.acceptCommand(
+          "brighten" + " " + brightenValue + " " + image + " " + imageSaveLocation);
+      this.updateCombobox();
+      this.updateImageIcon(
+          (((DefaultComboBoxModel<String>) combobox.getModel()).getIndexOf(imageSaveLocation)
+              != -1));
+    }
+  }
+
+  private void simpleAction(String filterType) {
+    String image = (String) this.combobox.getSelectedItem();
+
+    String imageSaveLocation =
+        JOptionPane.showInputDialog(
+            this, "Please provide name and path of image you want to save to");
+
+    if (imageSaveLocation != null) {
+      this.controller.acceptCommand(filterType + " " + image + " " + imageSaveLocation);
+      this.updateCombobox();
+      this.updateImageIcon(
+          (((DefaultComboBoxModel<String>) combobox.getModel()).getIndexOf(imageSaveLocation)
+              != -1));
+    }
+  }
+
+  private void flipAction() {
+    String image = (String) this.combobox.getSelectedItem();
+    String imageSaveLocation = null;
+    String flipDirection;
+
+    flipDirection =
+        (String)
+            JOptionPane.showInputDialog(
+                this,
+                "Please select a flip direction",
+                "Direction selection",
+                JOptionPane.PLAIN_MESSAGE,
+                new ImageIcon(),
+                this.flipDirections.toArray(),
+                "");
+
+    if (flipDirection != null) {
+      imageSaveLocation =
+          JOptionPane.showInputDialog(
+              this, "Please provide name and path of image you want to save to");
+    }
+
+    if (imageSaveLocation != null) {
+      this.controller.acceptCommand(flipDirection + " " + image + " " + imageSaveLocation);
+      this.updateCombobox();
+      this.updateImageIcon(
+          (((DefaultComboBoxModel<String>) combobox.getModel()).getIndexOf(imageSaveLocation)
+              != -1));
+    }
+  }
+
+  private void componentGSAction() {
+    String imageNameGreyScale = (String) this.combobox.getSelectedItem();
+    this.componentGreyScaleAction(imageNameGreyScale);
+  }
+
+  private void selectAction() {
+    this.updateImageIcon(false);
+  }
+
+  private void saveAction() {
+    String name = (String) this.combobox.getSelectedItem();
+    String filePath =
+        JOptionPane.showInputDialog(
+            this, "Please provide name and path of image you want to save to");
+    if (filePath != null) {
+      this.controller.acceptCommand("save " + filePath + " " + name);
+    }
+  }
+
+  private void loadAction() {
+    // copy and paste file selector panel from the swing demo
+    final JFileChooser fileChooser = new JFileChooser(".");
+    FileNameExtensionFilter filter =
+        new FileNameExtensionFilter(
+            "Supported by the pro version controller", "jpg", "ppm", "png", "bmp");
+    fileChooser.setFileFilter(filter);
+    int retValue = fileChooser.showOpenDialog(this);
+    if (retValue == JFileChooser.APPROVE_OPTION) {
+      File f = fileChooser.getSelectedFile();
+      String filePath = f.getPath();
+      String name = JOptionPane.showInputDialog(this, "Please input the image name");
+      this.imageNameExtension.put(name, new ControllerUtils().getExtension(filePath));
+      this.controller.acceptCommand("load " + filePath + " " + name);
+      this.updateCombobox();
+      this.updateImageIcon(false);
+    }
   }
 
   private void updateCombobox() {
@@ -223,32 +347,42 @@ public class ImageProcessorGUIViewImpl extends JFrame
     return (String) this.combobox.getSelectedItem();
   }
 
-  private void selectImageAction(String selectedImage) {
-    this.updateImageIcon(false);
+  private void componentGreyScaleAction(String selectedImage) {
+    String fileSaveGreyscale = null;
+    String filePathGreyScale;
+
+    filePathGreyScale =
+        (String)
+            JOptionPane.showInputDialog(
+                this,
+                "Please select one of the following supported greyscale component",
+                "Title",
+                JOptionPane.PLAIN_MESSAGE,
+                new ImageIcon(),
+                this.listOfGreyScale.toArray(),
+                "");
+
+    if (filePathGreyScale != null) {
+      fileSaveGreyscale =
+          JOptionPane.showInputDialog(
+              this, "Please provide name and path of image you want to save to");
+    }
+
+    if (filePathGreyScale != null && fileSaveGreyscale != null) {
+      this.controller.acceptCommand(
+          filePathGreyScale + " " + selectedImage + " " + fileSaveGreyscale);
+      this.updateCombobox();
+      this.updateImageIcon(
+          (((DefaultComboBoxModel<String>) combobox.getModel()).getIndexOf(fileSaveGreyscale)
+              != -1));
+    }
   }
 
-  private void componentGreyScaleAction(String selectedImage) {
-    String filePathGreyScale =
-            (String)
-                    JOptionPane.showInputDialog(
-                            this,
-                            "Please select one of the following supported greyscale component",
-                            "Title",
-                            JOptionPane.PLAIN_MESSAGE,
-                            new ImageIcon(),
-                            this.listOfGreyScale.toArray(),
-                            "green-component");
-    String fileSaveGreyscale =
-            JOptionPane.showInputDialog(
-                    this, "Please provide name and path of image you want to save to");
-    this.controller.acceptCommand(
-            filePathGreyScale + " " + selectedImage + " " + fileSaveGreyscale);
-    this.updateCombobox();
-    System.out.println(fileSaveGreyscale);
-    System.out.println(
-            ((DefaultComboBoxModel<String>) combobox.getModel()).getIndexOf(fileSaveGreyscale));
-
-    this.updateImageIcon(
-            (((DefaultComboBoxModel<String>) combobox.getModel()).getIndexOf(fileSaveGreyscale) != -1));
+  private void updateHistogram() {
+    String imageNameSelect = this.returnSelectedName();
+    int[][] histogram =
+        new ImageUtil().histogram(this.library.read(imageNameSelect).imageArrayCopy());
+    JPanel histogramPanel = new HistogramPanel(histogram);
+    this.histogram.add(histogramPanel, BorderLayout.CENTER);
   }
 }
