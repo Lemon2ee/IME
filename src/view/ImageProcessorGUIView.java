@@ -1,5 +1,5 @@
 package view;
 
 public interface ImageProcessorGUIView extends ImageProcessorView {
-  void updateImageIcon(String origin, String modifiedImage, boolean modified);
+  void updateImageIcon(String modifiedImage, boolean modified);
 }

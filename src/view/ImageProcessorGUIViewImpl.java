@@ -226,7 +226,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
       this.controller.acceptCommand(
           "brighten" + " " + brightenValue + " " + image + " " + imageSaveLocation);
       this.updateCombobox();
-      this.updateImageIcon(image, imageSaveLocation, true);
+      this.updateImageIcon(imageSaveLocation, true);
     }
   }
 
@@ -240,7 +240,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
     if (imageSaveLocation != null) {
       this.controller.acceptCommand(filterType + " " + image + " " + imageSaveLocation);
       this.updateCombobox();
-      this.updateImageIcon(image, imageSaveLocation, true);
+      this.updateImageIcon(imageSaveLocation, true);
     }
   }
 
@@ -269,7 +269,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
     if (imageSaveLocation != null) {
       this.controller.acceptCommand(flipDirection + " " + image + " " + imageSaveLocation);
       this.updateCombobox();
-      this.updateImageIcon(image, imageSaveLocation, true);
+      this.updateImageIcon(imageSaveLocation, true);
     }
   }
 
@@ -279,7 +279,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
   }
 
   private void selectAction() {
-    this.updateImageIcon(this.returnSelectedName(), this.returnSelectedName(), false);
+    this.updateImageIcon(this.returnSelectedName(), false);
   }
 
   private void saveAction() {
@@ -307,7 +307,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
       this.imageNameExtension.put(name, new ControllerUtils().getExtension(filePath));
       this.controller.acceptCommand("load " + filePath.replace(" ", "\\\\") + " " + name);
       this.updateCombobox();
-      this.updateImageIcon(name, name, false);
+      this.updateImageIcon(name, false);
     }
   }
 
@@ -320,7 +320,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
     }
   }
 
-  public void updateImageIcon(String origin, String modifiedImage, boolean modified) {
+  public void updateImageIcon(String modifiedImage, boolean modified) {
     Image resultImage;
 
     resultImage = this.bufferedImageMap.getOrDefault(modifiedImage, null);
@@ -330,7 +330,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
           new ImageUtil()
               .color2dToImage(
                   this.library.read(modifiedImage),
-                  this.imageNameExtension.getOrDefault(origin, "jpg"));
+                  this.imageNameExtension.getOrDefault(modifiedImage, "jpg"));
     }
 
     this.bufferedImageMap.put(modifiedImage, resultImage);
@@ -368,7 +368,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
       this.controller.acceptCommand(
           filePathGreyScale + " " + selectedImage + " " + fileSaveGreyscale);
       this.updateCombobox();
-      this.updateImageIcon(selectedImage, fileSaveGreyscale, true);
+      this.updateImageIcon(fileSaveGreyscale, true);
     }
   }
 
