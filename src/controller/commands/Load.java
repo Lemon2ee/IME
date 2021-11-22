@@ -55,6 +55,8 @@ public class Load extends ABSCommand {
     }
 
     // if everything worked out fine, add the ImageModel to the library
-    model.addToLib(this.destination, new ImageFile(fileFormatSupportFunction.apply(this.origin)));
+    model.addToLib(
+        this.destination,
+        new ImageFile(fileFormatSupportFunction.apply(this.origin.replace("\\\\", " "))));
   }
 }
