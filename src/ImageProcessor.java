@@ -28,7 +28,6 @@ public class ImageProcessor {
 
     if (args.length == 0) {
       ImageProcessorGUIView view = new ImageProcessorGUIViewImpl(model);
-      IMEController controller = new IMEControllerProGUI(model, view);
     } else {
 
       // the first argument
@@ -40,13 +39,13 @@ public class ImageProcessor {
           help = new StringBuilder();
           help.append("A simple image processing program\n");
           help.append(
-              "--file [filepath] to start the program with a script file where all command "
+              "-file [filepath] to start the program with a script file where all command "
                   + "are stored\n");
-          help.append("--interactive to start the program with interaction");
+          help.append("-text to start the program with interaction");
           System.out.print(help);
           return;
           // the file option allow the program go through a user provided text-based script
-        case "--file":
+        case "-file":
           try {
             readable = new FileReader(args[1]);
           } catch (IndexOutOfBoundsException e) {
@@ -56,7 +55,7 @@ public class ImageProcessor {
           }
           break;
           // interactive mode allow user to use system.in to interact with the program
-        case "--interactive":
+        case "-text":
           readable = new InputStreamReader(System.in);
           break;
         default:
