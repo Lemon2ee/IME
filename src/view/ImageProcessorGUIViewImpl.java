@@ -323,15 +323,11 @@ public class ImageProcessorGUIViewImpl extends JFrame
   public void updateImageIcon(String modifiedImage, boolean modified) {
     Image resultImage;
 
-    resultImage = this.bufferedImageMap.getOrDefault(modifiedImage, null);
-
-    if (resultImage == null || modified) {
-      resultImage =
-          new ImageUtil()
-              .color2dToImage(
-                  this.library.read(modifiedImage),
-                  this.imageNameExtension.getOrDefault(modifiedImage, "jpg"));
-    }
+    resultImage =
+        new ImageUtil()
+            .color2dToImage(
+                this.library.read(modifiedImage),
+                this.imageNameExtension.getOrDefault(modifiedImage, "jpg"));
 
     this.bufferedImageMap.put(modifiedImage, resultImage);
     if (Objects.equals(modifiedImage, this.returnSelectedName())) {
