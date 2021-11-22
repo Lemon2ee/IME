@@ -221,6 +221,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
       this.controller.acceptCommand(
           "brighten" + " " + brightenValue + " " + image + " " + imageSaveLocation);
       this.updateCombobox();
+      this.combobox.setSelectedItem(imageSaveLocation);
       this.updateImageIcon(imageSaveLocation, true);
       this.updateHistogram();
     }
@@ -236,6 +237,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
     if (imageSaveLocation != null) {
       this.controller.acceptCommand(filterType + " " + image + " " + imageSaveLocation);
       this.updateCombobox();
+      this.combobox.setSelectedItem(imageSaveLocation);
       this.updateImageIcon(imageSaveLocation, true);
       this.updateHistogram();
     }
@@ -266,6 +268,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
     if (imageSaveLocation != null) {
       this.controller.acceptCommand(flipDirection + " " + image + " " + imageSaveLocation);
       this.updateCombobox();
+      this.combobox.setSelectedItem(imageSaveLocation);
       this.updateImageIcon(imageSaveLocation, true);
       this.updateHistogram();
     }
@@ -306,6 +309,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
       this.imageNameExtension.put(name, new ControllerUtils().getExtension(filePath));
       this.controller.acceptCommand("load " + filePath.replace(" ", "\\\\") + " " + name);
       this.updateCombobox();
+      this.combobox.setSelectedItem(name);
       this.updateImageIcon(name, false);
       this.updateHistogram();
     }
@@ -364,6 +368,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
       this.controller.acceptCommand(
           filePathGreyScale + " " + selectedImage + " " + fileSaveGreyscale);
       this.updateCombobox();
+      this.combobox.setSelectedItem(fileSaveGreyscale);
       this.updateImageIcon(fileSaveGreyscale, true);
       this.updateHistogram();
     }
