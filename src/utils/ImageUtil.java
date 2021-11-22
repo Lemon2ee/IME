@@ -14,9 +14,7 @@ import java.io.FileNotFoundException;
 
 import java.util.Scanner;
 
-/**
- * This class contains utility methods to read an image from file and manipulate a color.
- */
+/** This class contains utility methods to read an image from file and manipulate a color. */
 public class ImageUtil {
 
   /**
@@ -25,7 +23,7 @@ public class ImageUtil {
    * @param filename the path of the file.
    * @return A two-dimensional array of Color that represents the pixels
    * @throws IllegalArgumentException either when the given file cannot find or the given file is
-   *                                  not a PPM3 file.
+   *     not a PPM3 file.
    */
   public Color[][] readPPM(String filename) throws IllegalArgumentException {
     Scanner sc;
@@ -171,10 +169,10 @@ public class ImageUtil {
    */
   public Color toIntensity(Color origin) {
     return colorTransform(
-            origin,
-            new double[][]{
-                    {1.0 / 3, 1.0 / 3, 1.0 / 3}, {1.0 / 3, 1.0 / 3, 1.0 / 3}, {1.0 / 3, 1.0 / 3, 1.0 / 3}
-            });
+        origin,
+        new double[][] {
+          {1.0 / 3, 1.0 / 3, 1.0 / 3}, {1.0 / 3, 1.0 / 3, 1.0 / 3}, {1.0 / 3, 1.0 / 3, 1.0 / 3}
+        });
   }
 
   /**
@@ -185,10 +183,10 @@ public class ImageUtil {
    */
   public Color toLuma(Color origin) {
     return colorTransform(
-            origin,
-            new double[][]{
-                    {0.2126, 0.7152, 0.0722}, {0.2126, 0.7152, 0.0722}, {0.2126, 0.7152, 0.0722}
-            });
+        origin,
+        new double[][] {
+          {0.2126, 0.7152, 0.0722}, {0.2126, 0.7152, 0.0722}, {0.2126, 0.7152, 0.0722}
+        });
   }
 
   /**
@@ -199,15 +197,15 @@ public class ImageUtil {
    */
   public Color toSepia(Color origin) {
     return colorTransform(
-            origin,
-            new double[][]{{0.393, 0.769, 0.189}, {0.349, 0.686, 0.168}, {0.272, 0.534, 0.131}});
+        origin,
+        new double[][] {{0.393, 0.769, 0.189}, {0.349, 0.686, 0.168}, {0.272, 0.534, 0.131}});
   }
 
   /**
    * Change the rgb brightness of a pixel with given value.
    *
    * @param origin the original pixel to change the brightness as Color
-   * @param value  the value to be changed for the color brightness
+   * @param value the value to be changed for the color brightness
    * @return the new pixel after changing brightness as Color
    */
   public Color colorBrightness(Color origin, int value) {
@@ -221,13 +219,13 @@ public class ImageUtil {
   /**
    * Perform a linear color transformation by using the transform value matrix.
    *
-   * @param origin          the original color to be transformed
+   * @param origin the original color to be transformed
    * @param transformMatrix the 3 * 3 matrix of the transformation as 2d array of double
    * @return the new color after transformation as Color
    * @throws IllegalArgumentException if the transformMatrix null or dimension is invalid
    */
   private Color colorTransform(Color origin, double[][] transformMatrix)
-          throws IllegalArgumentException {
+      throws IllegalArgumentException {
     if (transformMatrix == null) {
       throw new IllegalArgumentException("The transformation matrix cannot be null.");
     }
@@ -239,17 +237,17 @@ public class ImageUtil {
     int srcG = origin.getGreen();
     int srcB = origin.getBlue();
     double newR =
-            srcR * transformMatrix[0][0] + srcG * transformMatrix[0][1] + srcB * transformMatrix[0][2];
+        srcR * transformMatrix[0][0] + srcG * transformMatrix[0][1] + srcB * transformMatrix[0][2];
     double newG =
-            srcR * transformMatrix[1][0] + srcG * transformMatrix[1][1] + srcB * transformMatrix[1][2];
+        srcR * transformMatrix[1][0] + srcG * transformMatrix[1][1] + srcB * transformMatrix[1][2];
     double newB =
-            srcR * transformMatrix[2][0] + srcG * transformMatrix[2][1] + srcB * transformMatrix[2][2];
+        srcR * transformMatrix[2][0] + srcG * transformMatrix[2][1] + srcB * transformMatrix[2][2];
 
     return new Color(
-            clampRange((int) Math.round(newR)),
-            clampRange((int) Math.round(newG)),
-            clampRange((int) Math.round(newB)),
-            origin.getAlpha());
+        clampRange((int) Math.round(newR)),
+        clampRange((int) Math.round(newG)),
+        clampRange((int) Math.round(newB)),
+        origin.getAlpha());
   }
 
   /**
@@ -298,7 +296,7 @@ public class ImageUtil {
    * Write an image to local disk with given extension.
    *
    * @param filepath where the image will be stored at
-   * @param model    the source of image
+   * @param model the source of image
    */
   public void writeImage(String filepath, ImageModel model) {
 
@@ -319,14 +317,14 @@ public class ImageUtil {
         break;
       default:
         throw new IllegalArgumentException(
-                "Does not support exporting the image as this format: " + extension + "\n");
+            "Does not support exporting the image as this format: " + extension + "\n");
     }
   }
 
   /**
    * Convert image to PPM file format and write it to local disk.
    *
-   * @param model    the image source
+   * @param model the image source
    * @param filepath the file path where the image will be stored
    */
   private void writePPM(ImageModel model, String filepath) {
@@ -351,8 +349,8 @@ public class ImageUtil {
 
     header.append("P3\n");
     header.append(
-            "# Created by Image Manipulation and Enhancement (IME) written by JerryGCDing "
-                    + "and Lemon2ee\n");
+        "# Created by Image Manipulation and Enhancement (IME) written by JerryGCDing "
+            + "and Lemon2ee\n");
     header.append(width).append(" ").append(height).append("\n");
     header.append("255").append("\n");
     header.append("# end of the header\n");
@@ -377,8 +375,8 @@ public class ImageUtil {
   /**
    * A private helper method to utilize imageio to write an image to local disk.
    *
-   * @param model     the image source
-   * @param filepath  the local file path where the image will be stored
+   * @param model the image source
+   * @param filepath the local file path where the image will be stored
    * @param extension the given file format
    */
   private void imageIOWrite(ImageModel model, String filepath, String extension) {
@@ -403,10 +401,10 @@ public class ImageUtil {
 
     if (extension.equals("png")) {
       bufferedImage =
-              new BufferedImage(model.getWidth(), model.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+          new BufferedImage(model.getWidth(), model.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
     } else {
       bufferedImage =
-              new BufferedImage(model.getWidth(), model.getHeight(), BufferedImage.TYPE_INT_RGB);
+          new BufferedImage(model.getWidth(), model.getHeight(), BufferedImage.TYPE_INT_RGB);
     }
 
     Color[][] array = model.imageArrayCopy();
