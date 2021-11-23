@@ -7,9 +7,7 @@ import java.util.Objects;
 
 import javax.swing.JPanel;
 
-/**
- * The subclass of JPanel. Used to visualize the histogram data of the given image.
- */
+/** The subclass of JPanel. Used to visualize the histogram data of the given image. */
 public class HistogramPanel extends JPanel {
   private static final int BOARDER = 5;
   private static final int HEIGHT = 200;
@@ -43,26 +41,22 @@ public class HistogramPanel extends JPanel {
       g.setColor(Color.RED);
       y1 = (int) Math.round(this.histogram[0][x] * ratio);
       y2 = (int) Math.round(this.histogram[0][x + 1] * ratio);
-      g.drawLine(BOARDER + x, BOARDER + HEIGHT - y1, BOARDER + x + 1,
-              BOARDER + HEIGHT - y2);
+      g.drawLine(BOARDER + x, BOARDER + HEIGHT - y1, BOARDER + x + 1, BOARDER + HEIGHT - y2);
 
       g.setColor(Color.GREEN);
       y1 = (int) Math.round(this.histogram[1][x] * ratio);
       y2 = (int) Math.round(this.histogram[1][x + 1] * ratio);
-      g.drawLine(BOARDER + x, BOARDER + HEIGHT - y1, BOARDER + x + 1,
-              BOARDER + HEIGHT - y2);
+      g.drawLine(BOARDER + x, BOARDER + HEIGHT - y1, BOARDER + x + 1, BOARDER + HEIGHT - y2);
 
       g.setColor(Color.BLUE);
       y1 = (int) Math.round(this.histogram[2][x] * ratio);
       y2 = (int) Math.round(this.histogram[2][x + 1] * ratio);
-      g.drawLine(BOARDER + x, BOARDER + HEIGHT - y1, BOARDER + x + 1,
-              BOARDER + HEIGHT - y2);
+      g.drawLine(BOARDER + x, BOARDER + HEIGHT - y1, BOARDER + x + 1, BOARDER + HEIGHT - y2);
 
       g.setColor(Color.BLACK);
       y1 = (int) Math.round(this.histogram[3][x] * ratio);
       y2 = (int) Math.round(this.histogram[3][x + 1] * ratio);
-      g.drawLine(BOARDER + x, BOARDER + HEIGHT - y1, BOARDER + x + 1,
-              BOARDER + HEIGHT - y2);
+      g.drawLine(BOARDER + x, BOARDER + HEIGHT - y1, BOARDER + x + 1, BOARDER + HEIGHT - y2);
     }
   }
 }
