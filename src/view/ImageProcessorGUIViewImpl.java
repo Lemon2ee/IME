@@ -15,7 +15,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.*;
 import java.util.List;
-import java.util.function.Function;
 
 /**
  * An ImageProcessorGUIView implementation which acts as the GUI of this program. The default
@@ -193,6 +192,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
     }
   }
 
+  /** Respond to brighten action. */
   private void brightenAction() {
     String image = (String) this.combobox.getSelectedItem();
 
@@ -227,6 +227,11 @@ public class ImageProcessorGUIViewImpl extends JFrame
     }
   }
 
+  /**
+   * Respond to simple actions that does not additional input other than a destination image name.
+   *
+   * @param filterType the instruction
+   */
   private void simpleAction(String filterType) {
     String image = (String) this.combobox.getSelectedItem();
 
@@ -243,6 +248,9 @@ public class ImageProcessorGUIViewImpl extends JFrame
     }
   }
 
+  /**
+   * Respond to flip action which requires an additional input selection box for flipping direction.
+   */
   private void flipAction() {
     String image = (String) this.combobox.getSelectedItem();
     String imageSaveLocation = null;
@@ -274,23 +282,33 @@ public class ImageProcessorGUIViewImpl extends JFrame
     }
   }
 
+  /** Respond to a component greyscale action. */
   private void componentGSAction() {
     String imageNameGreyScale = (String) this.combobox.getSelectedItem();
     this.componentGreyScaleAction(imageNameGreyScale);
   }
 
+  /** Update the imageIcon when a new image is being selected. */
   private void selectAction() {
     this.updateImageIcon(this.returnSelectedName(), false);
     this.updateHistogram();
   }
 
   private void saveAction() {
-    String name = (String) this.combobox.getSelectedItem();
-    String filePath =
-        JOptionPane.showInputDialog(
-            this, "Please provide name and path of image you want to save to");
+    String filePath = null;
+    final JFileChooser fileChooser = new JFileChooser(".");
+    FileNameExtensionFilter filter =
+        new FileNameExtensionFilter(
+            "Supported by the pro version controller", "jpg", "ppm", "png", "bmp");
+    fileChooser.setFileFilter(filter);
+    int retValue = fileChooser.showSaveDialog(this);
+    if (retValue == JFileChooser.APPROVE_OPTION) {
+      File f = fileChooser.getSelectedFile();
+      filePath = f.getAbsolutePath().replace(" ", "\\\\");
+    }
+
     if (filePath != null) {
-      this.controller.acceptCommand("save " + filePath + " " + name);
+      this.controller.acceptCommand("save " + filePath + " " + this.returnSelectedName());
     }
   }
 
