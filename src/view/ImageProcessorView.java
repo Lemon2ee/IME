@@ -1,7 +1,5 @@
 package view;
 
-import java.io.IOException;
-
 /** An interface represents the view of the Image processor program. */
 public interface ImageProcessorView {
   /**

@@ -6,14 +6,36 @@ import model.library.ImageLib;
 import utils.ControllerUtils;
 import utils.ImageUtil;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JComboBox;
+import javax.swing.JScrollPane;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JOptionPane;
+import javax.swing.JButton;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFileChooser;
+import javax.swing.ImageIcon;
+import javax.swing.WindowConstants;
+import javax.swing.ScrollPaneLayout;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Image;
+import java.awt.Dimension;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.*;
+import java.util.Objects;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -222,7 +244,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
           "brighten" + " " + brightenValue + " " + image + " " + imageSaveLocation);
       this.updateCombobox();
       this.combobox.setSelectedItem(imageSaveLocation);
-      this.updateImageIcon(imageSaveLocation, true);
+      this.updateImageIcon(imageSaveLocation);
       this.updateHistogram();
     }
   }
@@ -243,7 +265,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
       this.controller.acceptCommand(filterType + " " + image + " " + imageSaveLocation);
       this.updateCombobox();
       this.combobox.setSelectedItem(imageSaveLocation);
-      this.updateImageIcon(imageSaveLocation, true);
+      this.updateImageIcon(imageSaveLocation);
       this.updateHistogram();
     }
   }
@@ -277,7 +299,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
       this.controller.acceptCommand(flipDirection + " " + image + " " + imageSaveLocation);
       this.updateCombobox();
       this.combobox.setSelectedItem(imageSaveLocation);
-      this.updateImageIcon(imageSaveLocation, true);
+      this.updateImageIcon(imageSaveLocation);
       this.updateHistogram();
     }
   }
@@ -290,10 +312,14 @@ public class ImageProcessorGUIViewImpl extends JFrame
 
   /** Update the imageIcon when a new image is being selected. */
   private void selectAction() {
-    this.updateImageIcon(this.returnSelectedName(), false);
+    this.updateImageIcon(this.returnSelectedName());
     this.updateHistogram();
   }
 
+  /**
+   * Respond to a save action which allows users to choose their place to save the image they are
+   * currently working on, only allows to save as jpg, ppm, png, bmp.
+   */
   private void saveAction() {
     String filePath = null;
     final JFileChooser fileChooser = new JFileChooser(".");
@@ -312,6 +338,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
     }
   }
 
+  /** Respond to a load action which allows users to load supported image file into the program. */
   private void loadAction() {
     // copy and paste file selector panel from the swing demo
     final JFileChooser fileChooser = new JFileChooser(".");
@@ -328,11 +355,12 @@ public class ImageProcessorGUIViewImpl extends JFrame
       this.controller.acceptCommand("load " + filePath.replace(" ", "\\\\") + " " + name);
       this.updateCombobox();
       this.combobox.setSelectedItem(name);
-      this.updateImageIcon(name, false);
+      this.updateImageIcon(name);
       this.updateHistogram();
     }
   }
 
+  /** Update the combobox selectable items from the imageLibrary. */
   private void updateCombobox() {
     // fetch image name from image library and add to the select box
     for (String imageName : this.library.getKeys()) {
@@ -342,7 +370,12 @@ public class ImageProcessorGUIViewImpl extends JFrame
     }
   }
 
-  public void updateImageIcon(String modifiedImage, boolean modified) {
+  /**
+   * Update the image icon with the given image name, can be improved, but....whatever.
+   *
+   * @param modifiedImage the image to be rendered and to be shown on the image display panel
+   */
+  public void updateImageIcon(String modifiedImage) {
     Image resultImage;
 
     resultImage =
@@ -357,10 +390,20 @@ public class ImageProcessorGUIViewImpl extends JFrame
     }
   }
 
+  /**
+   * Get the currently selected image name from the combobox.
+   *
+   * @return A string representing the image name that is currently being selected.
+   */
   private String returnSelectedName() {
     return (String) this.combobox.getSelectedItem();
   }
 
+  /**
+   * Perform component grey scale on the given image name.
+   *
+   * @param selectedImage The image name of the image to be based on.
+   */
   private void componentGreyScaleAction(String selectedImage) {
     String fileSaveGreyscale = null;
     String filePathGreyScale;
@@ -387,11 +430,12 @@ public class ImageProcessorGUIViewImpl extends JFrame
           filePathGreyScale + " " + selectedImage + " " + fileSaveGreyscale);
       this.updateCombobox();
       this.combobox.setSelectedItem(fileSaveGreyscale);
-      this.updateImageIcon(fileSaveGreyscale, true);
+      this.updateImageIcon(fileSaveGreyscale);
       this.updateHistogram();
     }
   }
 
+  /** Update the histogram panel by getting the int[][] of the currently selected image. */
   private void updateHistogram() {
     String imageNameSelect = this.returnSelectedName();
     int[][] histogram =

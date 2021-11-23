@@ -1,6 +1,8 @@
 package view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+
 import java.util.Objects;
 
 import javax.swing.JPanel;
