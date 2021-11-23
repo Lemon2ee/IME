@@ -1,8 +1,6 @@
 import controller.IMEController;
 import controller.IMEControllerPro;
-import controller.IMEControllerProGUI;
 import model.library.ImageLib;
-import view.ImageProcessorGUIView;
 import view.ImageProcessorGUIViewImpl;
 import view.ImageProcessorView;
 import view.ImageProcessorViewImpl;
@@ -27,7 +25,7 @@ public class ImageProcessor {
     ImageLib model = new ImageLib();
 
     if (args.length == 0) {
-      ImageProcessorGUIView view = new ImageProcessorGUIViewImpl(model);
+      ImageProcessorView view = new ImageProcessorGUIViewImpl(model);
     } else {
 
       // the first argument

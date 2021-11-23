@@ -45,7 +45,7 @@ import java.util.List;
  * would not change. All panel and component would not be scaled to fit the window size.
  */
 public class ImageProcessorGUIViewImpl extends JFrame
-    implements ImageProcessorGUIView, ActionListener {
+    implements ImageProcessorView, ActionListener {
   private final IMEControllerGUI controller;
   private final ImageLib library;
   private final JLabel imageLabel;
@@ -95,6 +95,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
 
     // Add image selection box to the top of control panel
     combobox = new JComboBox<>();
+    combobox.setBorder(BorderFactory.createTitledBorder("Image Library"));
     combobox.setActionCommand("select-image");
     combobox.addActionListener(this);
     this.updateCombobox();
@@ -148,7 +149,6 @@ public class ImageProcessorGUIViewImpl extends JFrame
 
     /*
     Place to display histogram.
-    TODO: add histogram
      */
     histogram = new JPanel(new BorderLayout());
     controlPanel.add(histogram, BorderLayout.PAGE_END);
@@ -375,7 +375,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
    *
    * @param modifiedImage the image to be rendered and to be shown on the image display panel
    */
-  public void updateImageIcon(String modifiedImage) {
+  private void updateImageIcon(String modifiedImage) {
     Image resultImage;
 
     resultImage =

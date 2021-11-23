@@ -1,7 +1,8 @@
 package controller;
 
 import model.library.ImageLibModel;
-import view.ImageProcessorGUIView;
+import view.ImageProcessorView;
+
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.HashSet;
@@ -14,7 +15,7 @@ public class IMEControllerProGUI extends IMEControllerPro implements IMEControll
    * @param libModel The provided model which will handle all manipulation of images
    * @param view The given view object where essential message will be rendered
    */
-  public IMEControllerProGUI(ImageLibModel libModel, ImageProcessorGUIView view) {
+  public IMEControllerProGUI(ImageLibModel libModel, ImageProcessorView view) {
     super(libModel, new InputStreamReader(System.in), view);
   }
 

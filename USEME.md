@@ -1,8 +1,5 @@
 ## Getting started
 
-Currently, we do not have support for GUI, so all operations have to be done in either interactive
-mode or file mode.
-
 ## Supported commands:
 
 - load /path/to/image image_name // read local image file and store it as the name provided.
@@ -40,6 +37,17 @@ mode or file mode.
 
 You can enter this mod by running the jar file (in the res directory) by either given no argument,
 or append `--interactive` as the argument.
+
+### GUI mode:
+
+To use the GUI, run the program/click the jar file without given any arguments.
+
+The combobox at the left top corner, act as the image library The panel below it is the operation
+panel which all operation will be located, below that is the histogram panel which provides
+histogram for visual support, no action would be performed if you click on it.
+
+The right side of the program is the place to display image, which can only display a portion of 
+the image if it is a relatively large, you can resize the program window to have a better view.
 
 ### File mode:
 

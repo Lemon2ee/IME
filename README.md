@@ -78,6 +78,8 @@ Structure: In view package
 - ImageProcessorViewImpl
     - The implementation of ImageProcessorView, which only pass message to the given appendable
       object.
+- ImageProcessorGUIViewImpl
+    - Implementation of ImageProcessorView, which respond the gui display and action listener.
 
 Structure: In utils package
 
