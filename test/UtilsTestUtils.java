@@ -25,7 +25,7 @@ public class UtilsTestUtils {
   }
 
   /**
-   * Determine if two int arrays are the same
+   * Determine if two int arrays are the same.
    *
    * @param expected the expected int array
    * @param actual the actual int array

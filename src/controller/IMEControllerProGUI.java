@@ -8,6 +8,10 @@ import java.io.StringReader;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * An implementation of IMEControllerGUI with basic functionality which forward command as Readable
+ * object to the supper class.
+ */
 public class IMEControllerProGUI extends IMEControllerPro implements IMEControllerGUI {
   /**
    * The default constructor, but with additional command support.

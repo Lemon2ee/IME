@@ -262,15 +262,15 @@ public class ImageUtil {
     for (Color[] colors : image) {
       for (int c = 0; c < width; c++) {
         Color origin = colors[c];
-        int R = origin.getRed();
-        int G = origin.getGreen();
-        int B = origin.getBlue();
+        int r = origin.getRed();
+        int g = origin.getGreen();
+        int b = origin.getBlue();
 
-        output[0][R] += 1;
-        output[1][G] += 1;
-        output[2][B] += 1;
+        output[0][r] += 1;
+        output[1][g] += 1;
+        output[2][b] += 1;
 
-        int intensity = (int) Math.round(((double) R + (double) G + (double) B) / 3);
+        int intensity = (int) Math.round(((double) r + (double) g + (double) b) / 3);
         output[3][intensity] += 1;
       }
     }
@@ -396,6 +396,13 @@ public class ImageUtil {
     }
   }
 
+  /**
+   * Convert a color 2d array to buffered Image.
+   *
+   * @param model the source of color 2d array
+   * @param extension the type of buffered image to be converted base on this
+   * @return a converted buffered image.
+   */
   public BufferedImage color2dToImage(ImageModel model, String extension) {
     BufferedImage bufferedImage;
 

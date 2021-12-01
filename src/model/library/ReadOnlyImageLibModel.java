@@ -2,7 +2,6 @@ package model.library;
 
 import model.image.ImageModel;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -18,5 +17,10 @@ public interface ReadOnlyImageLibModel {
    */
   ImageModel read(String key) throws IllegalArgumentException;
 
+  /**
+   * Fetch the keys of image hashmap.
+   *
+   * @return the keys of image in a set of string.
+   */
   Set<String> getKeys();
 }

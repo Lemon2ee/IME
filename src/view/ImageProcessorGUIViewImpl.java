@@ -2,7 +2,7 @@ package view;
 
 import controller.IMEControllerGUI;
 import controller.IMEControllerProGUI;
-import model.library.ImageLib;
+import model.library.ImageLibModel;
 import utils.ControllerUtils;
 import utils.ImageUtil;
 
@@ -47,11 +47,10 @@ import java.util.List;
 public class ImageProcessorGUIViewImpl extends JFrame
     implements ImageProcessorView, ActionListener {
   private final IMEControllerGUI controller;
-  private final ImageLib library;
+  private final ImageLibModel library;
   private final JLabel imageLabel;
   private final JComboBox<String> combobox;
   private final Map<String, String> imageNameExtension;
-  private final Map<String, Image> bufferedImageMap;
   private final ArrayList<String> listOfGreyScale;
   private final ArrayList<String> flipDirections;
   private final JPanel histogram;
@@ -61,13 +60,12 @@ public class ImageProcessorGUIViewImpl extends JFrame
    *
    * @param library The given image library where all image resources would be stored.
    */
-  public ImageProcessorGUIViewImpl(ImageLib library) {
+  public ImageProcessorGUIViewImpl(ImageLibModel library) {
     // initialize
     super();
     this.library = Objects.requireNonNull(library);
     this.controller = new IMEControllerProGUI(this.library, this);
     this.imageNameExtension = new HashMap<>();
-    this.bufferedImageMap = new HashMap<>();
     this.listOfGreyScale = new ArrayList<>();
     this.flipDirections = new ArrayList<>();
 
@@ -349,7 +347,7 @@ public class ImageProcessorGUIViewImpl extends JFrame
     int retValue = fileChooser.showOpenDialog(this);
     if (retValue == JFileChooser.APPROVE_OPTION) {
       File f = fileChooser.getSelectedFile();
-      String filePath = f.getPath();
+      String filePath = f.getAbsolutePath();
       String name = JOptionPane.showInputDialog(this, "Please input the image name");
       this.imageNameExtension.put(name, new ControllerUtils().getExtension(filePath));
       this.controller.acceptCommand("load " + filePath.replace(" ", "\\\\") + " " + name);
@@ -384,7 +382,6 @@ public class ImageProcessorGUIViewImpl extends JFrame
                 this.library.read(modifiedImage),
                 this.imageNameExtension.getOrDefault(modifiedImage, "jpg"));
 
-    this.bufferedImageMap.put(modifiedImage, resultImage);
     if (Objects.equals(modifiedImage, this.returnSelectedName())) {
       this.imageLabel.setIcon(new ImageIcon(resultImage));
     }

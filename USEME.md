@@ -46,8 +46,22 @@ The combobox at the left top corner, act as the image library The panel below it
 panel which all operation will be located, below that is the histogram panel which provides
 histogram for visual support, no action would be performed if you click on it.
 
-The right side of the program is the place to display image, which can only display a portion of 
-the image if it is a relatively large, you can resize the program window to have a better view.
+The right side of the program is the place to display image, which can only display a portion of the
+image if it is a relatively large, you can resize the program window to have a better view.
+
+How to use:
+To properly use the program, make sure you have load at least one image to operate.
+
+- For operations: blur, sepia, sharpen, greyscale
+    - Click the button showing the text correspond to each operation, a popup windows will appear to
+      notice you what name you wish to save the result image as.
+- For operations: flip, component:
+    - After clicking the button, there will be a popup box to select the sub-type of operation you
+      wish to have, then as usual a popup box will notice you to save the image as the name you
+      inputted.
+- For operation: brighten:
+    - after clicking it, there will be an integer only input box (technically you can input string,
+      but there will be a warning box) and the save image name pop up box.
 
 ### File mode:
 

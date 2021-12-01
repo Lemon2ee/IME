@@ -80,6 +80,9 @@ Structure: In view package
       object.
 - ImageProcessorGUIViewImpl
     - Implementation of ImageProcessorView, which respond the gui display and action listener.
+- HistogramPanel (concrete class)
+    - Inheriting the JPanel, has a constructor that takes in an int[][] in order to draw the line
+      chart as the histogram.
 
 Structure: In utils package
 
