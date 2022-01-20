@@ -53,6 +53,8 @@ Structure: In model package
             - Filter the image by specific filter kernel, can be either blur or sharpen.
         - ProGreyScale (implements FeatureCommand)
             - Advanced operations of grey scale can use the Alpha value or convert to Sepia tone.
+        - Mosaic (implements FeatureCommand)
+            - Create randomly generated mosaic effect with given number of seeds.
 
 Structure: In controller package
 
